@@ -80,7 +80,7 @@ void yyerror(const char* s){
 #### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.y
 
 ```
-#added
+# added
 void yyerror(const char* s);
 ```
 
@@ -99,8 +99,6 @@ void yyerror(const char* s);
 `./get_stats.py -R -B ispass-2009 -C QV100-PTX | tee ../../csvStats/ispass-2009.csv`
 
 #### Plotting
-
-``
 
 - [x] 1. Tracer ✅ 2025-07-25
 

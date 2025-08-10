@@ -3,8 +3,6 @@
 ---
 
 
-# Available Traces
-
 **cutlass:** Compressed = _77.00 G_, Uncompressed = _1.70 T_  
 **deepbench:** Compressed = _55.00 G_, Uncompressed = _1.20 T_  
 **parboil:** Compressed = _8.70 G_, Uncompressed = _182.00 G_  

@@ -7,11 +7,11 @@
 
 ## [[EFFORTS/Configs available In AccelSim\|Configs]]
 
-## [[Benchmarks Available In Accel-Sim \|In-built Benchmarks]]
+## [[EFFORTS/Benchmarks Available In Accel-Sim\|In-built Benchmarks]]
 
-## [[AccelSim Trials \|Benchmarks Trials]]
+## [[EFFORTS/AccelSim Trials\|Benchmarks Trials]]
 
-### [[EFFORTS/Available Traces\|Available Traces]]
+### [[EFFORTS/Available Traces\|Provided Traces]]
 
 ### Modifications made
 

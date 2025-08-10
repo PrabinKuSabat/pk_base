@@ -3,8 +3,6 @@
 ---
 
 
-# Configs Available in AccelSim
-
 1. KEPLER_TITAN (SM 3.5)
 2. TITANX (SM 5.2)
 3. RTX2060 (SM 7.5)

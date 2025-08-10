@@ -4,3 +4,6 @@
 
 
 **Welcome to Prabin's KB!** 📚
+
+# Some Notes on AccelSim
+[[EFFORTS/AccelSim\|AccelSim]]

@@ -5,7 +5,7 @@
 
 # Basic AccelSim workings
 
-## [[Configs available In AccelSim \|Available Architecture Configs]]
+## [[EFFORTS/Configs available In AccelSim\|Configs available In AccelSim]]
 
 ## [[Benchmarks Available In Accel-Sim \|In-built Benchmarks]]
 

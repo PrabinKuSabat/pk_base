@@ -55,8 +55,8 @@ title: Yet to be done
 ```
 
 ---
-
-- [x] 1. Tracer ✅ 2025-07-25
+#  Things to try out
+- [x] 1. Running Tracer ✅ 2025-07-25
 
 ```bash
 # after building once only execute

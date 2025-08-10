@@ -5,21 +5,21 @@
 
 # Basic AccelSim workings
 
-## [[EFFORTS/AccelSim Trials\|AccelSim Trials]]
+## [[Configs available In AccelSim \|Available Architecture Configs]]
 
-## [[Configs available In AccelSim \|Architecture Configs]]
+## [[Benchmarks Available In Accel-Sim \|In-built Benchmarks]]
 
-## [[Benchmarks Available In Accel-Sim \|In-built benchmarks]]
+## [[AccelSim Trials \|Benchmarks Trials]]
 
 ### Available Traces
 
-        cutlass: Compressed = 77.00 G, Uncompressed = 1.70 T
-        deepbench: Compressed = 55.00 G, Uncompressed = 1.20 T
-        parboil: Compressed = 8.70 G, Uncompressed = 182.00 G
-        polybench: Compressed = 17.00 G, Uncompressed = 585.00 G
-        rodinia_2.0-ft: Compressed = 7.20 M, Uncompressed = 162.00 M
-        rodinia-3.1: Compressed = 1.80 G, Uncompressed = 56.00 G
-        ubench: Compressed = 82.00 M, Uncompressed = 2.60 G
+**cutlass:** Compressed = *77.00 G*, Uncompressed = *1.70 T*
+**deepbench:** Compressed = *55.00 G*, Uncompressed = *1.20 T*
+**parboil:** Compressed = *8.70 G*, Uncompressed = *182.00 G*
+**polybench:** Compressed = *17.00 G*, Uncompressed = *585.00 G*
+**rodinia_2.0-ft:** Compressed = *7.20 M*, Uncompressed = *162.00 M*
+**rodinia-3.1:** Compressed = *1.80 G*, Uncompressed = *56.00 G*
+**ubench:** Compressed = *82.00 M*, Uncompressed = *2.60 G*
 
 ### Modifications made
 
@@ -55,6 +55,14 @@ void yyerror(const char* s);
 `./get_stats.py -R -B ispass-2009 -C QV100-PTX | tee ../../csvStats/ispass-2009.csv`
 
 #### Plotting
+```ad-attention
+title: Yet to be done
+
+
+```
+
+
+---
 
 - [x] 1. Tracer ✅ 2025-07-25
 

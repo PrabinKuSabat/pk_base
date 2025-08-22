@@ -25,7 +25,7 @@
 
 ## Modifications made
 
-> [!summary]  
+> [!important]  Define the function yyerror
 > ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.l
 > ``` 
 > # added
@@ -35,7 +35,7 @@
 > }
 > ```
 
-> [!summary]  
+> [!important]  Declare the function yyerror
 > ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.y
 > ```
 > # added

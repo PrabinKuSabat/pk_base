@@ -11,6 +11,8 @@
 > [!success] Link to the Research Paper  
 > The research paper can be find at [LINK.](https://par.nsf.gov/servlets/purl/10302226)
 
+---
+
 ## [[EFFORTS/Configs available In AccelSim\|Available Architecture Configs]]
 
 ## [[EFFORTS/Benchmarks Available In Accel-Sim\|In-built Benchmarks]]
@@ -19,9 +21,11 @@
 
 ## [[EFFORTS/Available Traces\|Provided Traces]]
 
+---
+
 ## Modifications made
 
-> [!summary]
+> [!summary]  
 > ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.l
 > ``` 
 > # added
@@ -31,20 +35,18 @@
 > }
 > ```
 
-
-
-
-> [!summary]
+> [!summary]  
 > ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.y
 > ```
 > # added
 > void yyerror(const char* s);
 > ```
 
-
-
+---
 
 ## Benchmark Running Process
+
+_**The following are examples.**_
 
 ### Simulating
 

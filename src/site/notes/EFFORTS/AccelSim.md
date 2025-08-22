@@ -21,22 +21,28 @@
 
 ## Modifications made
 
-### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config. L
+> [!summary]
+> ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.l
+> ``` 
+> # added
+> void yyerror(const char* s);
+> void yyerror(const char* s){
+>   fprintf(stderr, "Parse error: %s\n", s);
+> }
+> ```
 
-``` 
-# added
-void yyerror(const char* s);
-void yyerror(const char* s){
-  fprintf(stderr, "Parse error: %s\n", s);
-}
-```
 
-### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config. Y
 
-```
-# added
-void yyerror(const char* s);
-```
+
+> [!summary]
+> ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.y
+> ```
+> # added
+> void yyerror(const char* s);
+> ```
+
+
+
 
 ## Benchmark Running Process
 

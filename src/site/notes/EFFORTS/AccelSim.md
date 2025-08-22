@@ -5,19 +5,19 @@
 
 # Notes on the GPU-Simulator Accel-Sim
 
-> [!info] Disclaimer 
+> [!info] Disclaimer  
 > The note is not fully complete. It's always will be under constant changes (until the accel-sim development stops 😿.)
 
-> [!success] Link to the Research Paper
+> [!success] Link to the Research Paper  
 > The research paper can be find at [LINK.](https://par.nsf.gov/servlets/purl/10302226)
 
-# [[EFFORTS/Configs available In AccelSim\|Available Architecture Configs]]
+## [[EFFORTS/Configs available In AccelSim\|Available Architecture Configs]]
 
-# [[EFFORTS/Benchmarks Available In Accel-Sim\|In-built Benchmarks]]
+## [[EFFORTS/Benchmarks Available In Accel-Sim\|In-built Benchmarks]]
 
-# [[EFFORTS/AccelSim Trials\|Benchmarks Trials]]
+## [[EFFORTS/AccelSim Trials\|Benchmarks Trials]]
 
-# [[EFFORTS/Available Traces\|Provided Traces]]
+## [[EFFORTS/Available Traces\|Provided Traces]]
 
 ## Modifications made
 

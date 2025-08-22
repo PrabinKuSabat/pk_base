@@ -18,7 +18,7 @@
 ---
 
 > [!warning] Simulator Statistics  
-> The research paper provides statistics achieved, during the development process only for the 4 Architectures:
+> The research paper provides statistics achieved, during the development process, only for the 4 Architectures:
 > 1. Kepler TITAN
 > 2. Titan X
 > 3. RTX2060
@@ -26,3 +26,6 @@
 
 ![image-93.png|990x281](/img/user/Extras/ATTACHMENTS/image-93.png)  
 ![image-94.png|871x389](/img/user/Extras/ATTACHMENTS/image-94.png)
+
+> [!warning] Disclaimer  
+> Please refer to the original paper for more clarity.

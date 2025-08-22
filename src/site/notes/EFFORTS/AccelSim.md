@@ -3,6 +3,17 @@
 ---
 
 
+# Notes on the GPU-Simulator Accel-Sim
+
+```ad-info
+title: Disclaimer
+The note is not fully complete. It's always will be under constant changes (until the accel-sim development stops.)
+
+```
+
+> [!abstract]  
+> Checking the differences
+
 # [[EFFORTS/Configs available In AccelSim\|Available Architecture Configs]]
 
 # [[EFFORTS/Benchmarks Available In Accel-Sim\|In-built Benchmarks]]
@@ -13,7 +24,7 @@
 
 ## Modifications made
 
-### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.l
+### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config. L
 
 ``` 
 # added
@@ -23,7 +34,7 @@ void yyerror(const char* s){
 }
 ```
 
-### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.y
+### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config. Y
 
 ```
 # added

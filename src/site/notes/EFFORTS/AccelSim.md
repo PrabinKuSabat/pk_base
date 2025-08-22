@@ -72,10 +72,10 @@ title: Yet to be done
 
 ## [[EFFORTS/Things to try out\|Things to try out]]
 
-# TUNER Correlating
+## TUNER Correlating
 
 [[EFFORTS/Tuner Correlating in Accelsim\|Tuner Correlating in Accelsim]]
 
-# Steps For Release Branch
+## Steps For Release Branch
 
 [[EFFORTS/Release Branch Installation\|Release Branch Installation]]

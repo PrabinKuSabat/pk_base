@@ -2,6 +2,7 @@
 {"dg-publish":true,"permalink":"/EFFORTS/Things to try out/"}
 ---
 
+
 - [x] 1. Running Tracer ✅ 2025-07-25
 
 ```bash

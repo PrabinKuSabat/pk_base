@@ -11,7 +11,7 @@ The note is not fully complete. It's always will be under constant changes (unti
 
 ```
 
-> [!abstract]  
+> [!abstract]  Abstract
 > Checking the differences
 
 # [[EFFORTS/Configs available In AccelSim\|Available Architecture Configs]]

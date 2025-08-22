@@ -5,14 +5,11 @@
 
 # Notes on the GPU-Simulator Accel-Sim
 
-```ad-info
-title: Disclaimer
-The note is not fully complete. It's always will be under constant changes (until the accel-sim development stops.)
+> [!info] Disclaimer 
+> The note is not fully complete. It's always will be under constant changes (until the accel-sim development stops 😿.)
 
-```
-
-> [!abstract]  Abstract
-> Checking the differences
+> [!success] Link to the Research Paper
+> The research paper can be find at [LINK.](https://par.nsf.gov/servlets/purl/10302226)
 
 # [[EFFORTS/Configs available In AccelSim\|Available Architecture Configs]]
 

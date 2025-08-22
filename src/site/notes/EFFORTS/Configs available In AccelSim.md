@@ -24,4 +24,4 @@
 > 3. RTX2060
 > 4. QV100
 
-![image-93.png](/img/user/Extras/ATTACHMENTS/image-93.png)
+![image-93.png|800](/img/user/Extras/ATTACHMENTS/image-93.png)

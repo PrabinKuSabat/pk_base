@@ -3,19 +3,17 @@
 ---
 
 
-# Basic AccelSim workings
+# [[EFFORTS/Configs available In AccelSim\|Available Architecture Configs]]
 
-## [[EFFORTS/Configs available In AccelSim\|Configs]]
+# [[EFFORTS/Benchmarks Available In Accel-Sim\|In-built Benchmarks]]
 
-## [[EFFORTS/Benchmarks Available In Accel-Sim\|In-built Benchmarks]]
+# [[EFFORTS/AccelSim Trials\|Benchmarks Trials]]
 
-## [[EFFORTS/AccelSim Trials\|Benchmarks Trials]]
+# [[EFFORTS/Available Traces\|Provided Traces]]
 
-### [[EFFORTS/Available Traces\|Provided Traces]]
+## Modifications made
 
-### Modifications made
-
-#### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.l
+### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.l
 
 ``` 
 # added
@@ -25,28 +23,28 @@ void yyerror(const char* s){
 }
 ```
 
-#### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.y
+### ~/Prabin/secTry/accel-sim-framework/gpu-simulator/gpgpu-sim/src/intersim2/config.y
 
 ```
 # added
 void yyerror(const char* s);
 ```
 
-### Benchmark Running Process
+## Benchmark Running Process
 
-#### Simulating
+### Simulating
 
 `../job_launching/run_simulations.py -B parboil -C TITANV-PTX  -N parboil`
 
-#### Monitoring a process
+### Monitoring a process
 
 `./util/job_launching/monitor_func_test.py -N rodT2`
 
-#### Getting Stats
+### Getting Stats
 
 `./get_stats.py -R -B ispass-2009 -C QV100-PTX | tee ../../csvStats/ispass-2009.csv`
 
-#### Plotting
+### Plotting
 
 ```ad-attention
 title: Yet to be done

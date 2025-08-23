@@ -13,7 +13,7 @@
 
 ---
 
-# [[Excalidraw/Accel-sim Walk Around\|Accel-sim Walk Around]]
+# [[Excalidraw/Accel-sim Walk Around.excalidraw\|Accel-sim Walk Around.excalidraw]]
 
 ## [[EFFORTS/Configs available In AccelSim\|Available Architecture Configs]]
 

@@ -1,49 +1,5 @@
 body {
-    /* Only apply to pages where dg-content-classes: excalidraw-fullpage */
-    .excalidraw-fullpage .dg-content {
-      max-width: none !important;
-      padding: 0 !important;
-      margin: 0 !important;
-    }
     
-    /* Expand Excalidraw embed to fill viewport */
-    .excalidraw-fullpage .excalidraw-embed,
-    .excalidraw-fullpage .excalidraw-embed > div,
-    .excalidraw-fullpage .excalidraw-embed svg,
-    .excalidraw-fullpage iframe[title*="Excalidraw"] {
-      position: fixed !important;
-      inset: 0 !important;  /* shorthand: top, right, bottom, left = 0 */
-      width: 100vw !important;
-      height: 100vh !important;
-      border: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      background: transparent !important;
-      z-index: 9999 !important;
-    }
-    
-    /* Hide all usual page UI elements quickly */
-    .excalidraw-fullpage header,
-    .excalidraw-fullpage .site-header,
-    .excalidraw-fullpage .topbar,
-    .excalidraw-fullpage .navbar,
-    .excalidraw-fullpage .sidebar,
-    .excalidraw-fullpage .footer,
-    .excalidraw-fullpage .digital-garden-backlinks,
-    .excalidraw-fullpage .backlinks {
-      display: none !important;
-    }
-    
-    /* Remove any extra scrollbars/margins */
-    .excalidraw-fullpage,
-    .excalidraw-fullpage html,
-    .excalidraw-fullpage body {
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow: hidden !important;
-      width: 100vw !important;
-      height: 100vh !important;
-    }
 
 
     /***

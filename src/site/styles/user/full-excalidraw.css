@@ -1,58 +1,41 @@
-/* 1) remove container constraints for notes that have dg-content-classes: excalidraw-fullpage */
-.excalidraw-fullpage .content,
-.excalidraw-fullpage .garden-page,
-.excalidraw-fullpage .post,
-.excalidraw-fullpage .note {
-  max-width: none !important;
-  padding: 0 !important;
+/* applied only when body has the class excalidraw-fullpage */
+body.excalidraw-fullpage,
+body.excalidraw-fullpage html,
+body.excalidraw-fullpage .site,
+body.excalidraw-fullpage .content {
+  width: 100vw !important;
+  height: 100vh !important;
   margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important; /* prevents double scrollbars */
 }
 
-/* 2) hide site chrome (header, topbar, nav, footer) if present */
-.excalidraw-fullpage header,
-.excalidraw-fullpage .site-header,
-.excalidraw-fullpage .topbar,
-.excalidraw-fullpage .navbar,
-.excalidraw-fullpage .sidebar,
-.excalidraw-fullpage .footer {
-  display: none !important;
-}
-
-/* 3) make the excalidraw container occupy the full viewport */
-.excalidraw-fullpage .excalidraw-embed,
-.excalidraw-fullpage .excalidraw-embed > div,
-.excalidraw-fullpage .excalidraw-embed svg,
-.excalidraw-fullpage iframe[title*="Excalidraw"] {
+/* make the Excalidraw embed fill the viewport */
+body.excalidraw-fullpage .excalidraw-embed,
+body.excalidraw-fullpage .excalidraw-embed > div,
+body.excalidraw-fullpage .excalidraw-embed svg,
+body.excalidraw-fullpage iframe[title*="Excalidraw"] {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
   margin: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  border: 0 !important;
-  background: transparent !important;
-  z-index: 9999 !important;
-}
-
-/* 4) ensure body/html have no forced scroll/padding on that page */
-.excalidraw-fullpage body,
-.excalidraw-fullpage html {
-  height: 100% !important;
-  margin: 0 !important;
   padding: 0 !important;
-  overflow: hidden !important; /* prevents double scrollbars */
+  border: 0 !important;
+  box-shadow: none !important;
+  z-index: 9999 !important;
+  background: var(--background, transparent) !important;
 }
 
-/* 5) fallback: if your garden inserts extra wrapper elements, this forces full width */
-.excalidraw-fullpage :is(.content, .post, .page, .note, .article) {
-  width: 100vw !important;
-  height: 100vh !important;
-}
-
-/* Optional: hide backlinks block if any leftover */
-.excalidraw-fullpage .digital-garden-backlinks,
-.excalidraw-fullpage .backlinks {
+/* hide site chrome that the template may still render */
+body.excalidraw-fullpage header,
+body.excalidraw-fullpage .site-header,
+body.excalidraw-fullpage .topbar,
+body.excalidraw-fullpage .navbar,
+body.excalidraw-fullpage .sidebar,
+body.excalidraw-fullpage .footer,
+body.excalidraw-fullpage .digital-garden-backlinks,
+body.excalidraw-fullpage .backlinks {
   display: none !important;
 }

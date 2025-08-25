@@ -1,10 +1,11 @@
-.excalidraw-embed, .excalidraw-embed svg, .excalidraw-embed div {
+.excalidraw-page .content {
+  padding: 0 !important;
+  max-width: none !important;
+}
+.excalidraw-page .excalidraw-embed,
+.excalidraw-page .excalidraw-embed svg,
+.excalidraw-page .excalidraw-embed div {
   width: 100vw !important;
   height: 100vh !important;
   margin: 0 !important;
-}
-
-.content {
-  padding: 0 !important;
-  max-width: none !important;
 }

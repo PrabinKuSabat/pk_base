@@ -1,41 +1,10 @@
-/* Effectively full-screen Excalidraw files based on .excalidraw in the URL/browser */
-body:not(.printed) {
-  --dg-excalidraw-url: var(--current-url, "");
-}
-
-body:not(.printed):has(layout[aria-current*=".excalidraw"]) .dg-content,
-body:not(.printed):has(body.page-excalidraw) .dg-content {
-  max-width: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* Expand Excalidraw embed */
-body:not(.printed):has(layout[aria-current*=".excalidraw"]) .excalidraw-embed,
-body:not(.printed):has(body.page-excalidraw) .excalidraw-embed {
-  position: fixed !important;
-  inset: 0 !important;  /* shorthand for top: 0; right: 0; bottom: 0; left: 0 */
+.excalidraw-embed, .excalidraw-embed svg, .excalidraw-embed div {
   width: 100vw !important;
   height: 100vh !important;
-  border: none !important;
   margin: 0 !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  z-index: 9999 !important;
 }
 
-/* Hide navigation and backlinks if present */
-body:not(.printed):has(layout[aria-current*=".excalidraw"]) header,
-body:not(.printed):has(layout[aria-current*=".excalidraw"]) .sidebar,
-body:not(.printed):has(layout[aria-current*=".excalidraw"]) .footer,
-body:not(.printed):has(layout[aria-current*=".excalidraw"]) .digital-garden-backlinks {
-  display: none !important;
-}
-
-/* No scrollbars or extra margins */
-body:not(.printed):has(layout[aria-current*=".excalidraw"]) {
-  margin: 0 !important;
+.content {
   padding: 0 !important;
-  overflow: hidden !important;
+  max-width: none !important;
 }

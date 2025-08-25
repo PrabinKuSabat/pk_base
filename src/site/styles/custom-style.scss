@@ -1,4 +1,22 @@
 body {
+    /* When note has fullpage: true in frontmatter */
+    [data-fullpage="true"] .dg-content {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+    }
+    
+    /* Make excalidraw/embed expand to viewport */
+    [data-fullpage="true"] .dg-content iframe,
+    [data-fullpage="true"] .dg-content canvas,
+    [data-fullpage="true"] .dg-content svg {
+      width: 100% !important;
+      height: 100vh !important;
+      border: none !important;
+      display: block;
+    }
+
     /***
       ADD YOUR CUSTOM STYLING HERE. (INSIDE THE body {...} section.)
       IT WILL TAKE PRECEDENCE OVER THE STYLING IN THE STYLE.CSS FILE.

@@ -1,15 +1,15 @@
 
 /* If your Excalidraw is inside an iframe */
 .excalidraw-embed iframe {
-  /*position: fixed !important;
-  inset: 0 !important;*/
+  position: fixed !important;
+  inset: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  /*border: none !important;*/
+  border: none !important;
 }
 
 /* If your page or theme has a narrow .content wrapper, override it while the viewer is active */
 .content {
   max-width: 75vw !important;
-  /*width: 100% !important;*/
+  width: 100% !important;
 }

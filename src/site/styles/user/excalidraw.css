@@ -2,7 +2,7 @@
 .title-contains-excalidraw .content {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;       /* hold whole viewport height */
+  min-height: 85vh;       /* hold whole viewport height */
   padding: 0 !important;
   max-width: none !important;
 }
@@ -14,13 +14,13 @@
 .title-contains-excalidraw .excalidraw-view {
   order: 1;
   flex: 0 0 auto;          /* don't shrink/grow — fixed height */
-  width: 85vw !important; /* full viewport width */
-  height: 85vh !important;/* full viewport height */
+  width: 80vw !important; /* full viewport width */
+  height: 90vh !important;/* full viewport height */
   margin: 0 !important;
 }
 
 /* Put everything else after the drawing */
-.title-contains-excalidraw .content > :not(.excalidraw-embed):not(.excalidraw):not(.excalidraw-wrapper):not(.excalidraw-view) {
+.title-contains-excalidraw .content > .sidebar, :not(.excalidraw-embed):not(.excalidraw):not(.excalidraw-wrapper):not(.excalidraw-view) {
   order: 2;
   margin-top: 0;           /* they appear after the drawing */
   width: 100% !important;

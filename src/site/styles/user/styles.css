@@ -1,34 +1,3 @@
-/* add this to your site CSS (or an Obsidian snippet / styles.css in your digital-garden repo) */
-
-/* container that holds the excalidraw view - adjust selector if your plugin uses a different class */
-/*.excalidraw-viewer,
-.excalidraw-container,
-.excalidraw-embed,
-.excalidraw-wrapper {
-  /*position: fixed !important;
-  inset: 0 !important;               /* top:0; right:0; bottom:0; left:0; 
-  width: 100vw !important;
-  height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  /*max-width: none !important;
-  max-height: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  z-index: 9999 !important;
-  /*background: transparent !important; /* or a color you want 
-  display: block !important;
-}*/
-
-/* ensure the canvas/svg inside stretches */
-.excalidraw-viewer *,
-.excalidraw-container *,
-.excalidraw-wrapper * {
-  width: 100vw !important;
-  height: 100vh !important;
-  /*max-width: none !important;
-  max-height: none !important;*/
-}
 
 /* If your Excalidraw is inside an iframe */
 .excalidraw-embed iframe {

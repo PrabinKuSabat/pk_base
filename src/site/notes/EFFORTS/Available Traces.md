@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/efforts/available-traces/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Available Traces/","dgPassFrontmatter":true}
 ---
 
 

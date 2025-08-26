@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/efforts/accel-release-conda-env-yml/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/accelReleaseCondaEnv.yml/","dgPassFrontmatter":true}
 ---
 
 

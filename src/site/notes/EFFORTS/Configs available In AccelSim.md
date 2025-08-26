@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/efforts/configs-available-in-accel-sim/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Configs available In AccelSim/","dgPassFrontmatter":true}
 ---
 
 

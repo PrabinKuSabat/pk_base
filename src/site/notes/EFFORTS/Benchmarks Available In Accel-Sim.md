@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/efforts/benchmarks-available-in-accel-sim/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Benchmarks Available In Accel-Sim/","dgPassFrontmatter":true}
 ---
 
 

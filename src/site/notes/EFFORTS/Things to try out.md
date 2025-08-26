@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/efforts/things-to-try-out/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Things to try out/","dgPassFrontmatter":true}
 ---
 
 

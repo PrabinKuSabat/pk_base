@@ -1,28 +1,28 @@
+/* Scope everything to pages whose title contains ".excalidraw" */
 .title-contains-excalidraw .content {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh;       /* hold whole viewport height */
   padding: 0 !important;
   max-width: none !important;
 }
 
-/* Excalidraw expands horizontally, but does not force additional vertical scroll */
+/* Match several common Excalidraw wrapper classnames just in case */
 .title-contains-excalidraw .excalidraw-embed,
 .title-contains-excalidraw .excalidraw,
 .title-contains-excalidraw .excalidraw-wrapper,
 .title-contains-excalidraw .excalidraw-view {
   order: 1;
-  flex: 0 0 auto;          /* natural height (or fixed if you want) */
-  width: 100vw !important; /* full-bleed horizontally */
-  max-width: none !important;
-  height: auto !important; /* do not force full viewport height */
+  flex: 0 0 auto;          /* don't shrink/grow — fixed height */
+  width: 100vw !important; /* full viewport width */
+  height: 100vh !important;/* full viewport height */
   margin: 0 !important;
 }
 
-/* All other elements are pushed to the *bottom* of the content area */
+/* Put everything else after the drawing */
 .title-contains-excalidraw .content > :not(.excalidraw-embed):not(.excalidraw):not(.excalidraw-wrapper):not(.excalidraw-view) {
   order: 2;
-  margin-top: auto !important;  /* this pushes them to the bottom of the container */
+  margin-top: 0;           /* they appear after the drawing */
   width: 100% !important;
   max-width: none !important;
 }

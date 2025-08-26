@@ -1,7 +1,7 @@
 /* add this to your site CSS (or an Obsidian snippet / styles.css in your digital-garden repo) */
 
 /* container that holds the excalidraw view - adjust selector if your plugin uses a different class */
-.excalidraw-viewer,
+/*.excalidraw-viewer,
 .excalidraw-container,
 .excalidraw-embed,
 .excalidraw-wrapper {

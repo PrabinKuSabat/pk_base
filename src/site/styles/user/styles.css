@@ -9,7 +9,7 @@
 }
 
 /* If your page or theme has a narrow .content wrapper, override it while the viewer is active */
-.excalidraw-page .excalidraw-embed .content {
+ .content .excalidraw-page {
   max-width: 75vw !important;
   width: 100% !important;
 }

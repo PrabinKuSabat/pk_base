@@ -16,7 +16,7 @@
   border: none !important;
   box-shadow: none !important;
   z-index: 9999 !important;
-  background: transparent !important; /* or a color you want */
+  /*background: transparent !important; /* or a color you want */
   display: block !important;
 }
 
@@ -24,10 +24,10 @@
 .excalidraw-viewer *,
 .excalidraw-container *,
 .excalidraw-wrapper * {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  max-height: none !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  /*max-width: none !important;
+  max-height: none !important;*/
 }
 
 /* If your Excalidraw is inside an iframe */
@@ -41,6 +41,6 @@
 
 /* If your page or theme has a narrow .content wrapper, override it while the viewer is active */
 .content {
-  max-width: 85vw !important;
+  max-width: 75vw !important;
   width: 100% !important;
 }

@@ -5,19 +5,19 @@
 .excalidraw-container,
 .excalidraw-embed,
 .excalidraw-wrapper {
-  position: fixed !important;
+  /*position: fixed !important;
   inset: 0 !important;               /* top:0; right:0; bottom:0; left:0; */
   width: 100vw !important;
   height: 100vh !important;
   margin: 0 !important;
   padding: 0 !important;
-  max-width: none !important;
+  /*max-width: none !important;
   max-height: none !important;
   border: none !important;
   box-shadow: none !important;
   z-index: 9999 !important;
-  /*background: transparent !important; /* or a color you want */
-  display: block !important;
+  /*background: transparent !important; /* or a color you want 
+  display: block !important;*/
 }
 
 /* ensure the canvas/svg inside stretches */

@@ -1,1 +1,11 @@
-<object src="diagram.excalidraw.svg" class="diagram.excalidraw"></object>
+<script>
+/* Add class to <html> if document.title contains ".excalidraw" (case-insensitive) */
+(function () {
+  try {
+    var title = (document.title || '').toString();
+    if (title.toLowerCase().indexOf('.excalidraw') !== -1) {
+      document.documentElement.classList.add('title-contains-excalidraw');
+    }
+  } catch (e) { /* noop */ }
+})();
+</script>

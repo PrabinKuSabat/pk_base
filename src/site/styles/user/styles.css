@@ -9,7 +9,7 @@
 }
 
 /* If your page or theme has a narrow .content wrapper, override it while the viewer is active */
- body[data-path*=".excalidraw"] .content {
-  max-width: 75vw !important;
+.content {
+  max-width: 65vw !important;
   width: 100% !important;
 }

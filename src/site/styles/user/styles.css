@@ -1,4 +1,27 @@
-.excalidraw .content {
+/* Make the page container expand only on pages whose TITLE contains ".excalidraw" */
+.title-contains-excalidraw .content {
+  max-width: none !important;   /* remove constraint */
+  width: 100% !important;       /* stretch to full page width */
   padding: 0 !important;
-  max-width: 55vw !important;
+  margin: 0 auto !important;
+}
+
+/* If you want the drawing to take the full viewport (full-screen) */
+.title-contains-excalidraw .excalidraw-embed,
+.title-contains-excalidraw .excalidraw-embed svg,
+.title-contains-excalidraw .excalidraw-embed > div {
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+}
+
+/* Alternative: full-bleed horizontally but allow normal height (not full viewport height) */
+.title-contains-excalidraw .excalidraw-embed {
+  width: 100vw !important;
+  max-width: none !important;
+  height: auto !important;
 }

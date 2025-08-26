@@ -1,5 +1,5 @@
-<!-- Add class when title contains ".excalidraw" -->
 <script>
+/* Add class to <html> if document.title contains ".excalidraw" (case-insensitive) */
 (function () {
   try {
     var title = (document.title || '').toString();
@@ -9,58 +9,3 @@
   } catch (e) { /* noop */ }
 })();
 </script>
-
-<style>
-/* Scope to pages whose title contains ".excalidraw" */
-.title-contains-excalidraw .sidebar,
-.title-contains-excalidraw .sidebar-container {
-  /* Make the sidebar a full-height column so we can pin things inside it */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  height: 100vh;
-  box-sizing: border-box;
-  padding: 0 !important;
-}
-
-/* Keep the main backlink list scrollable if it overflows */
-.title-contains-excalidraw .backlink-list {
-  overflow: auto;
-  /* leave some room for the pinned area (adjust as needed) */
-  max-height: calc(100vh - 140px);
-  box-sizing: border-box;
-  padding-right: 8px; /* avoid cutting off scrollbar on some browsers */
-}
-
-/* Pin the backlinks container to the bottom of the sidebar */
-.title-contains-excalidraw .sidebar-container > .backlinks,
-.title-contains-excalidraw .sidebar-container .backlinks {
-  margin-top: auto !important;          /* pushes it to the bottom of the column */
-  position: sticky !important;          /* keeps it visible at bottom when sidebar scrolls */
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 50 !important;
-  width: 100% !important;
-  box-sizing: border-box;
-  padding: 0.6rem 0.8rem !important;    /* adjust visual spacing */
-  background: rgba(255,255,255,0.92) !important; /* tweak or remove if not desired */
-  border-top: 1px solid rgba(0,0,0,0.06) !important;
-}
-
-/* Make the backlink-title sit nicely inside the pinned box */
-.title-contains-excalidraw .sidebar-container .backlinks .backlink-title {
-  margin: 0 0 6px 0 !important;
-  font-weight: 600;
-}
-
-/* Responsive tweak: on narrow screens reduce pinned header height */
-@media (max-width: 900px) {
-  .title-contains-excalidraw .backlink-list {
-    max-height: calc(100vh - 110px);
-  }
-  .title-contains-excalidraw .sidebar-container > .backlinks {
-    padding: 0.5rem !important;
-  }
-}
-</style>

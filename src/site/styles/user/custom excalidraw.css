@@ -1,7 +1,7 @@
 .excalidraw-file {
-  max-width: 100%;
-  border: 2px solid #888;
-  border-radius: 8px;
-  display: block;
-  margin: 1em auto;
+  max-width: 100% !important;
+  border: 2px solid #888 !important;
+  border-radius: 8px !important;
+  display: block !important;
+  margin: 1em auto !important;
 }

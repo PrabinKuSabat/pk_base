@@ -20,9 +20,9 @@
 }
 
 /* Put everything else after the drawing */
-.title-contains-excalidraw .content > .sidebar, :not(.excalidraw-embed):not(.excalidraw):not(.excalidraw-wrapper):not(.excalidraw-view) {
+.title-contains-excalidraw .content > :not(.excalidraw-embed):not(.excalidraw):not(.excalidraw-wrapper):not(.excalidraw-view) {
   order: 2;
   margin-top: 0;           /* they appear after the drawing */
   width: 100% !important;
-  max-width: none !important;
+  max-width: 10vw !important;
 }

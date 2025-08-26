@@ -10,5 +10,5 @@
 
 /* If your page or theme has a narrow .content wrapper, override it while the viewer is active */
 .content {
-  max-width: 65vw !important;
+  max-width: 50vw !important;
 }

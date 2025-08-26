@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Prabins KB ~/","pinned":true,"tags":["gardenEntry"]}
+{"dg-publish":true,"dg-home":true,"dg-pinned":true,"banner":"![image-95.png](/img/user/Extras/ATTACHMENTS/image-95.png)","banner_y":0.42957,"permalink":"/prabins-kb/","pinned":true,"tags":["gardenEntry"],"dgPassFrontmatter":true}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/AccelSim Trials/"}
+{"dg-publish":true,"permalink":"/efforts/accel-sim-trials/","dgPassFrontmatter":true}
 ---
 
 

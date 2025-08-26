@@ -1,11 +1,4 @@
-.content {
+.excalidraw .content {
   padding: 0 !important;
   max-width: 55vw !important;
-}
-.excalidraw-page .excalidraw-embed,
-.excalidraw-page .excalidraw-embed svg,
-.excalidraw-page .excalidraw-embed div {
-  width: 100vw !important;
-  height: 100vh !important;
-  margin: 0 !important;
 }

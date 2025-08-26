@@ -15,7 +15,7 @@
   order: 1;
   flex: 0 0 auto;          /* don't shrink/grow — fixed height */
   width: 80vw !important; /* full viewport width */
-  height: 87vh !important;/* full viewport height */
+  height: 83vh !important;/* full viewport height */
   margin: 0 !important;
 }
 

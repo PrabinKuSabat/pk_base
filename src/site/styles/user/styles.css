@@ -1,28 +1,114 @@
-/* Scope everything to pages whose title contains ".excalidraw" */
+<style>
+/* -----------------------------
+   Layout: make page a column
+   ----------------------------- */
 .title-contains-excalidraw .content {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;       /* hold whole viewport height */
+  min-height: 100vh;
   padding: 0 !important;
   max-width: none !important;
 }
 
-/* Match several common Excalidraw wrapper classnames just in case */
+/* -----------------------------
+   Excalidraw area (top)
+   ----------------------------- */
+/* adjust these selectors to match your actual wrapper if needed */
 .title-contains-excalidraw .excalidraw-embed,
 .title-contains-excalidraw .excalidraw,
 .title-contains-excalidraw .excalidraw-wrapper,
 .title-contains-excalidraw .excalidraw-view {
   order: 1;
-  flex: 0 0 auto;          /* don't shrink/grow — fixed height */
-  width: 100vw !important; /* full viewport width */
-  height: 100vh !important;/* full viewport height */
+  flex: 0 0 auto;
+  width: 100vw !important;
+  height: 100vh !important;     /* full viewport height for the drawing */
   margin: 0 !important;
+  position: relative;
+  z-index: 1;
 }
 
-/* Put everything else after the drawing */
-.title-contains-excalidraw .content > :not(.excalidraw-embed):not(.excalidraw):not(.excalidraw-wrapper):not(.excalidraw-view) {
+/* -----------------------------
+   Pin Backlinks, Local Graph, TOC to bottom
+   ----------------------------- */
+/* Combined selector covers common class/id names used by various themes/plugins.
+   If your site uses different class names, add them here (see notes below). */
+.title-contains-excalidraw .content > .backlinks,
+.title-contains-excalidraw .content > .backlinks-container,
+.title-contains-excalidraw .content > .backlink-list,
+.title-contains-excalidraw .content > #backlinks,
+.title-contains-excalidraw .content > .local-graph,
+.title-contains-excalidraw .content > .local-graph-view,
+.title-contains-excalidraw .content > .graph,
+.title-contains-excalidraw .content > .graph-wrapper,
+.title-contains-excalidraw .content > .local-graph-container,
+.title-contains-excalidraw .content > .toc,
+.title-contains-excalidraw .content > .table-of-contents,
+.title-contains-excalidraw .content > .toc-wrapper,
+.title-contains-excalidraw .content > #toc {
   order: 2;
-  margin-top: 0;           /* they appear after the drawing */
+  /* push them to the bottom of the .content column */
+  margin-top: auto !important;
   width: 100% !important;
   max-width: none !important;
+  /* make them "sit" at the bottom of the viewport and stay visible */
+  position: sticky !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 2 !important;
+  /* visual niceties */
+  box-sizing: border-box !important;
+  padding: 0.75rem 1rem !important;
+  background: rgba(255,255,255,0.9) !important; /* change or remove if you want transparent */
+  backdrop-filter: blur(4px); /* optional, remove if you don't want blur */
+  border-top: 1px solid rgba(0,0,0,0.06) !important;
 }
+
+/* Make sure sticky container doesn't overlap site chrome (if you have a fixed header) */
+.title-contains-excalidraw .content > .backlinks,
+.title-contains-excalidraw .content > .toc,
+.title-contains-excalidraw .content > .local-graph {
+  margin-bottom: env(safe-area-inset-bottom, 0) !important;
+}
+
+/* -----------------------------
+   Small screens / responsive tweaks
+   ----------------------------- */
+@media (max-width: 900px) {
+  .title-contains-excalidraw .excalidraw-embed,
+  .title-contains-excalidraw .excalidraw,
+  .title-contains-excalidraw .excalidraw-wrapper,
+  .title-contains-excalidraw .excalidraw-view {
+    width: 100vw !important;
+    height: calc(100vh - 120px) !important; /* leave room for pinned controls on small screens */
+  }
+  .title-contains-excalidraw .content > .backlinks,
+  .title-contains-excalidraw .content > .toc,
+  .title-contains-excalidraw .content > .local-graph {
+    padding: 0.5rem !important;
+  }
+}
+
+/* -----------------------------
+   Optional: stack the three elements horizontally when there's space
+   ----------------------------- */
+.title-contains-excalidraw .bottom-bar {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  justify-content: space-between;
+}
+.title-contains-excalidraw .bottom-bar > * {
+  flex: 1 1 0;
+}
+
+/* -----------------------------
+   If your theme wraps backlinks/toc/graph inside a shared container,
+   e.g. <div class="meta"> ... </div>, you can force that whole wrapper
+   to be treated as the bottom area by giving it order:2 and margin-top:auto,
+   and then target the inner pieces to layout horizontally:
+   Example:
+   .title-contains-excalidraw .meta { order:2; margin-top:auto; position:sticky; bottom:0; ... }
+   ----------------------------- */
+
+</style>

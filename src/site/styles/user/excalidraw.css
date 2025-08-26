@@ -14,7 +14,7 @@
 .title-contains-excalidraw .excalidraw-view {
   order: 1;
   flex: 0 0 auto;          /* don't shrink/grow — fixed height */
-  width: 100vw !important; /* full viewport width */
+  width: 90vw !important; /* full viewport width */
   height: 100vh !important;/* full viewport height */
   margin: 0 !important;
 }

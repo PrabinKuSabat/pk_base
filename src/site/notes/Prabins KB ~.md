@@ -8,7 +8,7 @@
 
 ---
 
-# [[Dissertation Status.excalidraw \|Dissertation To-DO]]
+# [[Excalidraw/Dissertation Status.excalidraw\|Dissertation To-DO]]
 
 ---
 

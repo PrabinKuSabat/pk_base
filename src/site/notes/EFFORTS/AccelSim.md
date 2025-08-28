@@ -12,6 +12,7 @@
 > The research paper can be find at [LINK.](https://par.nsf.gov/servlets/purl/10302226)
 
 ---
+[[Excalidraw/Dissertation Status.excalidraw\|Dissertation Status.excalidraw]]
 
 ## [[Excalidraw/Accel-sim Walk Around.excalidraw\|Walk-through For Accel-Sim]]
 

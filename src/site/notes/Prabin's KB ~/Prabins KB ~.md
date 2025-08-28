@@ -26,3 +26,5 @@
 
 > [!quote] Gratitude  
 > “I am deeply grateful to [Naveen M](https://www.linkedin.com/in/naveenmiriyalu/) and Dr. R Raghunatha Sarma(Dept. of Mathematics & CS, SSSIHL) for their unwavering support and encouragement throughout this journey, and for continuing to guide us on the path ahead.”
+
+---

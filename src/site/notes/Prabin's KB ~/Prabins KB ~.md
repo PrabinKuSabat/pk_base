@@ -9,6 +9,8 @@
 ---
 
 # [[Excalidraw/Dissertation Status.excalidraw\|Dissertation To-DO]]
+> [!info]
+> The Kanban board tracks both my completed tasks and my current work in progress.
 
 ---
 

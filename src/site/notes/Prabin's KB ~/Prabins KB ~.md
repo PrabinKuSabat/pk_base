@@ -3,7 +3,7 @@
 ---
 
 
-![image-96.png|937x362](/img/user/Extras/ATTACHMENTS/image-96.png)  
+![image-96.jpeg|937x362](/img/user/Extras/ATTACHMENTS/image-96.jpeg)  
 **Welcome to Prabin's Knowledge-Base!** 📚
 
 ---

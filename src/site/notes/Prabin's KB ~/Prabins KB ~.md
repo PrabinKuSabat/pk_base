@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-home":true,"dg-pinned":true,"banner":"![[image-95.png]]","banner_y":0.42957,"permalink":"/Prabin's KB ~/Prabins KB ~/","pinned":true,"tags":["gardenEntry"],"dgPassFrontmatter":true}
+{"dg-publish":true,"dg-home":true,"dg-pinned":true,"banner":"![image-95.png](/img/user/Extras/ATTACHMENTS/image-95.png)","banner_y":0.42957,"permalink":"/Prabin's KB ~/Prabins KB ~/","pinned":true,"tags":["gardenEntry"],"dgPassFrontmatter":true}
 ---
 
 
@@ -7,6 +7,16 @@
 **Welcome to Prabin's Knowledge-Base!** 📚
 
 ---
+
+> [!important] What's New?
+
+![image-95.png](/img/user/Extras/ATTACHMENTS/image-95.png)
+
+[[Ada Lovelace GPU Architecture - Design Changes over Ampere \|Ada Lovelace GPU Architecture - Design Changes over Ampere ]]
+
+---
+
+> [!check] TO-DO Kanban Boards👇
 
 # [[Excalidraw/Dissertation Status.excalidraw\|Dissertation To-DO]]
 

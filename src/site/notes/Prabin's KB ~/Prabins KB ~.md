@@ -1,9 +1,9 @@
 ---
-{"dg-publish":true,"dg-home":true,"dg-pinned":true,"banner":"![image-95.png](/img/user/Extras/ATTACHMENTS/image-95.png)","banner_y":0.42957,"permalink":"/Prabin's KB ~/Prabins KB ~/","pinned":true,"tags":["gardenEntry"],"dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/Prabin's KB ~/Prabins KB ~/","dgPassFrontmatter":true}
 ---
 
 
-![image-96.png|831x339](/img/user/Extras/ATTACHMENTS/image-96.png)  
+![image-96.png|937x362](/img/user/Extras/ATTACHMENTS/image-96.png)  
 **Welcome to Prabin's Knowledge-Base!** 📚
 
 ---

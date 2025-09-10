@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Prabin's KB ~/Prabins KB ~/","dgPassFrontmatter":true}
+{"dg-publish":true,"dg-home":true,"permalink":"/Prabin's KB ~/Prabins KB ~/","tags":["gardenEntry"],"dgPassFrontmatter":true}
 ---
 
 

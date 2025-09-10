@@ -3,14 +3,14 @@
 ---
 
 
-![image-96.png](/img/user/Extras/ATTACHMENTS/image-96.png)  
+![image-96.png|831x339](/img/user/Extras/ATTACHMENTS/image-96.png)  
 **Welcome to Prabin's Knowledge-Base!** 📚
 
 ---
 
 > [!important] What's New?
 
-![image-95.png](/img/user/Extras/ATTACHMENTS/image-95.png)
+![image-95.png|655x322](/img/user/Extras/ATTACHMENTS/image-95.png)
 
 [[Ada Lovelace GPU Architecture - Design Changes over Ampere \|Ada Lovelace GPU Architecture - Design Changes over Ampere ]]
 

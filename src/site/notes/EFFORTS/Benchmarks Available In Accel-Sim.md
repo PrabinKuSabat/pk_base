@@ -3,7 +3,7 @@
 ---
 
 
-# Benchmarks Available in the
+# Benchmarks Provided
 
 1. [[EFFORTS/rodinia_2.0-ft\|rodinia_2.0-ft]]
 2. GPU_Microbenchmark
@@ -39,6 +39,9 @@
 26. huggingface
 	1. Failed executing helloworld(TITANV-PTX, 15-07)
 
+----
+---
+
 # Chat-GPT Description
 
 ## Rodinia 2.0 (functional tests)
@@ -64,6 +67,8 @@ Rodinia is a widely used heterogeneous benchmark suite (CPU+GPU) from University
 - **srad_v2-rodinia-2.0-ft** – (Speckle reducing anisotropic diffusion in image processing)
 	 
 - **streamcluster-rodinia-2.0-ft** – (Streaming k-means clustering)
+
+---
 
 ## GPU Microbenchmark
 
@@ -95,6 +100,8 @@ This suite includes low-level GPU microbenchmarks (cache/memory/compute). It is 
 	 
 - **cp_async** – Asynchronous copy test (copy latency/bandwidth)
 
+---
+
 ## GPU Atomic Tests
 
 Atomic-operation benchmarks (AccelWattch microbenchmarks) evaluate atomic add performance. The suite includes:
@@ -107,6 +114,8 @@ Atomic-operation benchmarks (AccelWattch microbenchmarks) evaluate atomic add pe
 	 
 - **atomic_add_bw_diverge** – Atomic-add divergence test
 
+---
+
 ## Atomic Profile and Divergence Tests
 
 These suites run the same atomic-add kernel with varying parameters:
@@ -114,6 +123,8 @@ These suites run the same atomic-add kernel with varying parameters:
 - **Atomic_Profile:** `atomic_add_bw_profile` (multiple runs varying thread count)
 	 
 - **Atomic_Diverge:** `atomic_add_bw_diverge` (multiple runs with thread divergence)
+
+---
 
 ## NVIDIA DeepBench (Tensor Cores)
 
@@ -125,6 +136,8 @@ NVIDIA’s DeepBench provides microbenchmarks for tensor-core performance. The _
 	 
 - **rnn_bench-tencore** – RNN (LSTM/GRU) benchmark (Tensor Cores)
 
+---
+
 ## NVIDIA DeepBench (Normal)
 
 The _normal_ DeepBench (CUDA FP16/FP32) suite includes:
@@ -134,6 +147,8 @@ The _normal_ DeepBench (CUDA FP16/FP32) suite includes:
 - **gemm_bench** – GEMM benchmark (CUDA)
 	 
 - **rnn_bench** – RNN (LSTM/GRU) benchmark (CUDA)
+
+---
 
 ## CUDA SDK 4.2 Examples (scaled)
 
@@ -158,6 +173,8 @@ Classic CUDA SDK sample kernels (scaled data sizes) from CUDA 4.2:
 - **mergeSort**
 	 
 - **sortingNetworks**
+
+---
 
 ## Rodinia 3.1
 
@@ -195,6 +212,8 @@ Rodinia 3.1 (an updated version of the Rodinia suite) includes:
 
 _(Rodinia is a diverse GPU benchmark suite covering domains like graph traversal, linear algebra, image processing, etc.[github.com](https://github.com/yuhc/gpu-rodinia#:~:text=The%20University%20of%20Virginia%20Rodinia,both%20multicore%20CPUs%20and%20GPUs).)_
 
+---
+
 ## Parboil
 
 The Parboil benchmarks (Illinois/IMPACT) are throughput-oriented scientific workloads[hgpu.org](https://hgpu.org/?p=7496#:~:text=The%20Parboil%20benchmarks%20are%20a,benchmarks%20from%20throughput%20computing%20application). This suite includes:
@@ -216,6 +235,8 @@ The Parboil benchmarks (Illinois/IMPACT) are throughput-oriented scientific work
 - **parboil-mri-gridding** – MRI gridding (medical imaging)
 	 
 - **parboil-bfs** – Breadth-first search (one input graph)
+
+---
 
 ## PolyBench
 
@@ -251,6 +272,8 @@ PolyBench is a suite of common numerical kernels (linear algebra, stencils, etc.
 	 
 - **polybench-syrk** (symmetric rank-k)
 
+---
+
 ## CUTLASS Benchmarks (Volta, Ampere, Hopper, etc.)
 
 CUTLASS is NVIDIA’s CUDA template library for GEMM and related operations. The suites include architecture-specific GEMM tests:
@@ -262,6 +285,8 @@ CUTLASS is NVIDIA’s CUDA template library for GEMM and related operations. The
 - **cutlass_hopper**: cutlass_50_hopper_gemm_with_epilogue_swizzle, cutlass_48_hopper_warp_specialized_gemm, cutlass_54_hopper_fp8_warp_specialized_gemm
 	 
 - **cutlass (general)**: cutlass_perf_test_k1, cutlass_05_batched_gemm, cutlass_41_fused_multi_head_attention_backward, cutlass_41_fused_multi_head_attention_fixed_seqlen, cutlass_41_fused_multi_head_attention_variable_seqlen (GEMM and attention kernels)
+
+---
 
 ## ISPASS-2009 (GPU-Sim)
 
@@ -287,6 +312,8 @@ The ISVLSI/GPGPU-Sim 2009 benchmarks are a collection of diverse kernels used in
 	 
 - **ispass-2009-WP** (watershed particle? – as per original suite)
 
+---
+
 ## Dragon (Naive and CDP)
 
 These suites appear to contain graph-processing kernels (likely from a “Dragon” graph library). In _dragon-naive_ we have:
@@ -296,44 +323,39 @@ These suites appear to contain graph-processing kernels (likely from a “Dragon
 	 
 - **testBfs-cdp**, **testSssp-cdp** (BFS and SSSP using CDP)
 
+---
+
 ## Proxy-Apps (DOE)
 
 Proxy-apps from DOE workloads include:
 
 - **cns/cns_all** – (Solving 3D Poisson/Cahn–Hilliard equations)
-	 
 - **XSBench** – (Monte Carlo neutron cross-section benchmark)
-	 
 - **lulesh** – (Livermore Unstructured Lagrangian Explicit Shock Hydrodynamics)
+
+---
 
 ## Pannotia (Irregular Graphs)
 
 Pannotia is a suite of irregular graph algorithms (from ISWC 2013)【37†】, including:
 
 - **bc** (betweenness centrality)
-	 
 - **color_max**, **color_maxmin** (graph coloring variants)
-	 
 - **fw** (Floyd–Warshall all-pairs shortest paths)
-	 
 - **fw_block** (blocked Floyd–Warshall)
-	 
 - **mis** (maximal independent set)
-	 
 - **pagerank** (PageRank)
-	 
 - **pagerank_spmv** (PageRank via sparse-matrix–vector)
+
+---
 
 ## LonestarGPU 2.0
 
 Graphs and physics kernels from the LonestarGPU collection (Georgia Tech):
 
 - **lonestar-bfs-atomic**, **lonestar-bfs-wlw**, **lonestar-bfs-wla**, **lonestar-bfs-wlc** (variants of BFS)
-	 
 - **lonestar-sssp**, **lonestar-sssp-wlc**, **lonestar-sssp-wln** (variants of SSSP)
-	 
 - **lonestar-bh** (Barnes-Hut N-body)
-	 
 - **lonestar-dmr** (diffusion), **lonestar-mst** (minimum spanning tree)
 
 ## MLPerf Inference (GPU)
@@ -341,23 +363,31 @@ Graphs and physics kernels from the LonestarGPU collection (Georgia Tech):
 MLPerf inference benchmarks measure real-time inference speed. The suites include:
 
 - **inference_mlperf_bert_test.sh** – MLPerf BERT inference test (small)[redhat.com](https://www.redhat.com/en/blog/how-to-accelerate-workloads-with-nvidia-gpus-on-red-hat-device-edge#:~:text=Speech,AMD%20Epyc%20CPU)
-	 
 - **inference_mlperf_bert**, **inference_mlperf_ssd** – MLPerf BERT and SSD inference (no external datasets)[redhat.com](https://www.redhat.com/en/blog/how-to-accelerate-workloads-with-nvidia-gpus-on-red-hat-device-edge#:~:text=Speech,AMD%20Epyc%20CPU)
+
+---
 
 ## MLPerf Training (GPU)
 
 MLPerf training benchmarks measure training throughput[mlcommons.org](https://mlcommons.org/benchmarks/training/#:~:text=The%20MLPerf%20Training%20benchmark%20suite,through%20the%20results%20dashboard%20below). The listed tests are:
 
 - **training_mlperf_ssd** – SSD object-detection training
-	 
 - **training_mlperf_rnn** – RNN/LSTM training (speech recognition)
+
+---
 
 ## PyTorch Examples
 
 - **inference_mnist** – (PyTorch example: MNIST inference)
 
+---
+
 ## HuggingFace Example
 
 - **helloworld** – (HuggingFace Transformers demo)
 
+---
+
 **Sources:** These suites draw on well-known benchmark collections: Rodinia[github.com](https://github.com/yuhc/gpu-rodinia#:~:text=The%20University%20of%20Virginia%20Rodinia,both%20multicore%20CPUs%20and%20GPUs), Parboil[hgpu.org](https://hgpu.org/?p=7496#:~:text=The%20Parboil%20benchmarks%20are%20a,benchmarks%20from%20throughput%20computing%20application), PolyBench[sourceforge.net](https://sourceforge.net/p/polybench/wiki/Home/#:~:text=PolyBench%20is%20a%20benchmark%20suite,scheduling%20to%20prevent%20OS%20interference), CUTLASS/GEMM libraries, DOE proxy and graph benchmarks, and MLPerf training/inference benchmarks[mlcommons.org](https://mlcommons.org/benchmarks/training/#:~:text=The%20MLPerf%20Training%20benchmark%20suite,through%20the%20results%20dashboard%20below)[redhat.com](https://www.redhat.com/en/blog/how-to-accelerate-workloads-with-nvidia-gpus-on-red-hat-device-edge#:~:text=Speech,AMD%20Epyc%20CPU), among others. The Accel-Sim framework integrates these by name in its **define-all-apps** YAML (see question text).
+
+---

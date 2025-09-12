@@ -5,7 +5,7 @@
 
 # Benchmarks Provided
 
-1. [[EFFORTS/rodinia_2.0-ft\|rodinia_2.0-ft]]
+1. rodinia_2.0-ft
 2. GPU_Microbenchmark
 3. GPU_Atomic
 4. Atomic_Profile

@@ -5,38 +5,60 @@
 
 # Benchmarks Provided
 
-1. [[EFFORTS/rodinia_2.0-ft\|rodinia_2.0-ft]]
-2. [[EFFORTS/GPU_Microbenchmark\|GPU_Microbenchmark]]
-3. [[EFFORTS/GPU_Atomic\|GPU_Atomic]]
-4. [[EFFORTS/Atomic_Profile\|Atomic_Profile]]
-5. [[EFFORTS/Atomic_Diverge\|Atomic_Diverge]]
-6. [[EFFORTS/Deepbench_nvidia_tencore\|Deepbench_nvidia_tencore]]
+```ad-info
+title: Total app-data : 2.4G ( Individual sizes  has to be checked manually )
+***Available:***
+	Rodinia_2.0 
+	Rodinia-3.1
+	SDK_4.2
+	ispass-2009
+	lonestargpu-2.0
+	pannotia
+	dragon
+	proxy-apps-doe 
+	parboil
+
+
+
+```
+
+> [!info]  
+> `Compiled/Total/compiled_not_working`  
+> ✅ : Executable Available  
+> ❌ : Couldn't _MAKE_ executable
+
+1. [[EFFORTS/rodinia_2.0-ft\|rodinia_2.0-ft]] ✅
+2. [[EFFORTS/GPU_Microbenchmark\|GPU_Microbenchmark]] `8/13/2`
+3. [[EFFORTS/GPU_Atomic\|GPU_Atomic]] ✅
+4. [[EFFORTS/Atomic_Profile\|Atomic_Profile]] ✅
+5. [[EFFORTS/Atomic_Diverge\|Atomic_Diverge]] ✅
+6. [[EFFORTS/Deepbench_nvidia_tencore\|Deepbench_nvidia_tencore]] ❌
 	1. Not available (18-07)
-7. [[EFFORTS/Deepbench_nvidia_normal\|Deepbench_nvidia_normal]]
+7. [[EFFORTS/Deepbench_nvidia_normal\|Deepbench_nvidia_normal]] ❌
 	1. Not available (18-07)
-8. [[EFFORTS/sdk-4.2-scaled\|sdk-4.2-scaled]]
+8. [[EFFORTS/sdk-4.2-scaled\|sdk-4.2-scaled]] ❌
 	1. Not available (18-07)
-9. [[EFFORTS/rodinia-3.1\|rodinia-3.1]]
+9. [[EFFORTS/rodinia-3.1\|rodinia-3.1]] ✅
 	1. myocyte failed (TITANV-PTX, 15-07)
-10. [[EFFORTS/parboil\|parboil]]
+10. [[EFFORTS/parboil\|parboil]] ❌
 	1. all 9 tests failed (TITANV-PTX, 15-07)
-11. [[EFFORTS/polybench\|polybench]]
-12. [[EFFORTS/cutlass_volta\|cutlass_volta]]
-13. [[EFFORTS/cutlass_ampere\|cutlass_ampere]]
-14. [[EFFORTS/cutlass_hopper\|cutlass_hopper]]
-15. [[EFFORTS/cutlass\|cutlass]]
-16. [[EFFORTS/ispass-2009\|ispass-2009]]
+11. [[EFFORTS/polybench\|polybench]] ✅
+12. [[EFFORTS/cutlass_volta\|cutlass_volta]] ❌
+13. [[EFFORTS/cutlass_ampere\|cutlass_ampere]] ❌
+14. [[EFFORTS/cutlass_hopper\|cutlass_hopper]] ❌
+15. [[EFFORTS/cutlass\|cutlass]] ❌
+16. [[EFFORTS/ispass-2009\|ispass-2009]] `8/10`
 	1. 7/10 no error(QV100-PTX, 15 -07)
-17. [[EFFORTS/dragon-naive\|dragon-naive]]
-18. [[EFFORTS/dragon-cdp\|dragon-cdp]]
-19. [[EFFORTS/proxy-apps-doe\|proxy-apps-doe]]
-20. [[EFFORTS/pannotia\|pannotia]]
-21. [[EFFORTS/lonestargpu-2.0\|lonestargpu-2.0]]
-22. [[EFFORTS/mlperf_inference\|mlperf_inference]]
-23. [[EFFORTS/mlperf_training\|mlperf_training]]
-24. [[EFFORTS/mlperf_inference_no_external_datasets\|mlperf_inference_no_external_datasets]]
-25. [[EFFORTS/pytorch_examples\|pytorch_examples]]
-26. [[EFFORTS/huggingface\|huggingface]]
+17. [[EFFORTS/dragon-naive\|dragon-naive]] ❌
+18. [[EFFORTS/dragon-cdp\|dragon-cdp]] ❌
+19. [[EFFORTS/proxy-apps-doe\|proxy-apps-doe]] `2/3`
+20. [[EFFORTS/pannotia\|pannotia]] ✅
+21. [[EFFORTS/lonestargpu-2.0\|lonestargpu-2.0]] `8/10`
+22. [[EFFORTS/mlperf_inference\|mlperf_inference]] `0/3` ❌
+23. [[EFFORTS/mlperf_training\|mlperf_training]] ❌
+24. [[EFFORTS/mlperf_inference_no_external_datasets\|mlperf_inference_no_external_datasets]] ❌
+25. [[EFFORTS/pytorch_examples\|pytorch_examples]] ❌
+26. [[EFFORTS/huggingface\|huggingface]] ✅
 	1. Failed executing helloworld(TITANV-PTX, 15-07)
 
 ----
@@ -52,3 +74,5 @@ The Accel-Sim framework integrates these by name in its **define-all-apps** YAML
 ```
 
 ---
+
+# [[EFFORTS/Available Traces\|Available Traces]]

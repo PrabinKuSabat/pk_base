@@ -2,10 +2,16 @@
 {"dg-publish":true,"permalink":"/EFFORTS/Special Permissions Required/","dgPassFrontmatter":true}
 ---
 
-# NVIDIA Development Tools Solutions - ERR_NVGPUCTRPERM: Permission issue with Performance Counters
-_Short URL: https://developer.nvidia.com/ERR_NVGPUCTRPERM_
 
-### Overview
+# NVIDIA Development Tools Solutions - ERR_NVGPUCTRPERM: Permission issue with Performance Counters
+
+_Short URL: <https://developer.nvidia.com/ERR_NVGPUCTRPERM_>
+
+> [!info] Content taken from 👆
+
+---
+
+## Overview
 
 You may encounter the following error message when using NVIDIA tools:  
    **_ERR_NVGPUCTRPERM The user running <tool_name/application_name> does not have permission to access NVIDIA GPU Performance Counters on the target device._**
@@ -17,7 +23,9 @@ If you are receiving this error, then
 
 To avoid this error, [run the tool or application with elevated privileges](https://developer.nvidia.com/nvidia-development-tools-solutions-err_nvgpuctrperm-permission-issue-performance-counters#ElevPrivsTag) or [enable access for all users](https://developer.nvidia.com/nvidia-development-tools-solutions-err_nvgpuctrperm-permission-issue-performance-counters#AllUsersTag). For problems following these instructions, see the [troubleshooting guide](https://developer.nvidia.com/nvidia-development-tools-solutions-err_nvgpuctrperm-permission-issue-performance-counters#TrblShootTag).
 
-### Run with elevated privileges
+---
+
+## Run with elevated privileges
 
 Run the tool or application being profiled with administrative privileges on the target device:
 
@@ -27,19 +35,20 @@ Run the tool or application being profiled with administrative privileges on the
 - **DRIVE, Tegra and QNX**: Launch the tool with `sudo` or as the root user.
 - See also [tool specific](https://developer.nvidia.com/nvidia-development-tools-solutions-err_nvgpuctrperm-permission-issue-performance-counters#SolnToolsTag) information for further details.
 
-#### Linux Desktop
+---
+
+### Linux Desktop
 
 GPU Performance Counter control requires Linux display driver 418.43 or later. Also see the "Restricting access to GPU Performance Counters" section of the README.txt in the Linux driver.
 
-##### Enable access permanently
+#### Enable access permanently
 
 - To allow access for any user, create a file with the .conf extension containing `options nvidia NVreg_RestrictProfilingToAdminUsers=0` in /etc/modprobe.d.
 - To restrict access to admin users (CAP_SYS_ADMIN capability set), create a file with the .conf extension containing `options nvidia NVreg_RestrictProfilingToAdminUsers=1` in /etc/modprobe.d.
 
-#####       Notes:
+####       Notes
 
 - A reboot may be required for the change to take effect.
 - On some systems (or when using a package manager to install), it may be necessary to rebuild the initrd after writing a configuration file to /etc/modprobe.d.
-
 - For RedHat-based distributions, rebuild the initrd with `dracut -–regenerate-all -f`
 - For Debian-based distributions, rebuild the initrd with `update-initramfs -u -k all`

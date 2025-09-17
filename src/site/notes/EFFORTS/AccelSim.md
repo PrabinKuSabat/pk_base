@@ -23,7 +23,8 @@
 
 ## [[EFFORTS/Available Traces\|Provided Traces]]
 
-[[EFFORTS/Special Permissions Required\|Special Permissions Required]]
+## [[EFFORTS/Special Permissions Required\|Special Permissions Required]]
+
 ---
 
 ## Modifications made

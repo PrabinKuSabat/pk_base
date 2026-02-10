@@ -10,15 +10,12 @@
 
 > [!important] What's New?
 
-![image-95.png|655x322](/img/user/Extras/ATTACHMENTS/image-95.png)
-
-[[Ada Lovelace GPU Architecture - Design Changes over Ampere \|Ada Lovelace GPU Architecture - Design Changes over Ampere ]]
-
 ---
 
 > [!check] TO-DO Kanban Boards👇
 
-# [[Excalidraw/Dissertation Status.excalidraw\|Dissertation To-DO]]
+[[Excalidraw/Dissertation Status.excalidraw\|Dissertation To-DO]]  
+[[Status Kanban\|Status Kanban]]
 
 > [!info]  
 > The above Kanban board tracks both my completed tasks and my current work in progress.

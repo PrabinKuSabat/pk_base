@@ -6,7 +6,7 @@
 # Notes on the GPU-Simulator Accel-Sim
 
 > [!info] Disclaimer  
-> The note is not fully complete. It's always will be under constant changes (until the accel-sim development stops 😿.)
+> The notes are not complete. They will be under constant changes (until the accel-sim development stops 😿.)
 
 > [!success] Link to the Research Paper  
 > The research paper can be find at [LINK.](https://par.nsf.gov/servlets/purl/10302226)
@@ -45,6 +45,16 @@
 > # added
 > void yyerror(const char* s);
 > ```
+
+- Add sm89 support to compiled files
+	- _Yet to complete_
+
+For newer Architectures:
+- Modify gpgusim.config files after creating
+	- gpgpu_n_mem 32
+	- gpgpu_memory_partition_indexing 64
+	- -gpgpu_cache:dl2 S:512:128:24,L:B:m:L:P,A:192:4,32:F,32  
+	  0 was replace with F in **:F,32**.
 
 ---
 

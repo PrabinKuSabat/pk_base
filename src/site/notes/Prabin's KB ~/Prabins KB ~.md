@@ -24,9 +24,8 @@
 
 # Notes
 
-[[EFFORTS/AccelSim\|AccelSim]]  
-[[Prabin's KB ~/Vast.AI\|Vast.AI]]  
-[[Prabin's KB ~/GPU Architectures and Whitepapers\|GPU Architectures and Whitepapers]]
+[[Prabin's KB ~/Project Setups\|Project Setups]]  
+[[Prabin's KB ~/Research Notes\|Research Notes]]
 
 ---
 

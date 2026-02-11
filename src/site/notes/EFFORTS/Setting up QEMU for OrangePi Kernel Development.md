@@ -262,6 +262,7 @@ dd if=rootfs.img of=rootfs-partition.img bs=512 skip=61440
 ```
 
 # Working Commands
+
 ## Telenet Method
 
 ```bash
@@ -297,7 +298,8 @@ qemu-system-riscv64 \
   -gdb tcp::1234 -S
 ```
 
-# How to use!
+# How to use
+
 ```
 qemu-system-riscv64 \
   -machine virt -cpu rv64 -m 4G -smp 2 \
@@ -312,7 +314,8 @@ qemu-system-riscv64 \
   -gdb tcp::1234 -S
 ```
 
-**It waits for you to connect using  GDB.** Only then the process starts.
+**It waits for you to connect using GDB.** Only then the process starts.
+
 ```bash
 gdb-multiarch ~/riscv/linux-orangepi/vmlinux #to start gdb.
 target remote localhost:1234 #connect to the qemu.
@@ -324,4 +327,3 @@ target remote localhost:1234 #connect to the qemu.
 - If you run into error where it says unable to load the console (or anything similar to console), just do a chatgpt asking how to add console support or *how to enable `serial-getty@hvc0.service`.
 
 ---
-

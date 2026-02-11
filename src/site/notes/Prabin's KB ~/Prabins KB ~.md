@@ -10,6 +10,8 @@
 
 > [!important] What's New?
 
+1. [[Prabin's KB ~/RISC-V OS development\|RISC-V OS development]]
+
 ---
 
 > [!check] TO-DO Kanban Boards👇

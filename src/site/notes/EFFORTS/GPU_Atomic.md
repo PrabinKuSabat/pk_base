@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/GPU_Atomic/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/GPU_Atomic/"}
 ---
 
 

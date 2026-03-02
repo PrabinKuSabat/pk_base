@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/dragon-naive/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/dragon-naive/"}
 ---
 
 

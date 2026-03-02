@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/rodinia-3.1/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/rodinia-3.1/"}
 ---
 
 

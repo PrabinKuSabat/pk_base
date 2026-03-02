@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Deepbench_nvidia_normal/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Deepbench_nvidia_normal/"}
 ---
 
 

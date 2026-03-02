@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Atomic_Profile/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Atomic_Profile/"}
 ---
 
 

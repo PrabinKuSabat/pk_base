@@ -1,5 +1,5 @@
 ---
-{"kanban-plugin":"board","dg-publish":true,"permalink":"/Status Kanban/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/Status Kanban/"}
 ---
 
 

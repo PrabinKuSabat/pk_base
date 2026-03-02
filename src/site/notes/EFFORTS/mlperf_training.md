@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/mlperf_training/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/mlperf_training/"}
 ---
 
 

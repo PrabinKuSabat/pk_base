@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-home":true,"permalink":"/Prabin's KB ~/Prabins KB ~/","tags":["gardenEntry"],"dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/Prabin's KB ~/Prabins KB ~/","tags":["gardenEntry"]}
 ---
 
 ![9ef04c7f-1ab9-4833-a3ef-6d0b5b8ab48f-2.png](/img/user/Extras/ATTACHMENTS/9ef04c7f-1ab9-4833-a3ef-6d0b5b8ab48f-2.png)# Systems Engineering Logbook — Kernel, Performance, and Architecture Experiments

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Special Permissions Required/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Special Permissions Required/"}
 ---
 
 

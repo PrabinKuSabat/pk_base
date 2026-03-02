@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Deepbench_nvidia_tencore/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Deepbench_nvidia_tencore/"}
 ---
 
 

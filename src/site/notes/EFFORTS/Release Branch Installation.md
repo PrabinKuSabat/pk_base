@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Release Branch Installation/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Release Branch Installation/"}
 ---
 
 

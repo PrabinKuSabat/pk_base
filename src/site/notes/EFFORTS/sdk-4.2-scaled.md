@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/sdk-4.2-scaled/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/sdk-4.2-scaled/"}
 ---
 
 

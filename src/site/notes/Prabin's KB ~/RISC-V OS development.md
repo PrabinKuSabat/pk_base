@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Prabin's KB ~/RISC-V OS development/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/Prabin's KB ~/RISC-V OS development/"}
 ---
 
 

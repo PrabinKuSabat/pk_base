@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Setting up QEMU for OrangePi Kernel Development/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/Setting up QEMU for OrangePi Kernel Development/"}
 ---
 
 

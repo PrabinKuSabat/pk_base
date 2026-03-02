@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/polybench/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/polybench/"}
 ---
 
 

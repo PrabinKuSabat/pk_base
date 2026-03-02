@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/lonestargpu-2.0/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/lonestargpu-2.0/"}
 ---
 
 

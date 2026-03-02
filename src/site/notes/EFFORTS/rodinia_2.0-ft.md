@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/rodinia_2.0-ft/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/rodinia_2.0-ft/"}
 ---
 
 

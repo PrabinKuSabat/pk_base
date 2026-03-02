@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/cutlass_volta/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/EFFORTS/cutlass_volta/"}
 ---
 
 

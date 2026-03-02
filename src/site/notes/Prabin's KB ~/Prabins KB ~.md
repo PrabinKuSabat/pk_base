@@ -3,12 +3,15 @@
 ---
 
 
-![image-96.jpeg|937x362](/img/user/Extras/ATTACHMENTS/image-96.jpeg)  
-**Welcome to Prabin's Knowledge-Base!** 📚
+![ChatGPT Image Mar 2, 2026, 11_27_38 AM.png|270x270](/img/user/Extras/ATTACHMENTS/ChatGPT%20Image%20Mar%202,%202026,%2011_27_38%20AM.png)
+
+# Systems Engineering Logbook — Kernel, Performance, and Architecture Experiments
+
+**Build. Measure. Prove.**
 
 ---
 
-> [!important] What's New?
+# 🔬 Current Focus
 
 1. [[Prabin's KB ~/RISC-V OS development\|RISC-V OS development]]
 

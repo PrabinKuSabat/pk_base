@@ -1,7 +1,27 @@
 body {
      /* ===== Layout Width Fix ===== */
 
-  /* Expand main content width */
+  /* ===== Dashboard polish ===== */
+
+body {
+  line-height: 1.55;
+}
+
+/* Better link spacing */
+li {
+  margin-bottom: 4px;
+}
+
+/* Section separation */
+h2 {
+  border-bottom: 1px solid #1e1e1e;
+  padding-bottom: 4px;
+}
+
+/* Subtle hover effect */
+a:hover {
+  opacity: 0.85;
+}
 
     /***
       ADD YOUR CUSTOM STYLING HERE. (INSIDE THE body {...} section.)

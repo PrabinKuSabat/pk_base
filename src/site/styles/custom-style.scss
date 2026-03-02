@@ -19,6 +19,21 @@ body {
       max-width: 1400px;
     }
   }
+     
+  /* Reduce vertical whitespace */
+  h2 {
+    margin-top: 32px;
+    margin-bottom: 8px;
+  }
+
+  ul {
+    margin-top: 0;
+  }
+
+  /* Improve density */
+  .markdown-rendered {
+    line-height: 1.5;
+  }
 
     /***
       ADD YOUR CUSTOM STYLING HERE. (INSIDE THE body {...} section.)

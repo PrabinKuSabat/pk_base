@@ -3,8 +3,7 @@
 ---
 
 
-![ChatGPT Image Mar 2, 2026, 11_27_38 AM.png|270x270](/img/user/Extras/ATTACHMENTS/ChatGPT%20Image%20Mar%202,%202026,%2011_27_38%20AM.png)
-
+![9ef04c7f-1ab9-4833-a3ef-6d0b5b8ab48f.png|528](/img/user/Extras/ATTACHMENTS/9ef04c7f-1ab9-4833-a3ef-6d0b5b8ab48f.png)
 # Systems Engineering Logbook — Kernel, Performance, and Architecture Experiments
 
 **Build. Measure. Prove.**
@@ -14,8 +13,9 @@
 # 🔬 Current Focus
 
 1. [[Prabin's KB ~/RISC-V OS development\|RISC-V OS development]]
-
-:LiHand: 
+2. RISC-V OS Development — virtual memory & syscall instrumentation  
+3. Load balancer design with FlipHash distribution
+4. Syscall latency benchmarking on Orange Pi RV2  
 
 ---
 
@@ -36,9 +36,8 @@
 
 ---
 
-# [[Dissertation Conversation 25-26 \|Conversation : me & Guide]]
-
-> [!quote] Gratitude  
-> “I am deeply grateful to Dr. R Raghunatha Sarma(Dept. of Mathematics & CS, SSSIHL) for their unwavering support and encouragement throughout this journey, and for continuing to guide me on the path ahead.”
+## 🙏 Acknowledgment  
+  
+>  I am deeply grateful to **Dr. R. Raghunatha Sarma** (Dept. of Mathematics & CS, SSSIHL) for continuous guidance and support throughout this journey.
 
 ---

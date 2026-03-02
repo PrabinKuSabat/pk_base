@@ -49,26 +49,76 @@ body {
 }
 
 
-/* 2. Constrain the Excalidraw wrapper to exactly the screen height and width */
-.excalidraw-wrapper,
-.excalidraw-container,
-div[class*="excalidraw"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 100vh !important; /* Limits height to 100% of the Viewport Height */
+/* =======================================================
+   EXCALIDRAW-ONLY FULLSCREEN LAYOUT 
+   Applies only if the page contains an .excalidraw-svg
+======================================================= */
+
+/* 1. Hide the right sidebar ONLY on Excalidraw pages */
+body:has(.excalidraw-svg) .sidebar.right, 
+body:has(.excalidraw-svg) aside.sidebar.right,
+body:has(.excalidraw-wrapper) .sidebar-right {
+    display: none !important;
+}
+
+/* 2. Force single-column layout and remove wrapper padding */
+body:has(.excalidraw-svg) .page-wrapper,
+body:has(.excalidraw-svg) .main-content-wrapper {
+    grid-template-columns: 1fr !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* 3. Expand the main content area to fill the screen */
+body:has(.excalidraw-svg) .content,
+body:has(.excalidraw-svg) .markdown-preview-view,
+body:has(.excalidraw-svg) .page-body {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* 4. Lock the Excalidraw wrapper to exactly the screen size */
+body:has(.excalidraw-svg) .excalidraw-wrapper,
+body:has(.excalidraw-svg) div[class*="excalidraw"] {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
     max-height: 100vh !important;
     margin: 0 !important;
     padding: 0 !important;
-    overflow: hidden !important; /* Disables scrollbars if it tries to overflow */
+    overflow: hidden !important;
     box-sizing: border-box !important;
 }
 
-/* 3. Make sure the drawing scales smartly inside the new strict boundaries */
-.excalidraw-svg, 
-.excalidraw-svg svg {
+/* 5. Scale the drawing perfectly inside the screen */
+body:has(.excalidraw-svg) .excalidraw-svg, 
+body:has(.excalidraw-svg) .excalidraw-svg svg {
     width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important; /* Scales the image to fit the screen without cropping or stretching */
+    object-fit: contain !important;
+}
+
+/* 6. Make the Top Navigation / Home Bar scroll away (Non-Persistent) */
+body:has(.excalidraw-svg) header, 
+body:has(.excalidraw-svg) nav, 
+body:has(.excalidraw-svg) .site-header,
+body:has(.excalidraw-svg) .navbar {
+    position: absolute !important; /* This detaches it from the camera and attaches it to the top of the document */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+/* 7. Hide scrollbars ONLY on Excalidraw pages */
+body:has(.excalidraw-svg)::-webkit-scrollbar {
+    display: none !important;
+}
+body:has(.excalidraw-svg) {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
 }
 
 }

@@ -2,38 +2,6 @@ body {
      /* ===== Layout Width Fix ===== */
 
   /* Expand main content width */
-  main,
-  .page-content,
-  .markdown-rendered,
-  .markdown-preview-view {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  /* Improve readability on very large screens */
-  @media (min-width: 1600px) {
-    main,
-    .page-content,
-    .markdown-rendered {
-      max-width: 1400px;
-    }
-  }
-     
-  /* Reduce vertical whitespace */
-  h2 {
-    margin-top: 32px;
-    margin-bottom: 8px;
-  }
-
-  ul {
-    margin-top: 0;
-  }
-
-  /* Improve density */
-  .markdown-rendered {
-    line-height: 1.5;
-  }
 
     /***
       ADD YOUR CUSTOM STYLING HERE. (INSIDE THE body {...} section.)

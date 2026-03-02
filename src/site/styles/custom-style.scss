@@ -1,42 +1,27 @@
-body {
-     /* ===== Layout Width Fix ===== */
 
-  /* ===== Dashboard polish ===== */
 
 body {
   line-height: 1.55;
+     /* Better link spacing */
+     li {
+       margin-bottom: 4px;
+     }
+     
+     /* Section separation */
+     h2 {
+       border-bottom: 1px solid #1e1e1e;
+       padding-bottom: 4px;
+     }
+     
+     /* Subtle hover effect */
+     a:hover {
+       opacity: 0.85;
+     }
+     @media (min-width: 1400px) {
+         .content {
+             flex-direction: row-reverse !important;
+         }
+     }
 }
 
-/* Better link spacing */
-li {
-  margin-bottom: 4px;
-}
 
-/* Section separation */
-h2 {
-  border-bottom: 1px solid #1e1e1e;
-  padding-bottom: 4px;
-}
-
-/* Subtle hover effect */
-a:hover {
-  opacity: 0.85;
-}
-@media (min-width: 1400px) {
-    .content {
-        flex-direction: row-reverse !important;
-    }
-}
-
-    /***
-      ADD YOUR CUSTOM STYLING HERE. (INSIDE THE body {...} section.)
-      IT WILL TAKE PRECEDENCE OVER THE STYLING IN THE STYLE.CSS FILE.
-   ***/
-    //  background-color: white;
-    //  .content {
-    //   font-size: 14px;
-    //  }
-    //  h1 {
-    //   color: black;
-    //  }
-}

@@ -48,20 +48,27 @@ body {
     --line-width-adaptive: 100% !important;
 }
 
-/* 2. Force the main content container to take all available space */
-.content, .cm-s-obsidian {
-    max-width: 100% !important;
-    width: 100% !important;
-}
 
-/* 3. Ensure the Excalidraw embed stretches to fill this newly expanded space */
-.excalidraw-svg,
+/* 2. Constrain the Excalidraw wrapper to exactly the screen height and width */
 .excalidraw-wrapper,
 .excalidraw-container,
 div[class*="excalidraw"] {
     width: 100% !important;
     max-width: 100% !important;
-    height: auto !important; /* Keeps the drawing's aspect ratio correct */
+    height: 100vh !important; /* Limits height to 100% of the Viewport Height */
+    max-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important; /* Disables scrollbars if it tries to overflow */
+    box-sizing: border-box !important;
+}
+
+/* 3. Make sure the drawing scales smartly inside the new strict boundaries */
+.excalidraw-svg, 
+.excalidraw-svg svg {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* Scales the image to fit the screen without cropping or stretching */
 }
 
 }

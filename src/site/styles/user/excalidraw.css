@@ -1,28 +1,28 @@
 /* Scope everything to pages whose title contains ".excalidraw" */
-.title-contains-excalidraw .content {
+/* .title-contains-excalidraw .content {
   display: flex;
   flex-direction: column;
-  min-height: 85vh;       /* hold whole viewport height */
+  min-height: 85vh;       
   padding: 0 !important;
   max-width: none !important;
-}
+} */
 
 /* Match several common Excalidraw wrapper classnames just in case */
-.title-contains-excalidraw .excalidraw-embed,
+/* .title-contains-excalidraw .excalidraw-embed,
 .title-contains-excalidraw .excalidraw,
 .title-contains-excalidraw .excalidraw-wrapper,
 .title-contains-excalidraw .excalidraw-view {
   order: 1;
-  flex: 0 0 auto;          /* don't shrink/grow — fixed height */
-  width: 80vw !important; /* full viewport width */
-  height: 83vh !important;/* full viewport height */
+  flex: 0 0 auto;          
+  width: 80vw !important; 
+  height: 83vh !important;
   margin: 0 !important;
-}
+} */
 
 /* Put everything else after the drawing */
-.title-contains-excalidraw .content > :not(.excalidraw-embed):not(.excalidraw):not(.excalidraw-wrapper):not(.excalidraw-view) {
+/* .title-contains-excalidraw .content > :not(.excalidraw-embed):not(.excalidraw):not(.excalidraw-wrapper):not(.excalidraw-view) {
   order: 2;
-  margin-top: 0;           /* they appear after the drawing */
+  margin-top: 0;           
   width: 100% !important;
   max-width: 10vw !important;
-}
+} */

@@ -41,4 +41,27 @@ body {
         margin-right: 20px !important;
         max-width: calc(100vw - 40px) !important;
     }
+    /* 1. Remove the default width limits from the template */
+:root {
+    --dg-content-max-width: 100% !important;
+    --line-width: 100% !important;
+    --line-width-adaptive: 100% !important;
+}
+
+/* 2. Force the main content container to take all available space */
+.content, .cm-s-obsidian {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* 3. Ensure the Excalidraw embed stretches to fill this newly expanded space */
+.excalidraw-svg,
+.excalidraw-wrapper,
+.excalidraw-container,
+div[class*="excalidraw"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important; /* Keeps the drawing's aspect ratio correct */
+}
+
 }

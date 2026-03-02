@@ -22,6 +22,11 @@ h2 {
 a:hover {
   opacity: 0.85;
 }
+@media (min-width: 1400px) {
+    .content {
+        flex-direction: row-reverse !important;
+    }
+}
 
     /***
       ADD YOUR CUSTOM STYLING HERE. (INSIDE THE body {...} section.)

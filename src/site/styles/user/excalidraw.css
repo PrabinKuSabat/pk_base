@@ -1,11 +1,11 @@
 /* Scope everything to pages whose title contains ".excalidraw" */
-/* .title-contains-excalidraw .content {
+.title-contains-excalidraw .content {
   display: flex;
   flex-direction: column;
   min-height: 85vh;       
   padding: 0 !important;
   max-width: none !important;
-} */
+}
 
 /* Match several common Excalidraw wrapper classnames just in case */
 /* .title-contains-excalidraw .excalidraw-embed,

@@ -1,0 +1,44 @@
+body {
+    /* 1. Remove the widths reserved for the left file tree */
+    --dg-filetree-min-width: 0px !important;
+    --dg-filetree-width: 0px !important;
+    
+    /* 2. Define the left margin/padding for the content */
+    --dg-filetree-gap: 40px !important; 
+    
+    /* 3. Expand the main content to take the rest of the screen, minus the right sidebar space */
+    --dg-content-max-width: calc(100vw - var(--dg-sidebar-max-width) - var(--dg-sidebar-gap) - 80px) !important;
+}
+
+/* Hide the actual file tree panel completely */
+.filetree-wrapper, 
+.filetree-sidebar {
+    display: none !important;
+}
+
+/* Desktop layout: Anchor the right sidebar firmly to the right side */
+@media (min-width: 1401px) {
+    .sidebar {
+        left: auto !important;
+        right: 40px !important;
+    }
+}
+
+/* Tablet layout: Fixes the bottom sidebar alignment when the screen shrinks */
+@media (max-width: 1400px) {
+    .content,
+    .sidebar {
+        margin-left: 40px !important;
+        max-width: calc(100vw - 80px) !important;
+    }
+}
+
+/* Mobile layout: Removes excess margins for small screens */
+@media (max-width: 1000px) {
+    .content,
+    .sidebar {
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+        max-width: calc(100vw - 40px) !important;
+    }
+}

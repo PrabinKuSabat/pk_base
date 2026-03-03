@@ -1,0 +1,115 @@
+:root{
+  --pk-navbar-h: 58px;
+  --pk-accent: #1B262C;
+}
+
+body{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer should never float to top */
+main.content{
+  flex: 1;
+}
+
+.pk-footer{
+  margin-top: auto;
+}
+
+/* If some injected mini footer still exists somewhere, hide it */
+nav.rzl-footer-mini{
+  display: none !important;
+}
+
+/* Navbar layout + progress bar */
+.pk-navbar{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.pk-navbar-inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.pk-site-name{
+  display: inline-block;
+  margin: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.pk-navlinks{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pk-navlink{
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.9;
+}
+
+.pk-navlink:hover{
+  opacity: 1;
+}
+
+.pk-theme-toggle{
+  background: transparent;
+  border: 0;
+  padding: 6px;
+  cursor: pointer;
+  line-height: 0;
+}
+
+/* Scroll progress uses the CSS variable already seen in your DOM: --rzl-progress-pct */
+.pk-navbar::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  height:2px;
+  width: var(--rzl-progress-pct, 0%);
+  background: var(--pk-accent);
+}
+
+/* Contact footer */
+.pk-footer-links{
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 12px;
+}
+
+.pk-footer-links a{
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.9;
+}
+
+.pk-footer-links a:hover{
+  opacity: 1;
+}
+
+/* Graph view: ensure content has room below sticky navbar */
+.graph-page,
+.graph-wrapper,
+#graph{
+  position: relative;
+  z-index: 1;
+}
+
+main.content{
+  scroll-margin-top: var(--pk-navbar-h);
+}

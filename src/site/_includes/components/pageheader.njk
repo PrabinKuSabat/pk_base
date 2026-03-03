@@ -36,6 +36,8 @@
 <link href="/styles/digital-garden-base.css" rel="stylesheet">
 
 <link href="/styles/custom-style.css" rel="stylesheet">
+<link href="/styles/pk-fixes.css" rel="stylesheet">
+
 {%- for style in dynamics.styles -%}
 <link href="{{style}}?v={{meta.buildDate|isoDate}}" rel="stylesheet">
 {%- endfor -%}
@@ -49,3 +51,5 @@
 {% endif %}
 <style>
 </style>
+
+<script defer src="/scripts/pk-ui.js"></script>

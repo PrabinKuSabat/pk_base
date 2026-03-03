@@ -1,55 +1,72 @@
+/* =============================================================
+   pk-fixes.css  — Ring0Ledger global overrides
+   Fonts loaded via <link> in pageheader.njk
+   ============================================================= */
+
+/* ── Design tokens ─────────────────────────────────────────── */
 :root {
-  --pk-navbar-h: 56px;
-  --pk-accent: #1B262C;
+  --pk-navbar-h:  56px;
+  --pk-accent:    #1a4a6b;
+  --pk-accent-lt: #2980b9;
+  --pk-border:    #c8dff0;
+  --pk-text:      #0f172a;
+  --pk-muted:     #4a647a;
+
+  --pk-font-ui:   'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --pk-font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --pk-font-head: 'Fraunces', Georgia, serif;
+  --pk-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
   --rzl-progress-pct: 0%;
 }
 
-/* ── Scrollbar & layout ─────────────────────────────── */
-html, body {
-  height: auto;
-  overflow: auto;
-}
-
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main.content {
-  flex: 1;
-  min-height: 0;
-}
-
-/* ── Global progress bar (always visible, fixed at top) */
+/* ── Progress bar: fixed to top, always visible ─────────────── */
 html::before {
-  content: "";
+  content: '';
   position: fixed;
   top: 0;
   left: 0;
   height: 2px;
   width: var(--rzl-progress-pct, 0%);
-  background: var(--pk-accent);
+  background: var(--pk-accent-lt);
   z-index: 9999;
   pointer-events: none;
   transition: width 80ms linear;
 }
 
-/* ── Hide the floating plugin Theme pill ──────────────── */
+/* ── Global scroll ──────────────────────────────────────────── */
+/*
+  IMPORTANT: Do NOT add display:flex/grid to body here.
+  The Digital Garden base CSS already sets up the body as a flex row
+  (main + sidebar). Adding our own flex-column would break that layout
+  and make only the sidebar scrollable.
+*/
+html {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+body {
+  /* Just add top padding for the fixed navbar — let DG handle the rest */
+  padding-top: var(--pk-navbar-h);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Excalidraw/canvas pages need overflow:hidden so the canvas sizes to viewport */
+body:has(main.canvas-page) {
+  overflow: hidden !important;
+}
+
+/* ── Hide the floating plugin Theme pill ────────────────────── */
 .rzl-header-actions,
 .theme-toggle-wrapper,
-[class*="theme-toggle"],
-.dg-theme-toggle {
+.dg-theme-toggle,
+[data-tippy-content="Toggle theme"] {
   display: none !important;
 }
 
-/* Also target the specific pill rendered by the plugin */
-body > button:not(.pk-theme-btn),
-body > .theme-btn {
-  display: none !important;
-}
-
-/* ── Navbar ────────────────────────────────────────── */
+/* ── Navbar ─────────────────────────────────────────────────── */
 .pk-navbar {
   position: fixed;
   top: 0;
@@ -59,19 +76,14 @@ body > .theme-btn {
   transform: translateY(0);
   transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-/* Body offset so content is never under the navbar */
-body {
-  padding-top: var(--pk-navbar-h);
-}
-
-/* Slide up when scrolling down */
 .pk-navbar.pk-nav-hidden {
   transform: translateY(-100%);
 }
 
-/* Reveal on top-hover (JS adds .pk-nav-peek to body) */
 body.pk-nav-peek .pk-navbar {
   transform: translateY(0) !important;
 }
@@ -80,7 +92,7 @@ body.pk-nav-peek .pk-navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 18px;
+  padding: 0 24px;
   height: var(--pk-navbar-h);
   gap: 14px;
 }
@@ -92,28 +104,30 @@ body.pk-nav-peek .pk-navbar {
 }
 
 .pk-site-name {
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: 0.01em;
+  font-family: var(--pk-font-ui);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
 }
 
 .pk-navlinks {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 22px;
 }
 
 .pk-navlink {
+  font-family: var(--pk-font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
   text-decoration: none;
   color: inherit;
-  font-size: 0.9rem;
-  opacity: 0.75;
+  opacity: 0.7;
+  letter-spacing: 0.01em;
   transition: opacity 140ms;
 }
 
-.pk-navlink:hover {
-  opacity: 1;
-}
+.pk-navlink:hover { opacity: 1; }
 
 .pk-nav-actions {
   display: flex;
@@ -122,32 +136,102 @@ body.pk-nav-peek .pk-navbar {
   flex-shrink: 0;
 }
 
-/* Theme toggle button */
 .pk-theme-btn {
   background: transparent;
   border: none;
   padding: 6px;
   cursor: pointer;
   color: inherit;
-  opacity: 0.75;
+  opacity: 0.65;
   transition: opacity 140ms;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 6px;
+  line-height: 0;
 }
 
-.pk-theme-btn:hover {
-  opacity: 1;
+.pk-theme-btn:hover { opacity: 1; }
+
+/* ── Typography ─────────────────────────────────────────────── */
+
+/* Body reading text */
+body {
+  font-family: var(--pk-font-body);
+  font-size: 1.0625rem;
+  line-height: 1.82;
+  color: var(--pk-text);
+  font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
-/* ── Footer ────────────────────────────────────────── */
+/* UI chrome: navbar, footer, sidebar labels, tags, timestamps */
+.pk-navbar,
+.pk-footer,
+.header-meta,
+.tag,
+.timestamps,
+.search-button,
+.graph-title,
+.backlink-title,
+.sidebar-title,
+label {
+  font-family: var(--pk-font-ui);
+}
+
+/* Post/note headings */
+.cm-s-obsidian h1,
+.cm-s-obsidian h2,
+.cm-s-obsidian h3,
+h1, h2, h3 {
+  font-family: var(--pk-font-head);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  color: var(--pk-text);
+}
+
+h1 { font-size: clamp(1.75rem, 4vw, 2.5rem);  margin-bottom: 0.45em; }
+h2 { font-size: clamp(1.25rem, 3vw, 1.75rem); margin-top: 2.2em; margin-bottom: 0.45em; }
+h3 { font-size: clamp(1.1rem,  2vw, 1.3rem);  margin-top: 1.6em;  margin-bottom: 0.4em; }
+
+h4, h5, h6 {
+  font-family: var(--pk-font-ui);
+  font-weight: 600;
+}
+
+/* Inline code */
+code:not(pre code) {
+  font-family: var(--pk-font-mono);
+  font-size: 0.84em;
+  padding: 0.1em 0.38em;
+  border-radius: 4px;
+}
+
+/* Code blocks */
+pre, pre code {
+  font-family: var(--pk-font-mono);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+/* Reading meta (min read, word count) */
+.reading-time,
+.word-count,
+.note-meta {
+  font-family: var(--pk-font-ui);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  opacity: 0.6;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+nav.rzl-footer-mini { display: none !important; }
+
 .pk-footer {
-  margin-top: auto;
-}
-
-nav.rzl-footer-mini {
-  display: none !important;
+  padding: 20px 0 14px;
+  border-top: 1px solid var(--pk-border);
+  margin-top: 3rem;
+  width: 100%;
 }
 
 .pk-footer-links {
@@ -156,25 +240,51 @@ nav.rzl-footer-mini {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: 20px 16px;
+  padding: 4px 16px 10px;
 }
 
 .pk-footer-links a {
   display: inline-flex;
-  gap: 7px;
+  gap: 6px;
   align-items: center;
   text-decoration: none;
   color: inherit;
-  opacity: 0.7;
+  font-family: var(--pk-font-ui);
   font-size: 0.875rem;
+  opacity: 0.65;
   transition: opacity 140ms;
 }
 
-.pk-footer-links a:hover {
-  opacity: 1;
+.pk-footer-links a:hover { opacity: 1; }
+
+.pk-footer-links .svg-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
-/* ── Graph view safe z-index ───────────────────────── */
+.pk-footer-college {
+  text-align: center;
+  font-family: var(--pk-font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  margin-top: 6px;
+  padding-bottom: 4px;
+}
+
+.pk-footer-college a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.pk-footer-college a:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+/* ── Graph/canvas layout ────────────────────────────────────── */
 .graph-page,
 .graph-wrapper,
 #graph {

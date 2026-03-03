@@ -1,27 +1,25 @@
-
+// custom-style.scss
+// Typography spacing tweaks that complement pk-fixes.css
 
 body {
-  line-height: 1.55;
-     /* Better link spacing */
-     li {
-       margin-bottom: 4px;
-     }
-     
-     /* Section separation */
-     h2 {
-       border-bottom: 1px solid #1e1e1e;
-       padding-bottom: 4px;
-     }
-     
-     /* Subtle hover effect */
-     a:hover {
-       opacity: 0.85;
-     }
-     @media (min-width: 1400px) {
-         .content {
-             flex-direction: row-reverse !important;
-         }
-     }
+  li {
+    margin-bottom: 5px;
+  }
+
+  // Section h2 dividers — matches pk-fixes.css border color
+  .cm-s-obsidian h2 {
+    border-bottom: 1px solid #c8dff0;
+    padding-bottom: 0.2em;
+  }
+
+  a:hover {
+    opacity: 0.85;
+  }
+
+  // Wide-screen: sidebar on left (DG default is right)
+  @media (min-width: 1400px) {
+    .content {
+      flex-direction: row-reverse !important;
+    }
+  }
 }
-
-

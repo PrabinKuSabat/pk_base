@@ -3,31 +3,46 @@
   --pk-accent: #1B262C;
 }
 
+/* Ensure page can scroll */
+html, body{
+  height: auto;
+  overflow: auto;
+}
+
+/* Layout: footer at bottom */
 body{
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Footer should never float to top */
 main.content{
   flex: 1;
+  min-height: 0;
 }
 
-.pk-footer{
-  margin-top: auto;
-}
-
-/* If some injected mini footer still exists somewhere, hide it */
+/* If any old mini-footer is still injected somewhere, hide it */
 nav.rzl-footer-mini{
   display: none !important;
 }
 
-/* Navbar layout + progress bar */
+/* Navbar */
 .pk-navbar{
   position: sticky;
   top: 0;
   z-index: 1000;
+  transform: translateY(0);
+  transition: transform 180ms ease;
+  will-change: transform;
+}
+
+.pk-navbar.is-hidden{
+  transform: translateY(calc(-1 * var(--pk-navbar-h)));
+}
+
+/* Show navbar when user hovers near top region (JS sets .pk-nav-peek on <body>) */
+body.pk-nav-peek .pk-navbar{
+  transform: translateY(0) !important;
 }
 
 .pk-navbar-inner{
@@ -50,6 +65,12 @@ nav.rzl-footer-mini{
   gap: 14px;
 }
 
+.pk-nav-actions{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .pk-navlink{
   text-decoration: none;
   color: inherit;
@@ -60,15 +81,7 @@ nav.rzl-footer-mini{
   opacity: 1;
 }
 
-.pk-theme-toggle{
-  background: transparent;
-  border: 0;
-  padding: 6px;
-  cursor: pointer;
-  line-height: 0;
-}
-
-/* Scroll progress uses the CSS variable already seen in your DOM: --rzl-progress-pct */
+/* Progress bar uses --rzl-progress-pct which your DOM already uses */
 .pk-navbar::after{
   content:"";
   position:absolute;
@@ -79,7 +92,11 @@ nav.rzl-footer-mini{
   background: var(--pk-accent);
 }
 
-/* Contact footer */
+/* Footer */
+.pk-footer{
+  margin-top: auto;
+}
+
 .pk-footer-links{
   display: flex;
   gap: 14px;
@@ -97,19 +114,4 @@ nav.rzl-footer-mini{
   color: inherit;
   opacity: 0.9;
 }
-
-.pk-footer-links a:hover{
-  opacity: 1;
-}
-
-/* Graph view: ensure content has room below sticky navbar */
-.graph-page,
-.graph-wrapper,
-#graph{
-  position: relative;
-  z-index: 1;
-}
-
-main.content{
-  scroll-margin-top: var(--pk-navbar-h);
-}
+.pk-footer-links a:hover{ opacity: 1; }

@@ -1,28 +1,5 @@
 (function () {
-  const THEME_KEY = "pk_theme";
-  const root = document.documentElement;
-
-  function getPreferredTheme() {
-    const saved = localStorage.getItem(THEME_KEY);
-    if (saved === "light" || saved === "dark") return saved;
-    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
-  }
-
-  function applyTheme(theme) {
-    root.dataset.theme = theme;
-    localStorage.setItem(THEME_KEY, theme);
-  }
-
-  function toggleTheme() {
-    const current = root.dataset.theme || getPreferredTheme();
-    applyTheme(current === "dark" ? "light" : "dark");
-  }
-
-  function setupThemeToggle() {
-    applyTheme(getPreferredTheme());
-    const btn = document.querySelector(".pk-theme-toggle");
-    if (btn) btn.addEventListener("click", toggleTheme);
-  }
+  const NAV_PEEK_PX = 72;
 
   function setupProgress() {
     const navbar = document.querySelector(".pk-navbar");
@@ -41,8 +18,58 @@
     window.addEventListener("resize", update);
   }
 
+  function setupHideOnScroll() {
+    const navbar = document.querySelector(".pk-navbar");
+    if (!navbar) return;
+
+    let lastY = window.scrollY || 0;
+    let ticking = false;
+
+    const onScroll = () => {
+      const y = window.scrollY || 0;
+      const goingDown = y > lastY;
+      const nearTop = y < 10;
+
+      if (nearTop) {
+        navbar.classList.remove("is-hidden");
+      } else if (goingDown) {
+        navbar.classList.add("is-hidden");
+      } else {
+        navbar.classList.remove("is-hidden");
+      }
+
+      lastY = y;
+      ticking = false;
+    };
+
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  function setupTopPeek() {
+    const body = document.body;
+    let peek = false;
+
+    const setPeek = (v) => {
+      if (peek === v) return;
+      peek = v;
+      body.classList.toggle("pk-nav-peek", v);
+    };
+
+    window.addEventListener("mousemove", (e) => {
+      setPeek(e.clientY <= NAV_PEEK_PX);
+    }, { passive: true });
+
+    window.addEventListener("mouseleave", () => setPeek(false));
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
-    setupThemeToggle();
     setupProgress();
+    setupHideOnScroll();
+    setupTopPeek();
   });
 })();

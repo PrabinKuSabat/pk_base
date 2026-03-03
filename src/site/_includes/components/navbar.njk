@@ -1,25 +1,25 @@
 <nav class="navbar pk-navbar" aria-label="Primary">
   <div class="navbar-inner pk-navbar-inner">
-    <a class="pk-brand" href="/" style="text-decoration: none;">
+    <a class="pk-brand" href="/" aria-label="Home">
       {% if meta.siteLogoPath %}
         <img class="site-logo" src="{{meta.siteLogoPath}}" alt="{{meta.siteName}}">
       {% else %}
-        <span class="pk-site-name">{{meta.siteName}}</span>
+        <span class="pk-site-name">{{ meta.siteName }}</span>
       {% endif %}
     </a>
 
-    <div class="pk-navlinks" role="navigation" aria-label="Site links">
+    <div class="pk-navlinks" aria-label="Site links">
       <a class="pk-navlink" href="/">Now</a>
       <a class="pk-navlink" href="/projects/">Projects</a>
       <a class="pk-navlink" href="#contact">Contact</a>
-
-      <button class="pk-navlink pk-theme-toggle" type="button" aria-label="Toggle theme">
-        <i data-lucide="sun-moon"></i>
-      </button>
     </div>
 
-    {% if settings.dgEnableSearch === true %}
-      {% include "components/searchButton.njk" %}
-    {% endif %}
+    <div class="pk-nav-actions">
+      {# Keep only ONE theme control: use existing "Theme" pill elsewhere, so remove the icon toggle here #}
+
+      {% if settings.dgEnableSearch === true %}
+        {% include "components/searchButton.njk" %}
+      {% endif %}
+    </div>
   </div>
 </nav>

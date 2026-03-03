@@ -1,4 +1,4 @@
-/* Excalidraw-only fullscreen:
+/* Excalidraw-only fullscreen::
    Applies ONLY on pages that contain an Excalidraw render.
    Uses :has() to scope styles to those pages. [web:59][web:60]
 */

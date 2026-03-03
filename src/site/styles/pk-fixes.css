@@ -1,118 +1,183 @@
-:root{
-  --pk-navbar-h: 58px;
+:root {
+  --pk-navbar-h: 56px;
   --pk-accent: #1B262C;
   --rzl-progress-pct: 0%;
 }
 
-/* Always-visible progress bar (persists even if navbar hides) */
-html::before{
-  content:"";
+/* ── Scrollbar & layout ─────────────────────────────── */
+html, body {
+  height: auto;
+  overflow: auto;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main.content {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Global progress bar (always visible, fixed at top) */
+html::before {
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
   height: 2px;
   width: var(--rzl-progress-pct, 0%);
   background: var(--pk-accent);
-  z-index: 2000;
+  z-index: 9999;
   pointer-events: none;
+  transition: width 80ms linear;
 }
 
-body{
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Footer should never float to top */
-main.content{
-  flex: 1;
-}
-
-.pk-footer{
-  margin-top: auto;
-}
-
-/* If some injected mini footer still exists somewhere, hide it */
-nav.rzl-footer-mini{
+/* ── Hide the floating plugin Theme pill ──────────────── */
+.rzl-header-actions,
+.theme-toggle-wrapper,
+[class*="theme-toggle"],
+.dg-theme-toggle {
   display: none !important;
 }
 
-/* Navbar layout (no progress here anymore) */
-.pk-navbar{
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+/* Also target the specific pill rendered by the plugin */
+body > button:not(.pk-theme-btn),
+body > .theme-btn {
+  display: none !important;
 }
 
-.pk-navbar-inner{
+/* ── Navbar ────────────────────────────────────────── */
+.pk-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transform: translateY(0);
+  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Body offset so content is never under the navbar */
+body {
+  padding-top: var(--pk-navbar-h);
+}
+
+/* Slide up when scrolling down */
+.pk-navbar.pk-nav-hidden {
+  transform: translateY(-100%);
+}
+
+/* Reveal on top-hover (JS adds .pk-nav-peek to body) */
+body.pk-nav-peek .pk-navbar {
+  transform: translateY(0) !important;
+}
+
+.pk-navbar-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 18px;
+  height: var(--pk-navbar-h);
   gap: 14px;
 }
 
-.pk-site-name{
-  display: inline-block;
-  margin: 15px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
-
-.pk-navlinks{
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.pk-navlink{
+.pk-brand {
   text-decoration: none;
   color: inherit;
-  opacity: 0.9;
+  flex-shrink: 0;
 }
 
-.pk-navlink:hover{
+.pk-site-name {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+}
+
+.pk-navlinks {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.pk-navlink {
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.9rem;
+  opacity: 0.75;
+  transition: opacity 140ms;
+}
+
+.pk-navlink:hover {
   opacity: 1;
 }
 
-.pk-theme-toggle{
-  background: transparent;
-  border: 0;
-  padding: 6px;
-  cursor: pointer;
-  line-height: 0;
+.pk-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
-/* Contact footer */
-.pk-footer-links{
+/* Theme toggle button */
+.pk-theme-btn {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.75;
+  transition: opacity 140ms;
   display: flex;
-  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.pk-theme-btn:hover {
+  opacity: 1;
+}
+
+/* ── Footer ────────────────────────────────────────── */
+.pk-footer {
+  margin-top: auto;
+}
+
+nav.rzl-footer-mini {
+  display: none !important;
+}
+
+.pk-footer-links {
+  display: flex;
+  gap: 20px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: 18px 12px;
+  padding: 20px 16px;
 }
 
-.pk-footer-links a{
+.pk-footer-links a {
   display: inline-flex;
-  gap: 8px;
+  gap: 7px;
   align-items: center;
   text-decoration: none;
   color: inherit;
-  opacity: 0.9;
+  opacity: 0.7;
+  font-size: 0.875rem;
+  transition: opacity 140ms;
 }
 
-.pk-footer-links a:hover{
+.pk-footer-links a:hover {
   opacity: 1;
 }
 
-/* Graph view: ensure content has room below sticky navbar */
+/* ── Graph view safe z-index ───────────────────────── */
 .graph-page,
 .graph-wrapper,
-#graph{
+#graph {
   position: relative;
   z-index: 1;
-}
-
-main.content{
-  scroll-margin-top: var(--pk-navbar-h);
 }

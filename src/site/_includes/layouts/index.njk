@@ -28,7 +28,6 @@
         {% if settings.dgShowInlineTitle === true %}
           <h1>{{ noteTitle }}</h1>
         {% endif %}
-
         <div class="header-meta">
           {% if settings.dgShowTags === true and tags %}
             <div class="header-tags">
@@ -42,7 +41,6 @@
             </div>
           {% endif %}
         </div>
-
         {% for imp in dynamics.common.header %}
           {% include imp %}
         {% endfor %}
@@ -78,8 +76,6 @@
 
     {% include "components/references.njk" %}
     {% include "components/timestamps.njk" %}
-
-    {# Global Contact footer (only) #}
     {% include "components/footer-contact.njk" %}
 
     {%include "components/lucideIcons.njk"%}

@@ -1,0 +1,37 @@
+/* 00 — Core tokens (layout, type, sizing) */
+body {
+  --font-interface: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  --font-text: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+
+  --dg-content-font-size: 16.5px !important;
+  --dg-content-line-height: 1.65 !important;
+
+  --dg-filetree-min-width: 0px !important;
+  --dg-filetree-width: 0px !important;
+  --dg-filetree-gap: 28px !important;
+
+  --rzl-gutter: 40px;
+  --rzl-gutter-2: 80px;
+  --rzl-reading-max: 1000px;
+
+  --dg-content-max-width: min(
+    var(--rzl-reading-max),
+    calc(100vw - var(--dg-sidebar-max-width) - var(--dg-sidebar-gap) - var(--rzl-gutter-2))
+  ) !important;
+
+  --file-line-width: var(--dg-content-max-width) !important;
+
+  --rzl-radius-xl: 16px;
+  --rzl-radius-l: 12px;
+  --rzl-shadow-soft: 0 10px 30px rgba(27, 38, 44, 0.10);
+  --rzl-shadow-soft-2: 0 8px 24px rgba(27, 38, 44, 0.08);
+
+  /* Used by Excalidraw viewport math + navbar sizing */
+  --rzl-navbar-height: 38px;
+}
+
+/* DG graph vars supported by template */
+body {
+  --graph-main: #3282B8 !important;
+  --graph-muted: rgba(15, 76, 117, 0.35) !important;
+}

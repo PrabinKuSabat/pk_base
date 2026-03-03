@@ -1,0 +1,61 @@
+/* 20 — Content layout + typography */
+.filetree-wrapper,
+.filetree-sidebar {
+  display: none !important;
+}
+
+.content {
+  background: var(--rzl-surface) !important;
+  border: 1px solid var(--background-modifier-border) !important;
+  border-radius: var(--rzl-radius-xl) !important;
+  box-shadow: var(--rzl-shadow-soft) !important;
+
+  padding: clamp(18px, 2.2vw, 28px) clamp(18px, 3vw, 44px) !important;
+  margin-top: 20px !important;
+  max-width: var(--dg-content-max-width) !important;
+}
+
+.content h1 {
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--text-normal) !important;
+  border-bottom: 1px solid var(--background-modifier-border) !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 22px !important;
+}
+
+.content h2,
+.content h3 {
+  font-weight: 700 !important;
+  color: var(--text-normal) !important;
+  letter-spacing: -0.01em !important;
+}
+
+.content a {
+  color: var(--text-accent) !important;
+  text-decoration-color: rgba(50, 130, 184, 0.45) !important;
+}
+.content a:hover {
+  color: var(--text-accent-hover) !important;
+  text-decoration-color: rgba(15, 76, 117, 0.65) !important;
+}
+
+blockquote {
+  border-left: 3px solid var(--interactive-accent) !important;
+  background: var(--rzl-surface-2) !important;
+  color: var(--text-muted) !important;
+  padding: 12px 18px !important;
+  border-radius: 0 10px 10px 0 !important;
+}
+
+pre,
+code {
+  border-radius: 10px !important;
+}
+pre {
+  border: 1px solid var(--background-modifier-border) !important;
+  background: rgba(27, 38, 44, 0.06) !important;
+}
+body.theme-dark pre {
+  background: rgba(187, 225, 250, 0.06) !important;
+}

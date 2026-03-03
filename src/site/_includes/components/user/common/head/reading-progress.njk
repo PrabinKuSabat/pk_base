@@ -1,5 +1,29 @@
-<div class="rzl-progress" aria-hidden="true">
-  <div class="rzl-progress__bar" id="rzlProgressBar"></div>
-</div>
+{# Apply theme ASAP (prevents flash) #}
+<script>
+  (() => {
+    try {
+      const saved = localStorage.getItem("rzl-theme"); // "light" | "dark" | null
+      const prefersDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-<script src="/scripts/reading-progress.js"></script>
+      const theme = saved || (prefersDark ? "dark" : "light");
+
+      // In head, body may not exist yet; set on <html> now, and body later.
+      const root = document.documentElement;
+      root.classList.toggle("theme-dark", theme === "dark");
+      root.classList.toggle("theme-light", theme !== "dark");
+
+      const applyToBody = () => {
+        if (!document.body) return;
+        document.body.classList.toggle("theme-dark", theme === "dark");
+        document.body.classList.toggle("theme-light", theme !== "dark");
+      };
+
+      if (document.body) applyToBody();
+      else document.addEventListener("DOMContentLoaded", applyToBody, { once: true });
+    } catch (e) {}
+  })();
+</script>
+
+<script src="/scripts/rzl.js"></script>

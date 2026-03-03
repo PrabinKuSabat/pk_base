@@ -1,0 +1,311 @@
+/* =========================================================
+   RING ZERO LEDGER — Unified theme + layout
+   Put this in: src/site/styles/user/zzz-rzl-theme.scss
+   ========================================================= */
+
+/* 0) Core tokens + layout variables (MUST be on body) */
+body {
+  /* Typography */
+  --font-interface: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  --font-text: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+
+  /* Make 100% zoom feel less “big” */
+  --dg-content-font-size: 16.5px !important;
+  --dg-content-line-height: 1.65 !important;
+
+  /* Left file tree: remove reservation */
+  --dg-filetree-min-width: 0px !important;
+  --dg-filetree-width: 0px !important;
+  --dg-filetree-gap: 28px !important;
+
+  /* Page gutters + max reading width (prevents content becoming too wide) */
+  --rzl-gutter: 40px;
+  --rzl-gutter-2: 80px; /* left+right */
+  --rzl-reading-max: 980px;
+
+  /* KEY: content width (leave room for right sidebar, but cap for readability) */
+  --dg-content-max-width: min(
+    var(--rzl-reading-max),
+    calc(100vw - var(--dg-sidebar-max-width) - var(--dg-sidebar-gap) - var(--rzl-gutter-2))
+  ) !important;
+
+  /* Some Obsidian-derived layouts use this variable for readable width */
+  --file-line-width: var(--dg-content-max-width) !important;
+}
+
+/* 1) Natural + elegant palette */
+body.theme-light,
+body {
+  --background-primary: #fcfbf8 !important;
+  --background-primary-alt: #f4f2ec !important;
+  --background-secondary: #f4f2ec !important;
+
+  --text-normal: #3a3532 !important;
+  --text-muted: #7a726a !important;
+  --text-faint: #a69e95 !important;
+
+  --text-accent: #648270 !important;
+  --text-accent-hover: #4d6657 !important;
+  --interactive-accent: #648270 !important;
+  --interactive-accent-hover: #4d6657 !important;
+
+  --background-modifier-border: #e8e4db !important;
+  --background-modifier-border-hover: #d6d0c4 !important;
+  --background-modifier-hover: rgba(100, 130, 112, 0.08) !important;
+
+  /* Graph */
+  --graph-line: #e8e4db !important;
+  --graph-node: #a69e95 !important;
+  --graph-node-focused: #648270 !important;
+
+  /* Surfaces (cards) */
+  --rzl-surface: #fffefc;
+  --rzl-surface-2: #f4f2ec;
+  --rzl-shadow: 0 10px 30px rgba(58, 53, 50, 0.05);
+}
+
+body.theme-dark {
+  --background-primary: #1c1b1a !important;
+  --background-primary-alt: #242220 !important;
+  --background-secondary: #242220 !important;
+
+  --text-normal: #e8e4db !important;
+  --text-muted: #a69e95 !important;
+  --text-faint: #7a726a !important;
+
+  --text-accent: #8ba897 !important;
+  --text-accent-hover: #a5c2b1 !important;
+  --interactive-accent: #8ba897 !important;
+  --interactive-accent-hover: #a5c2b1 !important;
+
+  --background-modifier-border: #3a3532 !important;
+  --background-modifier-border-hover: #4a4540 !important;
+  --background-modifier-hover: rgba(139, 168, 151, 0.1) !important;
+
+  --graph-line: #3a3532 !important;
+  --graph-node: #7a726a !important;
+  --graph-node-focused: #8ba897 !important;
+
+  --rzl-surface: #23211f;
+  --rzl-surface-2: #2b2826;
+  --rzl-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* 2) Hide left file tree UI completely */
+.filetree-wrapper,
+.filetree-sidebar {
+  display: none !important;
+}
+
+/* 3) Content card (modern, but not oversized) */
+.content {
+  background: var(--rzl-surface) !important;
+  border: 1px solid var(--background-modifier-border) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--rzl-shadow) !important;
+
+  /* Less “huge” than 40/60, and responsive */
+  padding: clamp(18px, 2.2vw, 28px) clamp(18px, 3vw, 44px) !important;
+  margin-top: 28px !important;
+
+  /* Ensure your max width actually applies visually */
+  max-width: var(--dg-content-max-width) !important;
+}
+
+/* Headings */
+.content h1 {
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--text-normal) !important;
+  border-bottom: 1px solid var(--background-modifier-border) !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 22px !important;
+}
+
+.content h2,
+.content h3 {
+  font-weight: 700 !important;
+  color: var(--text-normal) !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Links */
+.content a,
+.sidebar a {
+  color: var(--text-accent) !important;
+}
+.content a:hover,
+.sidebar a:hover {
+  color: var(--text-accent-hover) !important;
+}
+
+/* Blockquote (elegant) */
+blockquote {
+  border-left: 3px solid var(--interactive-accent) !important;
+  background: var(--rzl-surface-2) !important;
+  color: var(--text-muted) !important;
+  padding: 12px 18px !important;
+  border-radius: 0 10px 10px 0 !important;
+}
+
+/* 4) Right sidebar cards */
+.sidebar {
+  background: transparent !important;
+}
+.sidebar .section {
+  background: var(--rzl-surface) !important;
+  border: 1px solid var(--background-modifier-border) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  margin-bottom: 16px !important;
+  box-shadow: 0 8px 24px rgba(58, 53, 50, 0.04) !important;
+}
+
+.sidebar h3 {
+  font-size: 0.85rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--text-faint) !important;
+  margin-top: 0 !important;
+  border-bottom: 1px solid var(--background-modifier-border) !important;
+  padding-bottom: 10px !important;
+}
+
+/* Sidebar link interaction (subtle) */
+.sidebar a {
+  display: block !important;
+  padding: 6px 10px !important;
+  border-radius: 8px !important;
+  transition: background-color 160ms ease, transform 160ms ease !important;
+  text-decoration: none !important;
+}
+.sidebar a:hover {
+  background-color: var(--background-modifier-hover) !important;
+  transform: translateX(2px) !important;
+}
+
+/* 5) Graph container polish */
+.graph-view-wrapper {
+  background: var(--rzl-surface) !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--background-modifier-border) !important;
+  box-shadow: 0 8px 24px rgba(58, 53, 50, 0.04) !important;
+  overflow: hidden !important;
+}
+
+/* 6) Glass navbar (keep it, but match palette) */
+.navbar {
+  background: rgba(252, 251, 248, 0.72) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid var(--background-modifier-border) !important;
+}
+body.theme-dark .navbar {
+  background: rgba(28, 27, 26, 0.72) !important;
+}
+.navbar .site-title {
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--text-normal) !important;
+}
+
+/* 7) Desktop/Tablet/Mobile layout alignment */
+@media (min-width: 1401px) {
+  /* Keep right sidebar pinned (don’t use `.sidebar` generically for layout) */
+  .sidebar.right,
+  aside.sidebar.right,
+  .sidebar-right {
+    left: auto !important;
+    right: var(--rzl-gutter) !important;
+  }
+}
+
+@media (max-width: 1400px) {
+  body {
+    --rzl-gutter: 28px;
+    --rzl-gutter-2: 56px;
+    --dg-filetree-gap: 20px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  body {
+    --rzl-gutter: 18px;
+    --rzl-gutter-2: 36px;
+    --dg-filetree-gap: 16px !important;
+    --rzl-reading-max: 1000px; /* effectively “full” on mobile */
+  }
+  .content {
+    margin-top: 16px !important;
+    border-radius: 14px !important;
+  }
+}
+
+/* =========================================================
+   Excalidraw fullscreen (scoped, non-conflicting)
+   ========================================================= */
+
+:root { --rzl-navbar-height: 64px; }
+
+body:has(.excalidraw-svg) {
+  --dg-filetree-min-width: 0px !important;
+  --dg-filetree-width: 0px !important;
+  --dg-filetree-gap: 0px !important;
+
+  --dg-content-max-width: 100vw !important;
+  --file-line-width: 100% !important;
+}
+
+body:has(.excalidraw-svg) .filetree-wrapper,
+body:has(.excalidraw-svg) .filetree-sidebar {
+  display: none !important;
+}
+
+body:has(.excalidraw-svg) .sidebar.right,
+body:has(.excalidraw-svg) aside.sidebar.right,
+body:has(.excalidraw-svg) .sidebar-right {
+  display: none !important;
+}
+
+body:has(.excalidraw-svg) .page-wrapper,
+body:has(.excalidraw-svg) .main-content-wrapper,
+body:has(.excalidraw-svg) .page-body,
+body:has(.excalidraw-svg) .content,
+body:has(.excalidraw-svg) .markdown-preview-view,
+body:has(.excalidraw-svg) .markdown-rendered,
+body:has(.excalidraw-svg) .markdown-preview-sizer {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 100vw !important;
+  width: 100vw !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+body:has(.excalidraw-svg) header,
+body:has(.excalidraw-svg) nav,
+body:has(.excalidraw-svg) .site-header,
+body:has(.excalidraw-svg) .navbar {
+  position: static !important;
+  top: auto !important;
+}
+
+body:has(.excalidraw-svg) .excalidraw-wrapper,
+body:has(.excalidraw-svg) div[class*="excalidraw"] {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: calc(100vh - var(--rzl-navbar-height)) !important;
+  max-height: calc(100vh - var(--rzl-navbar-height)) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+body:has(.excalidraw-svg) .excalidraw-svg,
+body:has(.excalidraw-svg) .excalidraw-svg svg {
+  width: 100% !important;
+  height: 100% !important;
+}

@@ -3,7 +3,6 @@
    Fonts loaded via <link> in pageheader.njk
    ============================================================= */
 
-/* ── Design tokens ─────────────────────────────────────────── */
 :root {
   --pk-navbar-h:  56px;
   --pk-accent:    #1a4a6b;
@@ -18,17 +17,13 @@
   --pk-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   --rzl-progress-pct: 0%;
-
-  /* Footer seal color defaults (light theme) */
   --pk-seal-color: var(--pk-accent);
 }
 
-/* Dark theme adjustments */
 body.theme-dark {
   --pk-seal-color: rgba(255, 255, 255, 0.92);
 }
 
-/* ── Progress bar: fixed at very top, z-index above everything ── */
 html::before {
   content: '';
   position: fixed;
@@ -42,11 +37,6 @@ html::before {
   transition: width 80ms linear;
 }
 
-/* ── SCROLL FIX ───────────────────────────────────────────
-  obsidian-base.scss sets html/body overflow:hidden.
-  We override aggressively so the whole page scrolls via html.
-  DO NOT set display:flex on body — DG has its own layout.
-*/
 html {
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -76,7 +66,6 @@ body:has(main.canvas-page) {
   padding-top: 0 !important;
 }
 
-/* ── Hide the floating plugin Theme pill ────────────────────── */
 .rzl-header-actions,
 .theme-toggle-wrapper,
 .dg-theme-toggle,
@@ -84,7 +73,6 @@ body:has(main.canvas-page) {
   display: none !important;
 }
 
-/* ── Navbar ─────────────────────────────────────────────────── */
 .pk-navbar {
   position: fixed;
   top: 0;
@@ -182,7 +170,6 @@ body.theme-dark .pk-logo { color: currentColor; }
 }
 .pk-theme-btn:hover { opacity: 1; }
 
-/* ── Typography ─────────────────────────────────────────────── */
 body {
   font-family: var(--pk-font-body);
   font-size: 1.0625rem;
@@ -234,7 +221,6 @@ pre, pre code {
   line-height: 1.65;
 }
 
-/* ── Footer ─────────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
 
 .pk-footer {
@@ -242,6 +228,26 @@ nav.rzl-footer-mini { display: none !important; }
   text-align: center;
   margin-top: 4rem;
   overflow: hidden;
+  /* Make footer look full-bleed even though sidebar exists */
+  position: relative;
+  z-index: 5;
+}
+
+/* Hide sidebar when footer is in view (uses :has if available) */
+@supports selector(body:has(.pk-footer)) {
+  body:has(.pk-footer:is(:hover, :focus-within)) .sidebar {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* Robust approach: make footer cover the sidebar region visually */
+.pk-footer::before {
+  content: '';
+  position: absolute;
+  inset: -40px -50vw -40px -50vw;
+  background: var(--background-primary);
+  z-index: -1;
 }
 
 .pk-footer-institute {
@@ -253,7 +259,6 @@ nav.rzl-footer-mini { display: none !important; }
   padding: 0 16px;
 }
 
-/* The recolorable seal using CSS mask-image */
 .pk-footer-seal {
   width: 88px;
   height: 88px;

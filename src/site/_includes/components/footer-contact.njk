@@ -2,15 +2,19 @@
 
   {# ── Institute section ──────────────────────────────────────── #}
   <div class="pk-footer-institute">
-    {#
-      Save your original building image to:
-      src/site/img/sssihl-building.jpg
-      The CSS uses mix-blend-mode to make the black background transparent.
-    #}
+    <!-- Light theme image (hidden in dark mode via CSS) -->
     <img
-      src="/img/sssihl-building.jpg"
+      src="/img/sssihl-dark.png"
       alt="Sri Sathya Sai Institute of Higher Learning — Prasanthi Nilayam"
-      class="pk-footer-building"
+      class="pk-footer-building light-img"
+      loading="lazy"
+      draggable="false"
+    >
+    <!-- Dark theme image (hidden in light mode via CSS) -->
+    <img
+      src="/img/sssihl-white.png"
+      alt="Sri Sathya Sai Institute of Higher Learning — Prasanthi Nilayam"
+      class="pk-footer-building dark-img"
       loading="lazy"
       draggable="false"
     >

@@ -5,7 +5,20 @@
       {% if meta.siteLogoPath %}
         <img class="site-logo" src="{{meta.siteLogoPath}}" alt="{{meta.siteName}}">
       {% else %}
-        <span class="pk-site-name">{{ meta.siteName }}</span>
+        <svg class="pk-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" color="currentColor">
+          <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="0.9" stroke-dasharray="3 2.8" opacity="0.28"/>
+          <circle cx="24" cy="24" r="14" stroke="currentColor" stroke-width="1.6" opacity="0.6"/>
+          <circle cx="24" cy="24" r="7.5" stroke="currentColor" stroke-width="2.6"/>
+          <circle cx="24" cy="24" r="2.8" fill="currentColor"/>
+          <line x1="24" y1="16.4" x2="24" y2="13.2" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="31.6" y1="24" x2="34.8" y2="24" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="24" y1="31.6" x2="24" y2="34.8" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="16.4" y1="24" x2="13.2" y2="24" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="pk-brand-text">
+          <span class="pk-site-name">{{ meta.siteName }}</span>
+          <span class="pk-site-tagline">Systems Engineering Log</span>
+        </div>
       {% endif %}
     </a>
 
@@ -40,7 +53,6 @@
           <line x1="19" y1="12" x2="22" y2="12"/>
           <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
           <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
-          <!-- moon overlay (shown in light mode) -->
         </svg>
       </button>
     </div>

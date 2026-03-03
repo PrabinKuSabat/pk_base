@@ -113,13 +113,47 @@ body.pk-nav-peek .pk-navbar {
   gap: 14px;
 }
 
-.pk-brand { text-decoration: none; color: inherit; flex-shrink: 0; }
+/* ── Brand / Logo layout ────────────────────────────────────── */
+.pk-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.pk-logo {
+  width: 26px;
+  height: 26px;
+  color: var(--pk-accent);
+}
+body.theme-dark .pk-logo {
+  color: currentColor;
+}
+
+.pk-brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .pk-site-name {
   font-family: var(--pk-font-ui);
   font-weight: 600;
   font-size: 1.05rem;
   letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.pk-site-tagline {
+  font-family: var(--pk-font-ui);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.6;
+  margin-top: 3px;
+  line-height: 1;
 }
 
 .pk-navlinks { display: flex; align-items: center; gap: 22px; }
@@ -227,30 +261,22 @@ nav.rzl-footer-mini { display: none !important; }
   margin-bottom: 0;
 }
 
-/* Building illustration:
-   Original is white-on-black. We:
-   1. invert() → black lines on white
-   2. mix-blend-mode: multiply → white parts disappear, only dark lines remain
-   This gives a transparent-background effect on any light surface. */
+/* Base image rules */
 .pk-footer-building {
   display: block;
   width: 100%;
   max-width: 900px;
   height: auto;
   margin: 0 auto;
-  filter: invert(1) contrast(1.1) brightness(0.85);
-  mix-blend-mode: multiply;
-  opacity: 0.55;
+  opacity: 0.6;
   pointer-events: none;
   user-select: none;
 }
 
-/* Dark mode: use original (white on dark) with screen blend */
-[data-theme="dark"] .pk-footer-building {
-  filter: brightness(0.7) contrast(1.2);
-  mix-blend-mode: screen;
-  opacity: 0.5;
-}
+/* Theme switching for the actual image files */
+.pk-footer-building.dark-img { display: none; }
+body.theme-dark .pk-footer-building.light-img { display: none; }
+body.theme-dark .pk-footer-building.dark-img { display: block; opacity: 0.7; }
 
 .pk-footer-inst-link {
   display: block;
@@ -271,6 +297,10 @@ nav.rzl-footer-mini { display: none !important; }
   color: var(--pk-accent);
   transition: opacity 140ms;
   line-height: 1.4;
+}
+
+body.theme-dark .pk-footer-inst-name {
+  color: inherit;
 }
 
 .pk-footer-inst-link:hover .pk-footer-inst-name {

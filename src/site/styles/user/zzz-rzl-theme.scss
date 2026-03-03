@@ -371,3 +371,113 @@ body:has(.excalidraw-svg) .excalidraw-svg svg {
   width: 100% !important;
   height: 100% !important;
 }
+
+/* =========================================================
+   Header polish + reading progress bar
+   ========================================================= */
+
+/* Compact, aesthetic home link bar */
+.navbar {
+  /* smaller vertical footprint */
+  min-height: 52px !important;
+  padding: 10px 16px !important;
+
+  /* cleaner glass + subtle edge */
+  border-bottom: 1px solid rgba(15, 76, 117, 0.18) !important;
+  box-shadow: 0 8px 24px rgba(27, 38, 44, 0.10) !important;
+
+  /* make room for the progress bar line */
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
+}
+
+body.theme-dark .navbar {
+  border-bottom: 1px solid rgba(187, 225, 250, 0.14) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Make the “RingOLedger” title look like a neat brand pill */
+.navbar .site-title,
+.navbar a.site-title,
+.navbar .site-title a {
+  display: inline-flex !important;
+  align-items: center !important;
+
+  font-weight: 750 !important;
+  letter-spacing: -0.01em !important;
+  font-size: 0.98rem !important;
+  line-height: 1 !important;
+
+  padding: 10px 12px !important;
+  border-radius: 999px !important;
+
+  color: #0F4C75 !important;
+  text-decoration: none !important;
+
+  background: rgba(255, 255, 255, 0.50) !important;
+  border: 1px solid rgba(15, 76, 117, 0.18) !important;
+  box-shadow: 0 6px 16px rgba(27, 38, 44, 0.08) !important;
+
+  transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease !important;
+}
+
+.navbar .site-title:hover,
+.navbar a.site-title:hover,
+.navbar .site-title a:hover {
+  transform: translateY(-1px) !important;
+  background: rgba(255, 255, 255, 0.62) !important;
+  border-color: rgba(50, 130, 184, 0.35) !important;
+}
+
+body.theme-dark .navbar .site-title,
+body.theme-dark .navbar a.site-title,
+body.theme-dark .navbar .site-title a {
+  color: #BBE1FA !important;
+  background: rgba(15, 76, 117, 0.20) !important;
+  border: 1px solid rgba(187, 225, 250, 0.16) !important;
+}
+
+/* Optional: reduce awkward left padding if the header has a wrapper */
+.navbar .navbar-content,
+.navbar .container,
+.navbar .wrapper {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Reading progress bar (top edge) */
+.rzl-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  z-index: 1000;
+
+  /* track */
+  background: rgba(15, 76, 117, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+body.theme-dark .rzl-progress {
+  background: rgba(187, 225, 250, 0.14);
+}
+
+.rzl-progress__bar {
+  height: 100%;
+  width: 0%;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, #0F4C75, #3282B8, #BBE1FA);
+  box-shadow: 0 0 0 1px rgba(50, 130, 184, 0.20);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .navbar .site-title,
+  .navbar a.site-title,
+  .navbar .site-title a {
+    transition: none !important;
+  }
+}

@@ -1,48 +1,47 @@
 :root{
   --pk-navbar-h: 58px;
   --pk-accent: #1B262C;
+  --rzl-progress-pct: 0%;
 }
 
-/* Ensure page can scroll */
-html, body{
-  height: auto;
-  overflow: auto;
+/* Always-visible progress bar (persists even if navbar hides) */
+html::before{
+  content:"";
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: var(--rzl-progress-pct, 0%);
+  background: var(--pk-accent);
+  z-index: 2000;
+  pointer-events: none;
 }
 
-/* Layout: footer at bottom */
 body{
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* Footer should never float to top */
 main.content{
   flex: 1;
-  min-height: 0;
 }
 
-/* If any old mini-footer is still injected somewhere, hide it */
+.pk-footer{
+  margin-top: auto;
+}
+
+/* If some injected mini footer still exists somewhere, hide it */
 nav.rzl-footer-mini{
   display: none !important;
 }
 
-/* Navbar */
+/* Navbar layout (no progress here anymore) */
 .pk-navbar{
   position: sticky;
   top: 0;
   z-index: 1000;
-  transform: translateY(0);
-  transition: transform 180ms ease;
-  will-change: transform;
-}
-
-.pk-navbar.is-hidden{
-  transform: translateY(calc(-1 * var(--pk-navbar-h)));
-}
-
-/* Show navbar when user hovers near top region (JS sets .pk-nav-peek on <body>) */
-body.pk-nav-peek .pk-navbar{
-  transform: translateY(0) !important;
 }
 
 .pk-navbar-inner{
@@ -65,12 +64,6 @@ body.pk-nav-peek .pk-navbar{
   gap: 14px;
 }
 
-.pk-nav-actions{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .pk-navlink{
   text-decoration: none;
   color: inherit;
@@ -81,22 +74,15 @@ body.pk-nav-peek .pk-navbar{
   opacity: 1;
 }
 
-/* Progress bar uses --rzl-progress-pct which your DOM already uses */
-.pk-navbar::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:0;
-  height:2px;
-  width: var(--rzl-progress-pct, 0%);
-  background: var(--pk-accent);
+.pk-theme-toggle{
+  background: transparent;
+  border: 0;
+  padding: 6px;
+  cursor: pointer;
+  line-height: 0;
 }
 
-/* Footer */
-.pk-footer{
-  margin-top: auto;
-}
-
+/* Contact footer */
 .pk-footer-links{
   display: flex;
   gap: 14px;
@@ -114,4 +100,19 @@ body.pk-nav-peek .pk-navbar{
   color: inherit;
   opacity: 0.9;
 }
-.pk-footer-links a:hover{ opacity: 1; }
+
+.pk-footer-links a:hover{
+  opacity: 1;
+}
+
+/* Graph view: ensure content has room below sticky navbar */
+.graph-page,
+.graph-wrapper,
+#graph{
+  position: relative;
+  z-index: 1;
+}
+
+main.content{
+  scroll-margin-top: var(--pk-navbar-h);
+}

@@ -18,6 +18,14 @@
   --pk-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   --rzl-progress-pct: 0%;
+
+  /* Footer seal color defaults (light theme) */
+  --pk-seal-color: var(--pk-accent);
+}
+
+/* Dark theme adjustments */
+body.theme-dark {
+  --pk-seal-color: rgba(255, 255, 255, 0.92);
 }
 
 /* ── Progress bar: fixed at very top, z-index above everything ── */
@@ -49,18 +57,13 @@ body {
   overflow-x: hidden !important;
   height: auto !important;
   min-height: 100vh;
-  /* Offset for our fixed navbar */
   padding-top: var(--pk-navbar-h);
 }
 
-/* Cancel the DG's own navbar margin-top on .content —
-   DG adds margin-top:60px when a navbar is present, but since
-   we use body padding-top, this would double-offset the content */
 body.has-navbar .content {
   margin-top: 0 !important;
 }
 
-/* Ensure the note content does NOT create its own scroll context */
 .markdown-preview-view,
 .markdown-preview-view.is-readable-line-width {
   overflow: visible !important;
@@ -68,7 +71,6 @@ body.has-navbar .content {
   max-height: none !important;
 }
 
-/* Canvas/excalidraw: lock body overflow so canvas sizes to viewport */
 body:has(main.canvas-page) {
   overflow: hidden !important;
   padding-top: 0 !important;
@@ -96,13 +98,8 @@ body:has(main.canvas-page) {
   -webkit-backdrop-filter: blur(12px);
 }
 
-.pk-navbar.pk-nav-hidden {
-  transform: translateY(-100%);
-}
-
-body.pk-nav-peek .pk-navbar {
-  transform: translateY(0) !important;
-}
+.pk-navbar.pk-nav-hidden { transform: translateY(-100%); }
+body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
 
 .pk-navbar-inner {
   display: flex;
@@ -113,7 +110,6 @@ body.pk-nav-peek .pk-navbar {
   gap: 14px;
 }
 
-/* ── Brand / Logo layout ────────────────────────────────────── */
 .pk-brand {
   display: flex;
   align-items: center;
@@ -128,9 +124,7 @@ body.pk-nav-peek .pk-navbar {
   height: 26px;
   color: var(--pk-accent);
 }
-body.theme-dark .pk-logo {
-  color: currentColor;
-}
+body.theme-dark .pk-logo { color: currentColor; }
 
 .pk-brand-text {
   display: flex;
@@ -250,72 +244,62 @@ nav.rzl-footer-mini { display: none !important; }
   overflow: hidden;
 }
 
-/* — Institute block — */
 .pk-footer-institute {
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0;
-  margin-bottom: 0;
+  padding: 0 16px;
 }
 
-/* Base image rules */
-.pk-footer-building {
+/* The recolorable seal using CSS mask-image */
+.pk-footer-seal {
+  width: 88px;
+  height: 88px;
   display: block;
-  width: 100%;
-  max-width: 900px;
-  height: auto;
-  margin: 0 auto;
-  opacity: 0.6;
-  pointer-events: none;
-  user-select: none;
-}
+  margin: 6px 0 10px;
+  background-color: var(--pk-seal-color);
 
-/* Theme switching for the actual image files */
-.pk-footer-building.dark-img { display: none; }
-body.theme-dark .pk-footer-building.light-img { display: none; }
-body.theme-dark .pk-footer-building.dark-img { display: block; opacity: 0.7; }
+  -webkit-mask-image: url('/img/sssihl-seal-mask.png');
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+
+  mask-image: url('/img/sssihl-seal-mask.png');
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+
+  opacity: 0.95;
+}
 
 .pk-footer-inst-link {
-  display: block;
+  display: inline-block;
   text-decoration: none;
-  margin-top: -32px; /* Overlap slightly with bottom of illustration */
-  position: relative;
-  z-index: 2;
-  padding: 0 16px 16px;
+  padding: 0 0 10px;
 }
 
 .pk-footer-inst-name {
   display: block;
   font-family: var(--pk-font-ui);
-  font-weight: 700;
-  font-size: clamp(0.7rem, 1.8vw, 0.95rem);
-  letter-spacing: 0.18em;
+  font-weight: 800;
+  font-size: clamp(0.72rem, 1.8vw, 0.98rem);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--pk-accent);
-  transition: opacity 140ms;
-  line-height: 1.4;
+  color: var(--pk-seal-color);
+  line-height: 1.35;
 }
 
-body.theme-dark .pk-footer-inst-name {
-  color: inherit;
-}
+.pk-footer-inst-link:hover .pk-footer-inst-name { opacity: 0.8; }
 
-.pk-footer-inst-link:hover .pk-footer-inst-name {
-  opacity: 0.75;
-}
-
-/* Divider before social links */
 .pk-footer-divider {
   width: 48px;
   height: 1px;
   background: var(--pk-border);
-  margin: 18px auto 14px;
+  margin: 12px auto 14px;
 }
 
-/* Social links */
 .pk-footer-links {
   display: flex;
   gap: 20px;
@@ -347,7 +331,6 @@ body.theme-dark .pk-footer-inst-name {
   flex-shrink: 0;
 }
 
-/* ── Graph/canvas layout ────────────────────────────────────── */
 .graph-page,
 .graph-wrapper,
 #graph {

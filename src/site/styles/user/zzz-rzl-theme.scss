@@ -43,6 +43,9 @@ body {
   --rzl-radius-l: 12px;
   --rzl-shadow-soft: 0 10px 30px rgba(27, 38, 44, 0.10);
   --rzl-shadow-soft-2: 0 8px 24px rgba(27, 38, 44, 0.08);
+
+  /* Header sizing token (used by Excalidraw viewport math) */
+  --rzl-navbar-height: 42px;
 }
 
 /* -----------------------------
@@ -117,6 +120,12 @@ body.theme-dark {
   --graph-node-focused: #BBE1FA !important;
 }
 
+/* DG graph vars mentioned in docs */
+body {
+  --graph-main: #3282B8 !important;
+  --graph-muted: rgba(15, 76, 117, 0.35) !important;
+}
+
 /* -----------------------------
    2) Remove left file tree UI
    ----------------------------- */
@@ -135,7 +144,7 @@ body.theme-dark {
   box-shadow: var(--rzl-shadow-soft) !important;
 
   padding: clamp(18px, 2.2vw, 28px) clamp(18px, 3vw, 44px) !important;
-  margin-top: 28px !important;
+  margin-top: 20px !important;
 
   max-width: var(--dg-content-max-width) !important;
 }
@@ -167,7 +176,7 @@ body.theme-dark {
   text-decoration-color: rgba(15, 76, 117, 0.65) !important;
 }
 
-/* Blockquotes: elegant & on-brand */
+/* Blockquotes */
 blockquote {
   border-left: 3px solid var(--interactive-accent) !important;
   background: var(--rzl-surface-2) !important;
@@ -176,7 +185,7 @@ blockquote {
   border-radius: 0 10px 10px 0 !important;
 }
 
-/* Code blocks: slightly more contrast */
+/* Code blocks */
 pre,
 code {
   border-radius: 10px !important;
@@ -241,30 +250,108 @@ body.theme-dark pre {
   overflow: hidden !important;
 }
 
-/* If your template uses these DG vars, set them too */
-body {
-  --graph-main: #3282B8 !important;
-  --graph-muted: rgba(15, 76, 117, 0.35) !important;
-}
-
 /* -----------------------------
-   6) Glass navbar (matched to palette)
+   6) Header + progress bar
    ----------------------------- */
+
+/* Shorter navbar */
 .navbar {
+  min-height: var(--rzl-navbar-height) !important;
+  padding: 6px 14px !important;
+
   background: rgba(187, 225, 250, 0.65) !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
-  border-bottom: 1px solid var(--background-modifier-border) !important;
+
+  border-bottom: 1px solid rgba(15, 76, 117, 0.18) !important;
+  box-shadow: 0 10px 26px rgba(27, 38, 44, 0.10) !important;
+
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 999 !important;
 }
 
 body.theme-dark .navbar {
   background: rgba(27, 38, 44, 0.62) !important;
+  border-bottom: 1px solid rgba(187, 225, 250, 0.14) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
 }
 
-.navbar .site-title {
-  font-weight: 700 !important;
-  letter-spacing: -0.02em !important;
-  color: var(--text-normal) !important;
+/* Brand pill */
+.navbar .site-title,
+.navbar a.site-title,
+.navbar .site-title a {
+  display: inline-flex !important;
+  align-items: center !important;
+
+  font-weight: 750 !important;
+  letter-spacing: -0.01em !important;
+  font-size: 0.9rem !important;
+  line-height: 1 !important;
+
+  padding: 7px 10px !important;
+  border-radius: 999px !important;
+
+  color: #0F4C75 !important;
+  text-decoration: none !important;
+
+  background: rgba(255, 255, 255, 0.50) !important;
+  border: 1px solid rgba(15, 76, 117, 0.18) !important;
+  box-shadow: 0 6px 16px rgba(27, 38, 44, 0.08) !important;
+
+  transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease !important;
+}
+
+.navbar .site-title:hover,
+.navbar a.site-title:hover,
+.navbar .site-title a:hover {
+  transform: translateY(-1px) !important;
+  background: rgba(255, 255, 255, 0.62) !important;
+  border-color: rgba(50, 130, 184, 0.35) !important;
+}
+
+body.theme-dark .navbar .site-title,
+body.theme-dark .navbar a.site-title,
+body.theme-dark .navbar .site-title a {
+  color: #BBE1FA !important;
+  background: rgba(15, 76, 117, 0.20) !important;
+  border: 1px solid rgba(187, 225, 250, 0.16) !important;
+}
+
+/* Reading progress bar (role-swapped: subtle track, strong fill) */
+.rzl-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  z-index: 1000;
+
+  background: rgba(187, 225, 250, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+body.theme-dark .rzl-progress {
+  background: rgba(15, 76, 117, 0.35);
+}
+
+.rzl-progress__bar {
+  height: 100%;
+  width: 0%;
+  transform-origin: 0 50%;
+
+  background: linear-gradient(90deg, #0F4C75, #3282B8);
+  box-shadow: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .navbar .site-title,
+  .navbar a.site-title,
+  .navbar .site-title a {
+    transition: none !important;
+  }
 }
 
 /* -----------------------------
@@ -296,188 +383,82 @@ body.theme-dark .navbar {
     --rzl-reading-max: 1100px;
   }
   .content {
-    margin-top: 16px !important;
+    margin-top: 14px !important;
     border-radius: 14px !important;
   }
 }
 
 /* =========================================================
-   Excalidraw fullscreen (scoped)
+   Excalidraw: fit to viewport with margins, no page scrollbar
    ========================================================= */
-:root { --rzl-navbar-height: 64px; }
-
 body:has(.excalidraw-svg) {
+  --rzl-ex-margin: 18px;
+
+  /* remove layout constraints */
+  --dg-content-max-width: 100vw !important;
+  --file-line-width: 100% !important;
   --dg-filetree-min-width: 0px !important;
   --dg-filetree-width: 0px !important;
   --dg-filetree-gap: 0px !important;
 
-  --dg-content-max-width: 100vw !important;
-  --file-line-width: 100% !important;
+  /* prevent page scroll on excalidraw pages */
+  overflow: hidden !important;
 }
 
+/* hide sidebars on excalidraw pages */
 body:has(.excalidraw-svg) .filetree-wrapper,
-body:has(.excalidraw-svg) .filetree-sidebar {
-  display: none !important;
-}
-
+body:has(.excalidraw-svg) .filetree-sidebar,
 body:has(.excalidraw-svg) .sidebar.right,
 body:has(.excalidraw-svg) aside.sidebar.right,
 body:has(.excalidraw-svg) .sidebar-right {
   display: none !important;
 }
 
-body:has(.excalidraw-svg) .page-wrapper,
-body:has(.excalidraw-svg) .main-content-wrapper,
-body:has(.excalidraw-svg) .page-body,
+/* remove card styling + padding on excalidraw pages */
 body:has(.excalidraw-svg) .content,
 body:has(.excalidraw-svg) .markdown-preview-view,
 body:has(.excalidraw-svg) .markdown-rendered,
 body:has(.excalidraw-svg) .markdown-preview-sizer {
   padding: 0 !important;
   margin: 0 !important;
-  max-width: 100vw !important;
-  width: 100vw !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+
   border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
   background: transparent !important;
 }
 
-body:has(.excalidraw-svg) header,
-body:has(.excalidraw-svg) nav,
-body:has(.excalidraw-svg) .site-header,
-body:has(.excalidraw-svg) .navbar {
-  position: static !important;
-  top: auto !important;
-}
-
+/* excalidraw viewport box */
 body:has(.excalidraw-svg) .excalidraw-wrapper,
 body:has(.excalidraw-svg) div[class*="excalidraw"] {
-  width: 100vw !important;
-  max-width: 100vw !important;
+  width: calc(100vw - (2 * var(--rzl-ex-margin))) !important;
+  max-width: calc(100vw - (2 * var(--rzl-ex-margin))) !important;
 
-  height: calc(100vh - var(--rzl-navbar-height)) !important;
-  max-height: calc(100vh - var(--rzl-navbar-height)) !important;
+  height: calc(100vh - var(--rzl-navbar-height) - (2 * var(--rzl-ex-margin))) !important;
+  max-height: calc(100vh - var(--rzl-navbar-height) - (2 * var(--rzl-ex-margin))) !important;
 
-  margin: 0 !important;
+  margin: var(--rzl-ex-margin) !important;
   padding: 0 !important;
 
   overflow: hidden !important;
   box-sizing: border-box !important;
+
+  border-radius: 14px !important;
+  border: 1px solid rgba(15, 76, 117, 0.18) !important;
+  background: rgba(255, 255, 255, 0.30) !important;
 }
 
+body.theme-dark:has(.excalidraw-svg) .excalidraw-wrapper,
+body.theme-dark:has(.excalidraw-svg) div[class*="excalidraw"] {
+  background: rgba(15, 76, 117, 0.14) !important;
+  border: 1px solid rgba(187, 225, 250, 0.14) !important;
+}
+
+/* ensure SVG fills wrapper */
 body:has(.excalidraw-svg) .excalidraw-svg,
 body:has(.excalidraw-svg) .excalidraw-svg svg {
   width: 100% !important;
   height: 100% !important;
-}
-
-/* =========================================================
-   Header polish + reading progress bar
-   ========================================================= */
-
-/* Compact, aesthetic home link bar */
-.navbar {
-  /* smaller vertical footprint */
-  min-height: 52px !important;
-  padding: 10px 16px !important;
-
-  /* cleaner glass + subtle edge */
-  border-bottom: 1px solid rgba(15, 76, 117, 0.18) !important;
-  box-shadow: 0 8px 24px rgba(27, 38, 44, 0.10) !important;
-
-  /* make room for the progress bar line */
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 999 !important;
-}
-
-body.theme-dark .navbar {
-  border-bottom: 1px solid rgba(187, 225, 250, 0.14) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
-}
-
-/* Make the “RingOLedger” title look like a neat brand pill */
-.navbar .site-title,
-.navbar a.site-title,
-.navbar .site-title a {
-  display: inline-flex !important;
-  align-items: center !important;
-
-  font-weight: 750 !important;
-  letter-spacing: -0.01em !important;
-  font-size: 0.98rem !important;
-  line-height: 1 !important;
-
-  padding: 10px 12px !important;
-  border-radius: 999px !important;
-
-  color: #0F4C75 !important;
-  text-decoration: none !important;
-
-  background: rgba(255, 255, 255, 0.50) !important;
-  border: 1px solid rgba(15, 76, 117, 0.18) !important;
-  box-shadow: 0 6px 16px rgba(27, 38, 44, 0.08) !important;
-
-  transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease !important;
-}
-
-.navbar .site-title:hover,
-.navbar a.site-title:hover,
-.navbar .site-title a:hover {
-  transform: translateY(-1px) !important;
-  background: rgba(255, 255, 255, 0.62) !important;
-  border-color: rgba(50, 130, 184, 0.35) !important;
-}
-
-body.theme-dark .navbar .site-title,
-body.theme-dark .navbar a.site-title,
-body.theme-dark .navbar .site-title a {
-  color: #BBE1FA !important;
-  background: rgba(15, 76, 117, 0.20) !important;
-  border: 1px solid rgba(187, 225, 250, 0.16) !important;
-}
-
-/* Optional: reduce awkward left padding if the header has a wrapper */
-.navbar .navbar-content,
-.navbar .container,
-.navbar .wrapper {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-/* Reading progress bar (top edge) */
-.rzl-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  width: 100%;
-  z-index: 1000;
-
-  /* track */
-  background: rgba(15, 76, 117, 0.18);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-body.theme-dark .rzl-progress {
-  background: rgba(187, 225, 250, 0.14);
-}
-
-.rzl-progress__bar {
-  height: 100%;
-  width: 0%;
-  transform-origin: 0 50%;
-  background: linear-gradient(90deg, #0F4C75, #3282B8, #BBE1FA);
-  box-shadow: 0 0 0 1px rgba(50, 130, 184, 0.20);
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .navbar .site-title,
-  .navbar a.site-title,
-  .navbar .site-title a {
-    transition: none !important;
-  }
 }

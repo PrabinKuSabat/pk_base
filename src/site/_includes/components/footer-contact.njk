@@ -1,9 +1,7 @@
 <footer id="contact" class="site-footer pk-footer">
 
-  {# ── Institute section (seal + name) ────────────────────────── #}
   <div class="pk-footer-institute">
     <span class="pk-footer-seal" aria-hidden="true"></span>
-
     <a
       href="https://www.sssihl.edu.in/"
       target="_blank"
@@ -19,21 +17,47 @@
 
   <nav class="pk-footer-links" aria-label="Contact and social links">
     <a href="mailto:prabinkusabat@gmail.com" aria-label="Email">
-      <i data-lucide="mail"></i>
-      <span>Mail</span>
+      <i data-lucide="mail"></i><span>Mail</span>
     </a>
     <a href="https://www.linkedin.com/in/prabin-kumar-sabat/" target="_blank" rel="noopener" aria-label="LinkedIn">
-      <i data-lucide="linkedin"></i>
-      <span>LinkedIn</span>
+      <i data-lucide="linkedin"></i><span>LinkedIn</span>
     </a>
     <a href="https://www.instagram.com/prabin.973/" target="_blank" rel="noopener" aria-label="Instagram">
-      <i data-lucide="instagram"></i>
-      <span>Instagram</span>
+      <i data-lucide="instagram"></i><span>Instagram</span>
     </a>
     <a href="https://github.com/PrabinKuSabat" target="_blank" rel="noopener" aria-label="GitHub">
-      <i data-lucide="github"></i>
-      <span>GitHub</span>
+      <i data-lucide="github"></i><span>GitHub</span>
     </a>
   </nav>
 
 </footer>
+
+<script>
+(function pkSidebarSync() {
+  // Fire after all deferred scripts (Alpine etc.) have settled
+  function init() {
+    var footer  = document.getElementById('contact');
+    var sidebar = document.querySelector('.sidebar');
+    if (!footer || !sidebar) return;
+
+    var io = new IntersectionObserver(function(entries) {
+      // rootMargin top:120px means sidebar starts fading 120px
+      // before the footer top edge hits the viewport bottom —
+      // giving the appearance both columns end simultaneously.
+      sidebar.classList.toggle('pk-sidebar-end', entries[0].isIntersecting);
+    }, {
+      rootMargin: '120px 0px 0px 0px',
+      threshold: 0
+    });
+
+    io.observe(footer);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    // Small delay so Alpine / DG JS doesn't fight us
+    setTimeout(init, 80);
+  }
+})();
+</script>

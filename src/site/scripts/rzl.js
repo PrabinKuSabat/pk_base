@@ -65,6 +65,12 @@
   /* ---------------------------
      Reading time + word count
      (inserts under H1 inside .content)
+
+     WORD COUNT POLICY:
+     • Prose text: counted (obviously)
+     • Code blocks (pre/code): COUNTED — technical notes are
+       dominated by code; excluding it makes the count meaningless
+     • SVG, graph widgets, sidebar: removed (no readable text)
      --------------------------- */
   const initReadingMeta = () => {
     const content = $(".content");
@@ -85,7 +91,11 @@
     h1.insertAdjacentElement("afterend", meta);
 
     const clone = content.cloneNode(true);
-    $$("pre, code, svg, .graph, #graph-component, .graph-view-wrapper", clone).forEach(n => n.remove());
+    /* Remove non-text visual elements only.
+       pre/code are intentionally kept so code block tokens
+       contribute to the total word count and reading time. */
+    $$("svg, .graph, #graph-component, .graph-view-wrapper, .graph-wrapper, aside", clone)
+      .forEach(n => n.remove());
 
     const text = (clone.innerText || "")
       .replace(/\s+/g, " ")
@@ -94,7 +104,8 @@
     if (!text) return;
 
     const words = text.split(" ").filter(Boolean).length;
-    const wpm = 200;
+    /* Technical content reads slower: 160 wpm (vs 200 for prose) */
+    const wpm = 160;
     const minutes = Math.max(1, Math.ceil(words / wpm));
 
     const rt = $("#rzlReadTime");

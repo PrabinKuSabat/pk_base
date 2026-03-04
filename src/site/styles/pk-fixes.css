@@ -143,6 +143,25 @@ body.has-navbar .content,
   max-height: none !important;
 }
 
+/* ── Page fade-in (normal pages) ─────────────────────────────
+   CSS is render-blocking, so body starts at opacity:0 from the
+   very first paint — no content flash. The 80ms delay gives the
+   browser a brief moment to settle fonts and layout before the
+   fade begins. The 20% hold phase keeps it invisible a touch
+   longer on slow connections so partial renders don't show.
+   ──────────────────────────────────────────────────────────── */
+html:not(.pk-excalidraw-page) body {
+  opacity:              0;
+  animation:            pk-page-reveal 900ms cubic-bezier(0.4, 0, 0.2, 1) 0.08s both;
+  animation-fill-mode:  both;
+}
+
+@keyframes pk-page-reveal {
+  0%   { opacity: 0; }
+  20%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 /* ── Canvas pages ──────────────────────────────────────────────── */
 body:has(.content.canvas-page) {
   padding-top: 0 !important;
@@ -202,12 +221,13 @@ body.pk-short-note .toc { display: none !important; }
 html.pk-excalidraw-page body {
   opacity:     0;
   padding-top: var(--pk-navbar-h) !important;
-  animation:   pk-excalidraw-reveal 220ms ease 0ms both;
+  animation:   pk-excalidraw-reveal 700ms cubic-bezier(0.4, 0, 0.2, 1) 0ms both;
 }
 
 @keyframes pk-excalidraw-reveal {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 html.pk-excalidraw-page .pk-navbar {

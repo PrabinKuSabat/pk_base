@@ -27,7 +27,7 @@ This repo is a heavily customized fork of [oleeskild/digitalgarden](https://gith
 
 - **Minimalistic** — no clutter, just your words and ideas front and center
 - **Modern** — clean typography, smooth interactions, responsive on all devices
-- **Automated** — write in Obsidian, click publish, and your live site updates instantly
+- **Automated** — write in Obsidian,publish, and your live site updates instantly
 - **Extensible** — every visual detail is themeable through CSS variables
 - **Free to host** — deploy on Vercel or Netlify at zero cost
 
@@ -59,7 +59,7 @@ Want your own Obsidian-powered personal website? Fork this repo and you're 80% t
    - A GitHub Personal Access Token (with `repo` scope)
    - Your deployed site URL
 5. **Write** any note in Obsidian and add `dg-publish: true` to the frontmatter
-6. **Click Publish** in the Digital Garden plugin sidebar
+6. **Publish** using the Digital Garden plugin
 7. **Watch your site go live** — Vercel/Netlify rebuilds automatically on every push ⚡
 
 📖 Full detailed docs at [dg-docs.ole.dev](https://dg-docs.ole.dev/)

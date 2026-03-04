@@ -74,70 +74,54 @@
   }
 
   /* ── Excalidraw fullscreen layout ────────────────────────────
-
-     What this does:
-     1. Detects URL containing ".excalidraw" → adds pk-excalidraw-page
-     2. Fixes the SVG so all drawing elements fit (preserveAspectRatio)
-     3. INTERCEPTS wheel events on the excalidraw container and
-        forwards them to window.scrollBy — this makes the mouse
-        wheel scroll the PAGE instead of zooming the canvas.
-        Use the − / + buttons at the bottom for canvas zoom.
-   ──────────────────────────────────────────────────────────── */
+     Detects pages whose URL slug contains ".excalidraw",
+     adds pk-excalidraw-page to <body>, then:
+       • removes fixed width/height from every SVG
+       • adds a viewBox if missing (so browser can scale it)
+       • sets preserveAspectRatio="xMidYMid meet" so ALL
+         drawing elements are always visible (no clipping)
+     CSS then stretches the SVG container to fill the viewport
+     below the navbar.
+  ──────────────────────────────────────────────────────────── */
   function setupExcalidrawPage() {
     var path = window.location.pathname.toLowerCase();
     if (!path.includes('excalidraw')) return;
 
     document.body.classList.add('pk-excalidraw-page');
 
-    /* ─ SVG fitting ───────────────────────────────────────── */
     function fitSVGs() {
+      /* target the excalidraw SVG wrapper first, then fall back to any SVG in content */
       var svgs = document.querySelectorAll(
         '.excalidraw-svg svg, .content > svg, .content .excalidraw-svg svg'
       );
-      if (!svgs.length) svgs = document.querySelectorAll('main.content svg');
+      if (!svgs.length) {
+        /* try any SVG inside the note as a last resort */
+        svgs = document.querySelectorAll('main.content svg');
+      }
       svgs.forEach(function (svg) {
         var w = parseFloat(svg.getAttribute('width')  || 0);
         var h = parseFloat(svg.getAttribute('height') || 0);
+        /* build viewBox from original pixel dims so the whole drawing is framed */
         if (w > 0 && h > 0 && !svg.getAttribute('viewBox')) {
           svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
         }
+        /* xMidYMid meet = letterbox: all elements visible, centred, never clipped */
         svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        /* remove fixed pixel dims so CSS can own the size */
         svg.removeAttribute('width');
         svg.removeAttribute('height');
       });
     }
+
     fitSVGs();
-    setTimeout(fitSVGs, 250);
+    setTimeout(fitSVGs, 250);  /* retry after any async DG rendering */
     setTimeout(fitSVGs, 800);
-
-    /* ─ Wheel → page scroll forwarding ──────────────────────
-       We capture wheel events BEFORE the excalidraw canvas
-       receives them (capture:true), stop their propagation so
-       the canvas never zooms, then scroll the page ourselves.
-       Shift+wheel scrolls horizontally (standard behaviour).
-       Click events are NOT affected, so −/+ buttons still work.
-    ───────────────────────────────────────────────────────── */
-    function attachWheelForward() {
-      var container = document.querySelector('.excalidraw-svg');
-      if (!container) return;
-
-      container.addEventListener('wheel', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var dx = e.shiftKey ? e.deltaY : e.deltaX;
-        var dy = e.shiftKey ? 0        : e.deltaY;
-        window.scrollBy({ left: dx, top: dy, behavior: 'auto' });
-      }, { passive: false, capture: true });
-    }
-
-    attachWheelForward();
-    setTimeout(attachWheelForward, 400); /* retry in case DG re-renders */
   }
 
   /* ── Boot ─────────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     restoreTheme();
-    setupExcalidrawPage();
+    setupExcalidrawPage(); /* run before progress/scroll so class is set early */
     setupProgress();
     setupHideOnScroll();
     setupPeek();

@@ -70,10 +70,7 @@ html::before {
   transition: width 80ms linear;
 }
 
-/* ── Scroll fix + page gap ──────────────────────────────────
-   Identical to the working baseline before excalidraw layout.
-   DO NOT change these without testing scroll on a normal page.
-   ──────────────────────────────────────────────────────────── */
+/* ── Scroll fix + page gap ────────────────────────────────── */
 html {
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -105,40 +102,69 @@ body:has(.content.canvas-page) {
 }
 body:has(.content.canvas-page) .pk-navbar { display: none !important; }
 body:has(.content.canvas-page) .content.canvas-page {
-  height: 100vh !important;
-  min-height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  max-width: none !important;
+  height: 100vh !important; min-height: 100vh !important;
+  margin: 0 !important; padding: 0 !important; max-width: none !important;
 }
 body:has(.content.canvas-page) .canvas-wrapper {
-  width: 100vw !important;
-  height: 100vh !important;
-  min-height: 100vh !important;
+  width: 100vw !important; height: 100vh !important; min-height: 100vh !important;
 }
 body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
 /* =============================================================
    EXCALIDRAW PAGES — Chalkboard × Whiteboard Theme
-   =============================================================
 
-   DESIGN INTENT
-   ────────────────────────────────────────────────────────────
-   The whiteboard (SVG canvas) is always white — bright, clean.
+   The class .pk-excalidraw-page is added to BOTH <html> and <body>:
+     • <html>  — immediately (synchronous JS, first paint)
+     • <body>  — on DOMContentLoaded
 
-   Light mode: warm parchment (#eeeae1) page frame + dark slate navbar
-   Dark  mode: deep blackboard (#0c0d0f) frame + near-black navbar
-                  └─ the white SVG pops dramatically against it
-
-   Accent: earthy sage green — chalk-on-slate, not screen-blue.
-   Nav text: always off-white chalk (#e2ddd4) on both themes.
-
-   SCOPE: 100% scoped to body.pk-excalidraw-page.
-   The class is only added when URL contains ".excalidraw" (with dot).
-   Zero effect on any other page.
+   Early <html> rules below fire on the very first paint so the
+   page never flashes wrong colors. The body fade-in animation
+   keeps everything invisible until all classes are settled, then
+   reveals with a smooth 300ms lift.
    ============================================================= */
 
-/* ── Light mode: warm parchment chalk-dust frame ────────────── */
+/* ────────────────────────────────────────────────────────────
+   PART 1 — EARLY RULES (html.pk-excalidraw-page)
+   These fire the moment the script tag is parsed, before the
+   browser paints a single pixel of the page.
+   ──────────────────────────────────────────────────────────── */
+
+/* Body: hide immediately, reveal smoothly once classes settle */
+html.pk-excalidraw-page body {
+  opacity:     0;
+  padding-top: var(--pk-navbar-h) !important;
+  animation:   pk-excalidraw-reveal 300ms cubic-bezier(.4,0,.2,1) 60ms both;
+}
+
+@keyframes pk-excalidraw-reveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Navbar: dark slate frame from first paint — no flash of frosted glass */
+html.pk-excalidraw-page .pk-navbar {
+  background:              rgba(20, 23, 28, 0.97)    !important;
+  backdrop-filter:         saturate(110%) blur(10px) !important;
+  -webkit-backdrop-filter: saturate(110%) blur(10px) !important;
+  box-shadow:
+    0 1px 0   rgba(255,255,255,.04),
+    0 2px 20px rgba(0,0,0,.5)         !important;
+}
+/* Chalk text in navbar from first paint */
+html.pk-excalidraw-page .pk-site-name,
+html.pk-excalidraw-page .pk-site-tagline,
+html.pk-excalidraw-page .pk-navlink,
+html.pk-excalidraw-page .pk-theme-btn { color: #e2ddd4 !important; }
+html.pk-excalidraw-page .pk-logo       { color: #78b896 !important; }
+html.pk-excalidraw-page .pk-navlink::after { background: #78b896 !important; }
+
+/* ────────────────────────────────────────────────────────────
+   PART 2 — FULL PALETTE (body.pk-excalidraw-page)
+   Applied on DOMContentLoaded. By then the body has already
+   faded in correctly — these just provide the complete theme.
+   ──────────────────────────────────────────────────────────── */
+
+/* Light: warm parchment chalk-dust frame */
 body.pk-excalidraw-page {
   --pk-bg:        #eeeae1;
   --pk-bg-nav:    rgba(26, 30, 36, 0.96);
@@ -148,12 +174,11 @@ body.pk-excalidraw-page {
   --pk-accent:    #3a6349;
   --pk-accent-lt: #5c9470;
   --pk-seal-color: var(--pk-accent);
-
-  background:   var(--pk-bg) !important;
-  padding-top:  var(--pk-navbar-h) !important;
+  background:  var(--pk-bg) !important;
+  padding-top: var(--pk-navbar-h) !important;
 }
 
-/* ── Dark mode: deep blackboard frame ─────────────────────── */
+/* Dark: deep blackboard frame */
 body.theme-dark.pk-excalidraw-page {
   --pk-bg:        #0c0d0f;
   --pk-bg-nav:    rgba(4, 4, 6, 0.98);
@@ -163,123 +188,98 @@ body.theme-dark.pk-excalidraw-page {
   --pk-accent:    #78b896;
   --pk-accent-lt: #96d0b2;
   --pk-seal-color: rgba(210, 200, 185, 0.80);
-
-  background:   var(--pk-bg) !important;
+  background: var(--pk-bg) !important;
 }
 
-/* ── Hide sidebar + filetree ────────────────────────────── */
+/* Hide sidebar + filetree */
 body.pk-excalidraw-page aside,
 body.pk-excalidraw-page .sidebar,
-body.pk-excalidraw-page .filetree-wrapper {
-  display: none !important;
-}
+body.pk-excalidraw-page .filetree-wrapper { display: none !important; }
 
-/* ── Content area: full-width, transparent (body bg shows) ───── */
+/* Content: full-width, transparent so body bg shows */
 body.pk-excalidraw-page .content,
 body.pk-excalidraw-page.has-navbar .content {
-  width:         100% !important;
-  max-width:     100% !important;
-  margin:        0    !important;
-  padding:       0    !important;
-  border-radius: 0    !important;
-  box-shadow:    none !important;
-  background:    transparent !important;
+  width: 100% !important; max-width: 100% !important;
+  margin: 0 !important; padding: 0 !important;
+  border-radius: 0 !important; box-shadow: none !important;
+  background: transparent !important;
 }
-
 body.pk-excalidraw-page .content > header { display: none !important; }
 
-/* ── Navbar: always dark slate frame (both light + dark themes) ─ */
+/* Navbar: dark slate on both themes (also covered by early html rule) */
 body.pk-excalidraw-page .pk-navbar {
-  background:              rgba(20, 23, 28, 0.97)     !important;
-  backdrop-filter:         saturate(110%) blur(10px)  !important;
-  -webkit-backdrop-filter: saturate(110%) blur(10px)  !important;
+  background:              rgba(20, 23, 28, 0.97)    !important;
+  backdrop-filter:         saturate(110%) blur(10px) !important;
+  -webkit-backdrop-filter: saturate(110%) blur(10px) !important;
   box-shadow:
-    0 1px 0  rgba(255,255,255,.04),
-    0 2px 20px rgba(0,0,0,.5)          !important;
+    0 1px 0   rgba(255,255,255,.04),
+    0 2px 20px rgba(0,0,0,.5)         !important;
 }
-/* Chalk-white text in navbar on excalidraw pages */
 body.pk-excalidraw-page .pk-site-name,
 body.pk-excalidraw-page .pk-site-tagline,
 body.pk-excalidraw-page .pk-navlink,
-body.pk-excalidraw-page .pk-theme-btn {
-  color: #e2ddd4 !important;
-}
-body.pk-excalidraw-page .pk-logo {
-  color: #78b896 !important;  /* sage chalk green */
-}
-body.pk-excalidraw-page .pk-navlink::after {
-  background: #78b896 !important;
-}
+body.pk-excalidraw-page .pk-theme-btn { color: #e2ddd4 !important; }
+body.pk-excalidraw-page .pk-logo       { color: #78b896 !important; }
+body.pk-excalidraw-page .pk-navlink::after { background: #78b896 !important; }
 body.pk-excalidraw-page .pk-theme-btn:hover {
   background: rgba(120, 184, 150, 0.12) !important;
 }
 
 /* ── THE WHITEBOARD ───────────────────────────────────────
-   Always white/warm-white regardless of site theme.
-   In dark mode it glows dramatically against the blackboard bg.
+   Always white/warm-white. In dark mode it pops against
+   the blackboard like a real mounted whiteboard.
    ──────────────────────────────────────────────────────────── */
 body.pk-excalidraw-page .excalidraw-svg {
-  display:    block    !important;
-  width:      100%     !important;
+  display:    block   !important;
+  width:      100%    !important;
   height:     calc(100dvh - var(--pk-navbar-h)) !important;
   height:     calc(100vh  - var(--pk-navbar-h)) !important;
-  overflow:   hidden   !important;
-  padding:    0        !important;
-  margin:     0        !important;
-  /* Whiteboard look: clean white surface, subtle framing shadow */
-  background: #ffffff  !important;
-  box-shadow:
-    0 2px  0   rgba(0,0,0,.08),
-    0 6px  32px rgba(0,0,0,.10);
+  overflow:   hidden  !important;
+  padding:    0       !important;
+  margin:     0       !important;
+  background: #ffffff !important;
+  box-shadow: 0 2px 0 rgba(0,0,0,.08), 0 6px 32px rgba(0,0,0,.10);
+  /* Whiteboard slides in as part of the body reveal */
+  transition: box-shadow 300ms ease;
 }
-
-/* Dark mode: warm off-white board glowing against blackboard */
 body.theme-dark.pk-excalidraw-page .excalidraw-svg {
   background: #f5f1eb !important;
   box-shadow:
-    0 0  0  1px  rgba(240,230,210,.08),
-    0 4px 60px   rgba(0,0,0,.75),
-    0 1px 0      rgba(255,255,255,.06);
+    0 0   0 1px rgba(240,230,210,.08),
+    0 4px 60px  rgba(0,0,0,.75),
+    0 1px 0     rgba(255,255,255,.06);
 }
-
 body.pk-excalidraw-page .excalidraw-svg svg,
 body.pk-excalidraw-page main.content > svg {
-  display:    block !important;
-  width:      100%  !important;
-  height:     100%  !important;
-  max-width:  100%  !important;
-  max-height: 100%  !important;
+  display: block !important; width: 100% !important;
+  height: 100% !important; max-width: 100% !important; max-height: 100% !important;
 }
 
-/* ── Zoom controls (+/− buttons) ──────────────────────────── */
+/* Zoom controls */
 body.pk-excalidraw-page .excalidraw-zoom-buttons,
 body.pk-excalidraw-page [class*="zoom"] {
-  color:      #1c1c1c !important;
+  color:      #1c1c1c              !important;
   background: rgba(238,234,225,.92) !important;
   border:     1px solid rgba(0,0,0,.10) !important;
 }
 
-/* ── Footer below the board ────────────────────────────── */
+/* Footer */
 body.pk-excalidraw-page .pk-footer {
-  margin-top:  0;
-  padding-top: 2rem;
-  background:  var(--pk-bg);
-  border-top:  1px solid var(--pk-border);
-  color:       var(--pk-text);
+  margin-top: 0; padding-top: 2rem;
+  background: var(--pk-bg);
+  border-top: 1px solid var(--pk-border);
+  color:      var(--pk-text);
 }
 
 /* ── Hide DG theme pill ─────────────────────────────────────── */
 .rzl-header-actions,
 .theme-toggle-wrapper,
 .dg-theme-toggle,
-[data-tippy-content="Toggle theme"] {
-  display: none !important;
-}
+[data-tippy-content="Toggle theme"] { display: none !important; }
 
 /* ── Navbar — frosted glass (normal pages) ─────────────────── */
 .pk-navbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
+  position: fixed; top: 0; left: 0; right: 0;
   z-index: 1000;
   background: var(--pk-bg-nav);
   backdrop-filter: saturate(180%) blur(18px);
@@ -287,7 +287,9 @@ body.pk-excalidraw-page .pk-footer {
   border-bottom: none;
   box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
   transform: translateY(0);
-  transition: transform 220ms cubic-bezier(.4,0,.2,1), box-shadow 220ms ease;
+  transition: transform 220ms cubic-bezier(.4,0,.2,1),
+              background  200ms ease,
+              box-shadow  220ms ease;
   will-change: transform;
 }
 .pk-navbar.pk-nav-hidden  { transform: translateY(-100%); }
@@ -297,17 +299,12 @@ body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
 }
 
 .pk-navbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
-  height: var(--pk-navbar-h);
-  gap: 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; height: var(--pk-navbar-h); gap: 14px;
 }
 .pk-brand {
-  display: flex; align-items: center;
-  gap: 12px; text-decoration: none;
-  color: inherit; flex-shrink: 0;
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: inherit; flex-shrink: 0;
 }
 .pk-logo { width: 26px; height: 26px; color: var(--pk-accent); }
 .pk-brand-text { display: flex; flex-direction: column; }
@@ -349,9 +346,7 @@ body {
 }
 .pk-navbar, .pk-footer, .header-meta, .tag,
 .timestamps, .search-button, .graph-title,
-.backlink-title, .sidebar-title, label {
-  font-family: var(--pk-font-ui);
-}
+.backlink-title, .sidebar-title, label { font-family: var(--pk-font-ui); }
 .cm-s-obsidian h1, .cm-s-obsidian h2, .cm-s-obsidian h3, h1, h2, h3 {
   font-family: var(--pk-font-head); font-weight: 500; line-height: 1.22;
   letter-spacing: -0.02em; color: var(--pk-text);
@@ -361,8 +356,7 @@ h2 { font-size: clamp(1.25rem,3vw,1.75rem); margin-top: 2.2em; margin-bottom: 0.
 h3 { font-size: clamp(1.1rem,2vw,1.3rem);   margin-top: 1.6em;  margin-bottom: 0.4em; }
 h4, h5, h6 { font-family: var(--pk-font-ui); font-weight: 600; }
 code:not(pre code) {
-  font-family: var(--pk-font-mono); font-size: 0.84em;
-  padding: 0.1em 0.38em; border-radius: 4px;
+  font-family: var(--pk-font-mono); font-size: 0.84em; padding: 0.1em 0.38em; border-radius: 4px;
 }
 pre, pre code { font-family: var(--pk-font-mono); font-size: 0.875rem; line-height: 1.65; }
 

@@ -2,6 +2,18 @@
   var PEEK_THRESHOLD = 64;
   var root = document.documentElement;
 
+  /* ── IMMEDIATE — runs before DOMContentLoaded ──────────────────
+     Adding pk-excalidraw-page to <html> synchronously means the
+     CSS palette + fade-in animation fire on the very first paint.
+     This eliminates the flash of wrong background / navbar colour
+     and the layout-jump when the class was previously only added
+     on DOMContentLoaded.
+   ──────────────────────────────────────────────────────────── */
+  var isExcalidrawPage = window.location.pathname.toLowerCase().includes('.excalidraw');
+  if (isExcalidrawPage) {
+    root.classList.add('pk-excalidraw-page');
+  }
+
   /* ── Progress bar ───────────────────────────────────────── */
   function setupProgress() {
     function update() {
@@ -74,28 +86,16 @@
   }
 
   /* ── Excalidraw dedicated pages ────────────────────────────
-
-     Activates ONLY when the URL pathname contains ".excalidraw"
-     (with the dot). This prevents accidental activation on notes
-     that merely mention "excalidraw" in their title or path.
-
-     What it does:
-       1. Adds pk-excalidraw-page to <body> so CSS kicks in
-       2. Strips fixed pixel width/height from the SVG and adds
-          a viewBox so the browser can scale it
-       3. Sets preserveAspectRatio="xMidYMid meet" so all drawing
-          elements are visible and centred (letterbox, no clipping)
-       4. Intercepts wheel events on the SVG container and
-          forwards them to window.scrollBy so the mouse wheel
-          scrolls the PAGE, not zooms the canvas
+     isExcalidrawPage is already computed above.
+     Here we add the class to <body> (DOMContentLoaded) and do
+     SVG fitting + wheel forwarding.
    ──────────────────────────────────────────────────────────── */
   function setupExcalidrawPage() {
-    var path = window.location.pathname.toLowerCase();
-    if (!path.includes('.excalidraw')) return;  /* dot required — safety guard */
+    if (!isExcalidrawPage) return;
 
     document.body.classList.add('pk-excalidraw-page');
 
-    /* ─ SVG fitting: remove pixel dims, add viewBox + preserveAspectRatio ─ */
+    /* SVG fitting: remove pixel dims, add viewBox + preserveAspectRatio */
     function fitSVGs() {
       var svgs = document.querySelectorAll(
         '.excalidraw-svg svg, .content > svg, .content .excalidraw-svg svg'
@@ -116,11 +116,7 @@
     setTimeout(fitSVGs, 250);
     setTimeout(fitSVGs, 800);
 
-    /* ─ Forward wheel events on the SVG to the page scroller ──────────
-       The SVG canvas would otherwise swallow wheel events and
-       zoom the drawing instead of scrolling the page.
-       Capture phase + preventDefault stops the SVG from seeing it.
-    ───────────────────────────────────────────────────────── */
+    /* Wheel forwarding: SVG canvas → page scroll */
     function attachWheelForward() {
       var container = document.querySelector('.excalidraw-svg');
       if (!container) return;

@@ -5,19 +5,17 @@
 /* ── Design tokens (Ink & Slate palette) ───────────────────── */
 :root {
   --pk-navbar-h:  56px;
-  --pk-page-gap:  28px;   /* breathing room between navbar and content */
+  --pk-page-gap:  28px;
 
   --pk-accent:    #2e5da6;
   --pk-accent-lt: #4a90d9;
   --pk-bg:        #f0f4fb;
   --pk-bg-card:   #ffffff;
-  /* navbar uses a separate frosted token — see .pk-navbar below */
   --pk-bg-nav:    rgba(255, 255, 255, 0.72);
   --pk-text:      #141c30;
   --pk-muted:     #536278;
   --pk-border:    #cdd7eb;
 
-  /* Override DG/Obsidian surface tokens */
   --background-primary:         var(--pk-bg);
   --background-primary-alt:     #e9eef8;
   --background-secondary:       #e6ecf7;
@@ -72,7 +70,10 @@ html::before {
   transition: width 80ms linear;
 }
 
-/* ── Scroll fix + page gap ──────────────────────────────────── */
+/* ── Scroll fix + page gap ──────────────────────────────────
+   Identical to the working baseline before excalidraw layout.
+   DO NOT change these without testing scroll on a normal page.
+   ──────────────────────────────────────────────────────────── */
 html {
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -85,13 +86,11 @@ body {
   padding-top: calc(var(--pk-navbar-h) + var(--pk-page-gap)) !important;
   background: var(--pk-bg);
 }
-/* Belt-and-braces: explicit content margin so DG overrides can't win */
 body.has-navbar .content,
 .content {
   margin-top: var(--pk-page-gap) !important;
   padding-top: 0 !important;
 }
-
 .markdown-preview-view,
 .markdown-preview-view.is-readable-line-width {
   overflow: visible !important;
@@ -99,7 +98,7 @@ body.has-navbar .content,
   max-height: none !important;
 }
 
-/* ── Canvas / Excalidraw: true full-screen, no navbar ───────── */
+/* ── Canvas pages: full-screen, no navbar ────────────────────── */
 body:has(.content.canvas-page) {
   padding-top: 0 !important;
   overflow: hidden !important;
@@ -119,6 +118,72 @@ body:has(.content.canvas-page) .canvas-wrapper {
 }
 body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
+/* ── Excalidraw dedicated pages ───────────────────────────────
+   ONLY active when pk-ui.js adds .pk-excalidraw-page to <body>.
+   That class is added ONLY when the URL pathname contains
+   ".excalidraw" (with the dot), so normal pages are never affected.
+
+   Changes vs normal pages:
+     - Body padding reduced to navbar height only (no extra gap)
+     - Sidebar + filetree hidden
+     - .content goes full width (width:100% off parent, no vw units)
+     - .excalidraw-svg fills viewport height below navbar (100dvh)
+     - SVG scales to fit (xMidYMid meet via JS)
+     - Footer remains scrollable below the drawing
+   ──────────────────────────────────────────────────────────── */
+body.pk-excalidraw-page {
+  padding-top: var(--pk-navbar-h) !important;
+}
+
+body.pk-excalidraw-page aside,
+body.pk-excalidraw-page .sidebar,
+body.pk-excalidraw-page .filetree-wrapper {
+  display: none !important;
+}
+
+/* Full-width card — use % not vw to avoid scrollbar-induced horizontal overflow */
+body.pk-excalidraw-page .content,
+body.pk-excalidraw-page.has-navbar .content {
+  width:         100% !important;
+  max-width:     100% !important;
+  margin:        0    !important;
+  padding:       0    !important;
+  border-radius: 0    !important;
+  box-shadow:    none !important;
+  background:    var(--pk-bg) !important;
+}
+
+body.pk-excalidraw-page .content > header {
+  display: none !important;
+}
+
+/* SVG wrapper — fill viewport height below navbar.
+   100dvh accounts for mobile browser chrome disappearing on scroll. */
+body.pk-excalidraw-page .excalidraw-svg {
+  display:    block   !important;
+  width:      100%    !important;
+  height:     calc(100dvh - var(--pk-navbar-h)) !important;
+  height:     calc(100vh  - var(--pk-navbar-h)) !important;
+  overflow:   hidden  !important;
+  padding:    0       !important;
+  margin:     0       !important;
+  background: var(--pk-bg);
+}
+
+body.pk-excalidraw-page .excalidraw-svg svg,
+body.pk-excalidraw-page main.content > svg {
+  display:    block !important;
+  width:      100%  !important;
+  height:     100%  !important;
+  max-width:  100%  !important;
+  max-height: 100%  !important;
+}
+
+body.pk-excalidraw-page .pk-footer {
+  margin-top:  0;
+  padding-top: 2rem;
+}
+
 /* ── Hide DG theme pill ─────────────────────────────────────── */
 .rzl-header-actions,
 .theme-toggle-wrapper,
@@ -127,41 +192,24 @@ body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
   display: none !important;
 }
 
-/* ── Navbar — frosted glass ─────────────────────────────────────
-   Semi-transparent background + saturated blur = depth without
-   weight. The page content subtly shows through as you scroll,
-   making the navbar feel elevated rather than painted-on.
-   A hairline shadow replaces the hard border for a softer edge.
-   ──────────────────────────────────────────────────────────── */
+/* ── Navbar — frosted glass ───────────────────────────────────── */
 .pk-navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-
-  /* frosted glass */
   background: var(--pk-bg-nav);
   backdrop-filter: saturate(180%) blur(18px);
   -webkit-backdrop-filter: saturate(180%) blur(18px);
-
-  /* soft elevation instead of a hard border */
   border-bottom: none;
-  box-shadow:
-    0 1px 0   rgba(0, 0, 0, 0.06),
-    0 4px 16px rgba(0, 0, 0, 0.04);
-
+  box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
   transform: translateY(0);
-  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 220ms ease;
+  transition: transform 220ms cubic-bezier(.4,0,.2,1), box-shadow 220ms ease;
   will-change: transform;
 }
 .pk-navbar.pk-nav-hidden  { transform: translateY(-100%); }
 body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
-
-/* Slightly stronger shadow when scrolled */
 .pk-navbar.pk-nav-scrolled {
-  box-shadow:
-    0 1px 0   rgba(0, 0, 0, 0.08),
-    0 8px 24px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.07);
 }
 
 .pk-navbar-inner {
@@ -173,83 +221,46 @@ body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
   gap: 14px;
 }
 .pk-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: inherit;
-  flex-shrink: 0;
+  display: flex; align-items: center;
+  gap: 12px; text-decoration: none;
+  color: inherit; flex-shrink: 0;
 }
 .pk-logo { width: 26px; height: 26px; color: var(--pk-accent); }
 .pk-brand-text { display: flex; flex-direction: column; }
 .pk-site-name {
-  font-family: var(--pk-font-ui);
-  font-weight: 600;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
+  font-family: var(--pk-font-ui); font-weight: 600; font-size: 1.05rem;
+  letter-spacing: -0.01em; line-height: 1.1;
 }
 .pk-site-tagline {
-  font-family: var(--pk-font-ui);
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity: 0.50;
-  margin-top: 2px;
-  line-height: 1;
+  font-family: var(--pk-font-ui); font-size: 0.62rem; text-transform: uppercase;
+  letter-spacing: 0.05em; opacity: 0.50; margin-top: 2px; line-height: 1;
 }
 .pk-navlinks { display: flex; align-items: center; gap: 24px; }
 .pk-navlink {
-  font-family: var(--pk-font-ui);
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-decoration: none;
-  color: inherit;
-  opacity: 0.60;
-  letter-spacing: 0.01em;
-  transition: opacity 140ms;
-  position: relative;
+  font-family: var(--pk-font-ui); font-size: 0.875rem; font-weight: 500;
+  text-decoration: none; color: inherit; opacity: 0.60;
+  letter-spacing: 0.01em; transition: opacity 140ms; position: relative;
 }
-/* subtle underline indicator on hover */
 .pk-navlink::after {
-  content: '';
-  position: absolute;
-  bottom: -2px; left: 0; right: 0;
-  height: 1.5px;
-  background: var(--pk-accent);
-  border-radius: 2px;
-  transform: scaleX(0);
-  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+  height: 1.5px; background: var(--pk-accent); border-radius: 2px;
+  transform: scaleX(0); transition: transform 180ms cubic-bezier(.4,0,.2,1);
 }
 .pk-navlink:hover { opacity: 1; }
 .pk-navlink:hover::after { transform: scaleX(1); }
-
 .pk-nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .pk-theme-btn {
-  background: transparent;
-  border: none;
-  padding: 6px;
-  cursor: pointer;
-  color: inherit;
-  opacity: 0.55;
-  transition: opacity 140ms, background 140ms;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  line-height: 0;
+  background: transparent; border: none; padding: 6px; cursor: pointer;
+  color: inherit; opacity: 0.55; transition: opacity 140ms, background 140ms;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; line-height: 0;
 }
-.pk-theme-btn:hover {
-  opacity: 1;
-  background: rgba(46, 93, 166, 0.08);
-}
+.pk-theme-btn:hover { opacity: 1; background: rgba(46,93,166,.08); }
 
 /* ── Typography ─────────────────────────────────────────────── */
 body {
-  font-family: var(--pk-font-body);
-  font-size: 1.0625rem;
-  line-height: 1.82;
-  color: var(--pk-text);
+  font-family: var(--pk-font-body); font-size: 1.0625rem;
+  line-height: 1.82; color: var(--pk-text);
   font-feature-settings: 'kern' 1, 'liga' 1;
 }
 .pk-navbar, .pk-footer, .header-meta, .tag,
@@ -257,117 +268,60 @@ body {
 .backlink-title, .sidebar-title, label {
   font-family: var(--pk-font-ui);
 }
-.cm-s-obsidian h1, .cm-s-obsidian h2, .cm-s-obsidian h3,
-h1, h2, h3 {
-  font-family: var(--pk-font-head);
-  font-weight: 500;
-  line-height: 1.22;
-  letter-spacing: -0.02em;
-  color: var(--pk-text);
+.cm-s-obsidian h1, .cm-s-obsidian h2, .cm-s-obsidian h3, h1, h2, h3 {
+  font-family: var(--pk-font-head); font-weight: 500; line-height: 1.22;
+  letter-spacing: -0.02em; color: var(--pk-text);
 }
-h1 { font-size: clamp(1.75rem, 4vw, 2.5rem);  margin-bottom: 0.45em; }
-h2 { font-size: clamp(1.25rem, 3vw, 1.75rem); margin-top: 2.2em; margin-bottom: 0.45em; }
-h3 { font-size: clamp(1.1rem,  2vw, 1.3rem);  margin-top: 1.6em;  margin-bottom: 0.4em; }
+h1 { font-size: clamp(1.75rem,4vw,2.5rem);  margin-bottom: 0.45em; }
+h2 { font-size: clamp(1.25rem,3vw,1.75rem); margin-top: 2.2em; margin-bottom: 0.45em; }
+h3 { font-size: clamp(1.1rem,2vw,1.3rem);   margin-top: 1.6em;  margin-bottom: 0.4em; }
 h4, h5, h6 { font-family: var(--pk-font-ui); font-weight: 600; }
 code:not(pre code) {
-  font-family: var(--pk-font-mono);
-  font-size: 0.84em;
-  padding: 0.1em 0.38em;
-  border-radius: 4px;
+  font-family: var(--pk-font-mono); font-size: 0.84em;
+  padding: 0.1em 0.38em; border-radius: 4px;
 }
-pre, pre code {
-  font-family: var(--pk-font-mono);
-  font-size: 0.875rem;
-  line-height: 1.65;
-}
+pre, pre code { font-family: var(--pk-font-mono); font-size: 0.875rem; line-height: 1.65; }
 
-/* ── Sidebar fade-out at footer ─────────────────────────────── */
-.sidebar {
-  transition: opacity 400ms ease, transform 400ms ease;
-}
+/* ── Sidebar fade-out at footer ────────────────────────────── */
+.sidebar { transition: opacity 400ms ease, transform 400ms ease; }
 .sidebar.pk-sidebar-end {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: translateY(16px);
+  opacity: 0 !important; pointer-events: none !important; transform: translateY(16px);
 }
 
 /* ── Footer ─────────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
-
 .pk-footer {
-  width: 100%;
-  text-align: center;
-  margin-top: 3rem;
-  padding-top: 2rem;
+  width: 100%; text-align: center; margin-top: 3rem; padding-top: 2rem;
   border-top: 1px solid var(--pk-border);
 }
-.pk-footer-institute {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 16px;
-}
+.pk-footer-institute { display: flex; flex-direction: column; align-items: center; padding: 0 16px; }
 .pk-footer-seal {
-  width: 80px; height: 80px;
-  display: block;
-  margin: 0 0 10px;
+  width: 80px; height: 80px; display: block; margin: 0 0 10px;
   background-color: var(--pk-seal-color);
   -webkit-mask-image: url('/img/sssihl-seal-mask.png');
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat; -webkit-mask-position: center; -webkit-mask-size: contain;
   mask-image: url('/img/sssihl-seal-mask.png');
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: contain;
-  opacity: 0.9;
+  mask-repeat: no-repeat; mask-position: center; mask-size: contain; opacity: 0.9;
 }
-.pk-footer-inst-link {
-  display: inline-block;
-  text-decoration: none;
-  padding: 0 0 10px;
-}
+.pk-footer-inst-link { display: inline-block; text-decoration: none; padding: 0 0 10px; }
 .pk-footer-inst-name {
-  display: block;
-  font-family: var(--pk-font-ui);
-  font-weight: 800;
-  font-size: clamp(0.7rem, 1.6vw, 0.9rem);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--pk-seal-color);
-  line-height: 1.35;
+  display: block; font-family: var(--pk-font-ui); font-weight: 800;
+  font-size: clamp(0.7rem,1.6vw,0.9rem); letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--pk-seal-color); line-height: 1.35;
 }
 .pk-footer-inst-link:hover .pk-footer-inst-name { opacity: 0.75; }
-.pk-footer-divider {
-  width: 40px; height: 1px;
-  background: var(--pk-border);
-  margin: 12px auto 14px;
-}
+.pk-footer-divider { width: 40px; height: 1px; background: var(--pk-border); margin: 12px auto 14px; }
 .pk-footer-links {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  padding: 0 16px 28px;
+  display: flex; gap: 20px; flex-wrap: wrap;
+  align-items: center; justify-content: center; padding: 0 16px 28px;
 }
 .pk-footer-links a {
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-  font-family: var(--pk-font-ui);
-  font-size: 0.83rem;
-  opacity: 0.50;
-  letter-spacing: 0.03em;
-  transition: opacity 140ms;
+  display: inline-flex; gap: 6px; align-items: center;
+  text-decoration: none; color: inherit; font-family: var(--pk-font-ui);
+  font-size: 0.83rem; opacity: 0.50; letter-spacing: 0.03em; transition: opacity 140ms;
 }
 .pk-footer-links a:hover { opacity: 1; }
-.pk-footer-links i, .pk-footer-links svg {
-  width: 15px; height: 15px;
-  flex-shrink: 0;
-}
+.pk-footer-links i, .pk-footer-links svg { width: 15px; height: 15px; flex-shrink: 0; }
 
-/* ── Graph z-index ──────────────────────────────────────────── */
+/* ── Graph z-index ─────────────────────────────────────────── */
 .graph-page, .graph-wrapper, #graph { position: relative; z-index: 1; }

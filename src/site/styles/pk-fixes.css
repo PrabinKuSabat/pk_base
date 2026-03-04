@@ -71,17 +71,12 @@ html::before {
   transition: width 80ms linear;
 }
 
-/* ── Global scroll + page gap ─────────────────────────────────
-   DG sets .markdown-preview-view { height: 100vh; overflow: hidden }
-   We need to beat that on html, body, AND the DG wrapper class.
-   ──────────────────────────────────────────────────────────── */
+/* ── Scroll fix + page gap ──────────────────────────────────── */
 html {
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  height: auto !important;
 }
-body,
-body.markdown-preview-view {
+body {
   overflow-y: auto !important;
   overflow-x: hidden !important;
   height: auto !important;
@@ -89,21 +84,16 @@ body.markdown-preview-view {
   padding-top: calc(var(--pk-navbar-h) + var(--pk-page-gap)) !important;
   background: var(--pk-bg);
 }
-/* DG locks scroll on the view class — unlock it everywhere */
-.markdown-preview-view {
-  overflow:   visible !important;
-  height:     auto    !important;
-  max-height: none    !important;
-}
-.markdown-preview-view.is-readable-line-width {
-  overflow:   visible !important;
-  height:     auto    !important;
-  max-height: none    !important;
-}
 body.has-navbar .content,
 .content {
   margin-top: var(--pk-page-gap) !important;
   padding-top: 0 !important;
+}
+.markdown-preview-view,
+.markdown-preview-view.is-readable-line-width {
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
 }
 
 /* ── Canvas pages: full-screen, no navbar ────────────────────── */
@@ -114,40 +104,37 @@ body:has(.content.canvas-page) {
 body:has(.content.canvas-page) .pk-navbar { display: none !important; }
 body:has(.content.canvas-page) .content.canvas-page {
   height: 100vh !important; min-height: 100vh !important;
-  margin: 0 !important; padding: 0 !important; max-width: none !important;
+  margin: 0 !important; padding: 0 !important;
+  max-width: none !important;
 }
-body:has(.content.canvas-page) .canvas-wrapper { width: 100vw !important; height: 100vh !important; }
+body:has(.content.canvas-page) .canvas-wrapper {
+  width: 100vw !important; height: 100vh !important;
+}
 body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
-/* ── Excalidraw pages ──────────────────────────────────────────
-   pk-excalidraw-page is added by pk-ui.js on any page whose
-   URL contains ".excalidraw".
+/* ── Excalidraw pages (pk-excalidraw-page added by pk-ui.js) ─────────
 
-   Width strategy — use margin-based auto width, NOT 100vw:
-     width: auto  +  margin-left/right: 28px
-   Browser computes: width = parent − 28 − 28
-   This automatically excludes the scrollbar (≈17px) so the
-   box never overflows right, producing identical gaps on both
-   sides that match the navbar’s own padding: 0 28px.
+   Visual contract:
+     ┌─────────────────────────────────────────────────┐
+     │ NAVBAR  28px│························│ 28px  │
+     ├─────────┐ excalidraw box ┌─────────┤
+     │ 28px gap│ width=100vw-56px │ 28px gap│
+     │         │ height=100vh-56  │         │
+     │         │        -44px     │         │
+     └─────────┘                  └─────────┘
+     │ ←── zoom controls visible ──→       │
+     ├─────────────────────────────────────────────────┤
+     │                FOOTER                  │
+     └─────────────────────────────────────────────────┘
 
-   Height strategy:
-     height: calc(100vh − navbar − top-margin − bottom-gap)
-     = calc(100vh − 56px − 12px − 52px)
-     = calc(100vh − 120px)
-   The 52px bottom gap keeps zoom controls fully in view.
-
-   Scroll strategy:
-     pk-ui.js intercepts wheel events on .excalidraw-svg
-     and forwards them to window.scrollBy, so mouse wheel
-     scrolls the page not the canvas.
-     Use the −/+ buttons in the viewer to zoom the drawing.
+   Wheel events on the canvas are intercepted by pk-ui.js
+   and forwarded to window.scrollBy so the PAGE scrolls —
+   use the −/+ buttons to zoom the drawing instead.
    ──────────────────────────────────────────────────────────── */
-body.pk-excalidraw-page,
-body.pk-excalidraw-page.markdown-preview-view {
-  padding-top:  var(--pk-navbar-h) !important;
-  overflow-y:   auto   !important;
-  overflow-x:   hidden !important;
-  height:       auto   !important;
+body.pk-excalidraw-page {
+  padding-top: var(--pk-navbar-h) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 /* Kill sidebar & filetree */
@@ -157,55 +144,55 @@ body.pk-excalidraw-page .filetree-wrapper {
   display: none !important;
 }
 
-/* ─ Content box ─────────────────────────────────────────
-   width:auto + margin L/R = scrollbar-safe symmetric gaps  */
+/* Content box: same horizontal inset as navbar (--pk-navbar-px each side) */
 body.pk-excalidraw-page .content,
 body.pk-excalidraw-page.has-navbar .content {
-  width:         auto !important;      /* fills parent minus margins — no 100vw */
-  max-width:     100% !important;
-  margin-top:    12px !important;
-  margin-left:   var(--pk-navbar-px) !important;
-  margin-right:  var(--pk-navbar-px) !important;
-  margin-bottom: 0 !important;
-  padding:       0 !important;
+  width:     calc(100vw - 2 * var(--pk-navbar-px)) !important;
+  max-width: calc(100vw - 2 * var(--pk-navbar-px)) !important;
+  margin:    0 var(--pk-navbar-px) !important;  /* left & right mirror navbar padding */
+  padding:   0 !important;
+  margin-top: 12px !important;                  /* small vertical gap below navbar */
   border-radius: 8px !important;
-  box-shadow:    0 1px 3px rgba(0,0,0,.07) !important;
-  position:      relative !important;  /* contain absolute children */
-  overflow:      hidden !important;
-  background:    var(--pk-bg-card) !important;
-  box-sizing:    border-box !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07) !important;
+  overflow:  hidden !important;
+  background: var(--pk-bg-card) !important;
 }
 
-/* Hide note title/header */
-body.pk-excalidraw-page .content > header { display: none !important; }
+/* Hide note title/header inside content */
+body.pk-excalidraw-page .content > header {
+  display: none !important;
+}
 
-/* ─ Excalidraw wrapper ──────────────────────────────────
-   100vh − 56 (navbar) − 12 (top margin) − 52 (zoom+gap) = −120px  */
+/* Excalidraw SVG wrapper
+   Height = viewport − navbar − top margin (12) − bottom gap (44 for zoom controls) */
 body.pk-excalidraw-page .excalidraw-svg {
-  display:    block    !important;
-  width:      100%     !important;
-  height:     calc(100vh - 120px) !important;
-  max-height: calc(100vh - 120px) !important;
-  overflow:   hidden   !important;
-  padding:    0        !important;
-  margin:     0        !important;
-  position:   relative !important;
+  display:    block !important;
+  width:      100% !important;
+  height:     calc(100vh - var(--pk-navbar-h) - 56px) !important;
+  max-height: calc(100vh - var(--pk-navbar-h) - 56px) !important;
+  overflow:   hidden !important;
+  padding:    0 !important;
+  margin:     0 !important;
   background: var(--pk-bg-card);
+  /* Contain overscroll so wheel events don't double-fire */
   overscroll-behavior: contain;
 }
 
-/* ─ The SVG itself ──────────────────────────────────────── */
+/* The actual SVG: fills wrapper, never exceeds it */
 body.pk-excalidraw-page .excalidraw-svg svg,
 body.pk-excalidraw-page main.content > svg {
   display:    block !important;
-  width:      100%  !important;
-  height:     100%  !important;
-  max-width:  100%  !important;
-  max-height: 100%  !important;
+  width:      100% !important;
+  height:     100% !important;
+  max-width:  100% !important;
+  max-height: calc(100vh - var(--pk-navbar-h) - 56px) !important;
 }
 
-/* Footer right after the box */
-body.pk-excalidraw-page .pk-footer { margin-top: 0; padding-top: 2rem; }
+/* Footer comes right after the bounded box */
+body.pk-excalidraw-page .pk-footer {
+  margin-top: 0;
+  padding-top: 2rem;
+}
 
 /* ── Hide DG theme pill ─────────────────────────────────────── */
 .rzl-header-actions,
@@ -229,7 +216,7 @@ body.pk-excalidraw-page .pk-footer { margin-top: 0; padding-top: 2rem; }
   transition: transform 220ms cubic-bezier(.4,0,.2,1), box-shadow 220ms ease;
   will-change: transform;
 }
-.pk-navbar.pk-nav-hidden  { transform: translateY(-100%); }
+.pk-navbar.pk-nav-hidden { transform: translateY(-100%); }
 body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
 .pk-navbar.pk-nav-scrolled {
   box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.07);
@@ -239,41 +226,50 @@ body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--pk-navbar-px);
+  padding: 0 var(--pk-navbar-px); /* uses same token as excalidraw margins */
   height: var(--pk-navbar-h);
   gap: 14px;
 }
 .pk-brand {
   display: flex; align-items: center;
-  gap: 12px; text-decoration: none; color: inherit; flex-shrink: 0;
+  gap: 12px; text-decoration: none;
+  color: inherit; flex-shrink: 0;
 }
 .pk-logo { width: 26px; height: 26px; color: var(--pk-accent); }
 .pk-brand-text { display: flex; flex-direction: column; }
 .pk-site-name {
-  font-family: var(--pk-font-ui); font-weight: 600; font-size: 1.05rem;
+  font-family: var(--pk-font-ui);
+  font-weight: 600; font-size: 1.05rem;
   letter-spacing: -0.01em; line-height: 1.1;
 }
 .pk-site-tagline {
-  font-family: var(--pk-font-ui); font-size: 0.62rem; text-transform: uppercase;
-  letter-spacing: 0.05em; opacity: 0.50; margin-top: 2px; line-height: 1;
+  font-family: var(--pk-font-ui);
+  font-size: 0.62rem; text-transform: uppercase;
+  letter-spacing: 0.05em; opacity: 0.50;
+  margin-top: 2px; line-height: 1;
 }
 .pk-navlinks { display: flex; align-items: center; gap: 24px; }
 .pk-navlink {
-  font-family: var(--pk-font-ui); font-size: 0.875rem; font-weight: 500;
-  text-decoration: none; color: inherit; opacity: 0.60;
-  letter-spacing: 0.01em; transition: opacity 140ms; position: relative;
+  font-family: var(--pk-font-ui);
+  font-size: 0.875rem; font-weight: 500;
+  text-decoration: none; color: inherit;
+  opacity: 0.60; letter-spacing: 0.01em;
+  transition: opacity 140ms; position: relative;
 }
 .pk-navlink::after {
-  content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
-  height: 1.5px; background: var(--pk-accent); border-radius: 2px;
-  transform: scaleX(0); transition: transform 180ms cubic-bezier(.4,0,.2,1);
+  content: ''; position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1.5px; background: var(--pk-accent);
+  border-radius: 2px; transform: scaleX(0);
+  transition: transform 180ms cubic-bezier(.4,0,.2,1);
 }
 .pk-navlink:hover { opacity: 1; }
 .pk-navlink:hover::after { transform: scaleX(1); }
 .pk-nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .pk-theme-btn {
-  background: transparent; border: none; padding: 6px; cursor: pointer;
-  color: inherit; opacity: 0.55; transition: opacity 140ms, background 140ms;
+  background: transparent; border: none; padding: 6px;
+  cursor: pointer; color: inherit; opacity: 0.55;
+  transition: opacity 140ms, background 140ms;
   display: flex; align-items: center; justify-content: center;
   border-radius: 8px; line-height: 0;
 }
@@ -281,8 +277,9 @@ body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
 
 /* ── Typography ─────────────────────────────────────────────── */
 body {
-  font-family: var(--pk-font-body); font-size: 1.0625rem;
-  line-height: 1.82; color: var(--pk-text);
+  font-family: var(--pk-font-body);
+  font-size: 1.0625rem; line-height: 1.82;
+  color: var(--pk-text);
   font-feature-settings: 'kern' 1, 'liga' 1;
 }
 .pk-navbar, .pk-footer, .header-meta, .tag,
@@ -290,8 +287,10 @@ body {
 .backlink-title, .sidebar-title, label {
   font-family: var(--pk-font-ui);
 }
-.cm-s-obsidian h1, .cm-s-obsidian h2, .cm-s-obsidian h3, h1, h2, h3 {
-  font-family: var(--pk-font-head); font-weight: 500; line-height: 1.22;
+.cm-s-obsidian h1, .cm-s-obsidian h2, .cm-s-obsidian h3,
+h1, h2, h3 {
+  font-family: var(--pk-font-head);
+  font-weight: 500; line-height: 1.22;
   letter-spacing: -0.02em; color: var(--pk-text);
 }
 h1 { font-size: clamp(1.75rem,4vw,2.5rem);  margin-bottom: 0.45em; }
@@ -299,21 +298,26 @@ h2 { font-size: clamp(1.25rem,3vw,1.75rem); margin-top: 2.2em; margin-bottom: 0.
 h3 { font-size: clamp(1.1rem,2vw,1.3rem);   margin-top: 1.6em;  margin-bottom: 0.4em; }
 h4, h5, h6 { font-family: var(--pk-font-ui); font-weight: 600; }
 code:not(pre code) {
-  font-family: var(--pk-font-mono); font-size: 0.84em;
-  padding: 0.1em 0.38em; border-radius: 4px;
+  font-family: var(--pk-font-mono);
+  font-size: 0.84em; padding: 0.1em 0.38em; border-radius: 4px;
 }
-pre, pre code { font-family: var(--pk-font-mono); font-size: 0.875rem; line-height: 1.65; }
+pre, pre code {
+  font-family: var(--pk-font-mono);
+  font-size: 0.875rem; line-height: 1.65;
+}
 
 /* ── Sidebar fade-out at footer ────────────────────────────── */
 .sidebar { transition: opacity 400ms ease, transform 400ms ease; }
 .sidebar.pk-sidebar-end {
-  opacity: 0 !important; pointer-events: none !important; transform: translateY(16px);
+  opacity: 0 !important; pointer-events: none !important;
+  transform: translateY(16px);
 }
 
 /* ── Footer ─────────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
 .pk-footer {
-  width: 100%; text-align: center; margin-top: 3rem; padding-top: 2rem;
+  width: 100%; text-align: center;
+  margin-top: 3rem; padding-top: 2rem;
   border-top: 1px solid var(--pk-border);
 }
 .pk-footer-institute { display: flex; flex-direction: column; align-items: center; padding: 0 16px; }
@@ -323,13 +327,15 @@ nav.rzl-footer-mini { display: none !important; }
   -webkit-mask-image: url('/img/sssihl-seal-mask.png');
   -webkit-mask-repeat: no-repeat; -webkit-mask-position: center; -webkit-mask-size: contain;
   mask-image: url('/img/sssihl-seal-mask.png');
-  mask-repeat: no-repeat; mask-position: center; mask-size: contain; opacity: 0.9;
+  mask-repeat: no-repeat; mask-position: center; mask-size: contain;
+  opacity: 0.9;
 }
 .pk-footer-inst-link { display: inline-block; text-decoration: none; padding: 0 0 10px; }
 .pk-footer-inst-name {
-  display: block; font-family: var(--pk-font-ui); font-weight: 800;
-  font-size: clamp(0.7rem,1.6vw,0.9rem); letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--pk-seal-color); line-height: 1.35;
+  display: block; font-family: var(--pk-font-ui);
+  font-weight: 800; font-size: clamp(0.7rem,1.6vw,0.9rem);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--pk-seal-color); line-height: 1.35;
 }
 .pk-footer-inst-link:hover .pk-footer-inst-name { opacity: 0.75; }
 .pk-footer-divider { width: 40px; height: 1px; background: var(--pk-border); margin: 12px auto 14px; }
@@ -339,8 +345,9 @@ nav.rzl-footer-mini { display: none !important; }
 }
 .pk-footer-links a {
   display: inline-flex; gap: 6px; align-items: center;
-  text-decoration: none; color: inherit; font-family: var(--pk-font-ui);
-  font-size: 0.83rem; opacity: 0.50; letter-spacing: 0.03em; transition: opacity 140ms;
+  text-decoration: none; color: inherit;
+  font-family: var(--pk-font-ui); font-size: 0.83rem;
+  opacity: 0.50; letter-spacing: 0.03em; transition: opacity 140ms;
 }
 .pk-footer-links a:hover { opacity: 1; }
 .pk-footer-links i, .pk-footer-links svg { width: 15px; height: 15px; flex-shrink: 0; }

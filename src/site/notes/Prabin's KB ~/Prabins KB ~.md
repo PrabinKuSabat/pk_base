@@ -3,10 +3,9 @@
 ---
 
 
-![image-95.png](/img/user/Extras/ATTACHMENTS/image-95.png)
-# Systems Engineering Logbook — Kernel, Performance, and Architecture Experiments
 
-**Build. Measure. Prove.**
+![image-97.png](/img/user/Extras/ATTACHMENTS/image-97.png)
+# Systems Engineering Logbook — Kernel, Performance, and Architecture Experiments
 
 ---
 

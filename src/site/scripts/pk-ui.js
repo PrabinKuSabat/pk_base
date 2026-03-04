@@ -73,55 +73,6 @@
     if (saved) applyTheme(saved);
   }
 
-  /* ── Scroll unblock (global) ────────────────────────────────
-     Some DG builds/scripts can accidentally call preventDefault()
-     on wheel or PageDown/PageUp, which breaks mouse + keyboard
-     scrolling but still allows dragging the scrollbar.
-
-     This runs at window capture phase and stops propagation for
-     "page scroll" interactions so native scrolling works.
-     It intentionally avoids interactive widgets & inner scrollers.
-   ──────────────────────────────────────────────────────────── */
-  function setupScrollUnblock() {
-    function isInInteractive(target) {
-      if (!target || !target.closest) return false;
-      if (target.closest('.excalidraw-svg')) return true;
-      if (target.closest('.rzl-lightbox')) return true;
-      if (target.closest('input, textarea, select, button, a, [contenteditable="true"]')) return true;
-      return false;
-    }
-
-    function hasScrollableAncestor(target) {
-      var el = target;
-      while (el && el !== document.body && el !== document.documentElement) {
-        if (el.nodeType !== 1) { el = el.parentElement; continue; }
-        var style = window.getComputedStyle(el);
-        var oy = style.overflowY;
-        if ((oy === 'auto' || oy === 'scroll') && (el.scrollHeight > el.clientHeight + 1)) {
-          return true;
-        }
-        el = el.parentElement;
-      }
-      return false;
-    }
-
-    window.addEventListener('wheel', function (e) {
-      if (e.ctrlKey) return; /* browser zoom gesture */
-      if (isInInteractive(e.target)) return;
-      if (hasScrollableAncestor(e.target)) return;
-      if (Math.abs(e.deltaY) < 0.5 && Math.abs(e.deltaX) < 0.5) return;
-      e.stopPropagation();
-    }, { passive: true, capture: true });
-
-    window.addEventListener('keydown', function (e) {
-      if (isInInteractive(e.target)) return;
-      var k = e.key;
-      if (k === 'PageDown' || k === 'PageUp' || k === 'Home' || k === 'End' || k === ' ') {
-        e.stopPropagation();
-      }
-    }, { capture: true });
-  }
-
   /* ── Excalidraw fullscreen layout ────────────────────────────
 
      What this does:
@@ -159,7 +110,13 @@
     setTimeout(fitSVGs, 250);
     setTimeout(fitSVGs, 800);
 
-    /* ─ Wheel → page scroll forwarding ────────────────────── */
+    /* ─ Wheel → page scroll forwarding ──────────────────────
+       We capture wheel events BEFORE the excalidraw canvas
+       receives them (capture:true), stop their propagation so
+       the canvas never zooms, then scroll the page ourselves.
+       Shift+wheel scrolls horizontally (standard behaviour).
+       Click events are NOT affected, so −/+ buttons still work.
+    ───────────────────────────────────────────────────────── */
     function attachWheelForward() {
       var container = document.querySelector('.excalidraw-svg');
       if (!container) return;
@@ -174,12 +131,11 @@
     }
 
     attachWheelForward();
-    setTimeout(attachWheelForward, 400);
+    setTimeout(attachWheelForward, 400); /* retry in case DG re-renders */
   }
 
   /* ── Boot ─────────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
-    setupScrollUnblock();
     restoreTheme();
     setupExcalidrawPage();
     setupProgress();

@@ -2,46 +2,36 @@
    pk-fixes.css  —  Ring0Ledger global overrides
    ============================================================= */
 
-/* ── Design tokens (Ink & Slate palette) ──────────────────────
-   Light: crisp off-white page, deep navy text, confident blue accent
-   Dark:  true dark-navy bg, soft blue-white text
-   ──────────────────────────────────────────────────────────── */
+/* ── Design tokens (Ink & Slate palette) ────────────────────── */
 :root {
   --pk-navbar-h:  56px;
+  --pk-page-gap:  14px;
 
-  /* Core accent */
   --pk-accent:    #2e5da6;
   --pk-accent-lt: #4a90d9;
-
-  /* Surfaces */
   --pk-bg:        #f0f4fb;
   --pk-bg-card:   #ffffff;
   --pk-bg-nav:    #e6ecf7;
-
-  /* Typography */
   --pk-text:      #141c30;
   --pk-muted:     #536278;
   --pk-border:    #cdd7eb;
 
-  /* Override DG / Obsidian surface variables */
-  --background-primary:       var(--pk-bg);
-  --background-primary-alt:   #e9eef8;
-  --background-secondary:     var(--pk-bg-nav);
-  --background-secondary-alt: #dce4f2;
+  /* Override DG/Obsidian surface tokens */
+  --background-primary:         var(--pk-bg);
+  --background-primary-alt:     #e9eef8;
+  --background-secondary:       var(--pk-bg-nav);
+  --background-secondary-alt:   #dce4f2;
   --background-modifier-border: var(--pk-border);
-  --text-normal:   var(--pk-text);
-  --text-muted:    var(--pk-muted);
-  --text-accent:   var(--pk-accent);
+  --text-normal:  var(--pk-text);
+  --text-muted:   var(--pk-muted);
+  --text-accent:  var(--pk-accent);
 
-  /* Fonts */
   --pk-font-ui:   'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --pk-font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --pk-font-head: 'Fraunces', Georgia, serif;
   --pk-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Footer seal */
   --pk-seal-color: var(--pk-accent);
-
   --rzl-progress-pct: 0%;
 }
 
@@ -56,19 +46,19 @@ body.theme-dark {
   --pk-muted:     #7a95b0;
   --pk-border:    #253347;
 
-  --background-primary:       var(--pk-bg);
-  --background-primary-alt:   #1e2c42;
-  --background-secondary:     var(--pk-bg-nav);
-  --background-secondary-alt: #162030;
+  --background-primary:         var(--pk-bg);
+  --background-primary-alt:     #1e2c42;
+  --background-secondary:       var(--pk-bg-nav);
+  --background-secondary-alt:   #162030;
   --background-modifier-border: var(--pk-border);
-  --text-normal:   var(--pk-text);
-  --text-muted:    var(--pk-muted);
-  --text-accent:   var(--pk-accent);
+  --text-normal:  var(--pk-text);
+  --text-muted:   var(--pk-muted);
+  --text-accent:  var(--pk-accent);
 
   --pk-seal-color: rgba(220, 232, 246, 0.90);
 }
 
-/* ── Progress bar ──────────────────────────────────────────── */
+/* ── Progress bar ────────────────────────────────────────── */
 html::before {
   content: '';
   position: fixed;
@@ -81,7 +71,11 @@ html::before {
   transition: width 80ms linear;
 }
 
-/* ── SCROLL FIX ────────────────────────────────────────────── */
+/* ── SCROLL FIX + page gap ─────────────────────────────────
+   body padding-top = navbar height + intentional page gap.
+   DG's own .content { padding-top: 90px } is cancelled so
+   we only have one consistent offset throughout the site.
+*/
 html {
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -91,24 +85,54 @@ body {
   overflow-x: hidden !important;
   height: auto !important;
   min-height: 100vh;
-  padding-top: var(--pk-navbar-h);
+  padding-top: calc(var(--pk-navbar-h) + var(--pk-page-gap)) !important;
   background: var(--pk-bg);
 }
+/* Cancel DG's large content top padding — body already offsets for navbar */
 body.has-navbar .content {
   margin-top: 0 !important;
 }
+.content {
+  padding-top: 0 !important;
+}
+
 .markdown-preview-view,
 .markdown-preview-view.is-readable-line-width {
   overflow: visible !important;
   height: auto !important;
   max-height: none !important;
 }
-body:has(main.canvas-page) {
-  overflow: hidden !important;
+
+/* ── Canvas / Excalidraw: true full-screen, NO navbar ────────────
+   Digital Garden marks these pages with .content.canvas-page.
+   We hide the navbar, zero body padding, and stretch the
+   canvas-wrapper to fill the full viewport.
+*/
+body:has(.content.canvas-page) {
   padding-top: 0 !important;
+  overflow: hidden !important;
+}
+body:has(.content.canvas-page) .pk-navbar {
+  display: none !important;
+}
+body:has(.content.canvas-page) .content.canvas-page {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+body:has(.content.canvas-page) .canvas-wrapper {
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+}
+/* Also hide filetree sidebar on canvas pages */
+body:has(.content.canvas-page) .filetree-wrapper {
+  display: none !important;
 }
 
-/* ── Hide DG's own theme pill ──────────────────────────────── */
+/* ── Hide DG theme pill ────────────────────────────────────── */
 .rzl-header-actions,
 .theme-toggle-wrapper,
 .dg-theme-toggle,
@@ -116,7 +140,7 @@ body:has(main.canvas-page) {
   display: none !important;
 }
 
-/* ── Navbar ────────────────────────────────────────────────── */
+/* ── Navbar ──────────────────────────────────────────────── */
 .pk-navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -148,10 +172,7 @@ body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
   color: inherit;
   flex-shrink: 0;
 }
-.pk-logo {
-  width: 26px; height: 26px;
-  color: var(--pk-accent);
-}
+.pk-logo { width: 26px; height: 26px; color: var(--pk-accent); }
 body.theme-dark .pk-logo { color: var(--pk-accent); }
 .pk-brand-text { display: flex; flex-direction: column; }
 .pk-site-name {
@@ -199,7 +220,7 @@ body.theme-dark .pk-logo { color: var(--pk-accent); }
 }
 .pk-theme-btn:hover { opacity: 1; }
 
-/* ── Typography ────────────────────────────────────────────── */
+/* ── Typography ───────────────────────────────────────────── */
 body {
   font-family: var(--pk-font-body);
   font-size: 1.0625rem;
@@ -236,11 +257,7 @@ pre, pre code {
   line-height: 1.65;
 }
 
-/* ── Sidebar: smooth fade when footer comes into view ─────────
-   JS in footer-contact.njk adds .pk-sidebar-end when the
-   IntersectionObserver fires. The sidebar gracefully fades out
-   and drifts up, giving the illusion both columns end together.
-   ──────────────────────────────────────────────────────────── */
+/* ── Sidebar: fade out as footer enters view (via IntersectionObserver) ── */
 .sidebar {
   transition: opacity 400ms ease, transform 400ms ease;
 }
@@ -250,7 +267,7 @@ pre, pre code {
   transform: translateY(16px);
 }
 
-/* ── Footer ────────────────────────────────────────────────── */
+/* ── Footer ─────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
 
 .pk-footer {
@@ -258,7 +275,6 @@ nav.rzl-footer-mini { display: none !important; }
   text-align: center;
   margin-top: 3rem;
   padding-top: 2rem;
-  /* Seamless blend — no heavy background, just a soft top border */
   border-top: 1px solid var(--pk-border);
 }
 .pk-footer-institute {
@@ -329,5 +345,5 @@ nav.rzl-footer-mini { display: none !important; }
   flex-shrink: 0;
 }
 
-/* ── Graph/canvas layout ───────────────────────────────────── */
+/* ── Graph/canvas z-index ─────────────────────────────────── */
 .graph-page, .graph-wrapper, #graph { position: relative; z-index: 1; }

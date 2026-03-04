@@ -23,7 +23,7 @@ function transformImage(src, cls, alt, sizes, widths = ["500", "700", "auto"]) {
     urlPath: "/img/optimized",
   };
 
-  // generate images, while this is async we don’t wait
+  // generate images, while this is async we don't wait
   Image(src, options);
   let metadata = Image.statsSync(src, options);
   return metadata;
@@ -460,6 +460,93 @@ module.exports = function(eleventyConfig) {
     }
     const parsed = parse(str);
     transformCalloutBlockquotes(parsed.querySelectorAll("blockquote"));
+    return str && parsed.innerHTML;
+  });
+
+  /* ─── Kanban Board Transform ─────────────────────────────────────
+     Detects .kanban. in the input filename (e.g. Status Kanban.kanban.md)
+     and converts the rendered H1 + UL structure into a .pk-kanban-board
+     layout at build time — zero client-side JS, fully static HTML.
+
+     Kanban file format (written by obsidian-kanban plugin):
+       # Column Name          ← H1 = column
+       - [ ] Todo card        ← UL/LI = cards
+       - [x] Done card        ← checked = is-complete
+  ─────────────────────────────────────────────────────────────── */
+  eleventyConfig.addTransform("kanban-board", function(str) {
+    if (!isMarkdownPage(this.page.inputPath)) return str;
+    if (!this.page.inputPath.includes('.kanban.')) return str;
+
+    const parsed  = parse(str);
+    const mainEl  = parsed.querySelector('main.content');
+    if (!mainEl) return str;
+
+    // ── Walk direct children: H1 = new column, UL = cards ──────
+    const columns = [];
+    let curCol = null;
+
+    for (const node of mainEl.childNodes) {
+      const tag = (node.tagName || '').toUpperCase();
+      if (!tag || tag === 'HEADER') continue;
+
+      if (tag === 'H1') {
+        if (curCol) columns.push(curCol);
+        curCol = { titleHtml: node.innerHTML.trim(), cards: [] };
+      } else if (curCol && tag === 'UL') {
+        for (const li of node.querySelectorAll('li')) {
+          const input   = li.querySelector('input[type="checkbox"]');
+          const checked = input ? input.hasAttribute('checked') : false;
+          const cardHtml = li.innerHTML.replace(/<input[^>]*\/?>/gi, '').trim();
+          if (cardHtml) curCol.cards.push({ html: cardHtml, checked });
+        }
+      }
+      // PRE blocks (kanban settings footer) are silently skipped
+    }
+    if (curCol) columns.push(curCol);
+    if (!columns.length) return str;
+
+    // ── Build kanban board HTML ─────────────────────────────────
+    const checkSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+    let boardHtml = '<div class="pk-kanban-board">';
+    for (const col of columns) {
+      const count = col.cards.length;
+      boardHtml += `<div class="pk-kanban-column">`;
+      boardHtml += `<div class="pk-kanban-column-header">`;
+      boardHtml += `<span class="pk-kanban-column-title">${col.titleHtml}</span>`;
+      if (count) boardHtml += `<span class="pk-kanban-column-count">${count}</span>`;
+      boardHtml += `</div><div class="pk-kanban-column-body">`;
+      if (!count) {
+        boardHtml += `<div class="pk-kanban-empty"></div>`;
+      } else {
+        for (const card of col.cards) {
+          const cls = card.checked ? ' is-complete' : '';
+          boardHtml += `<div class="pk-kanban-card${cls}">`;
+          boardHtml += `<div class="pk-kanban-card-cb">${card.checked ? checkSvg : ''}</div>`;
+          boardHtml += `<div class="pk-kanban-card-text">${card.html}</div>`;
+          boardHtml += `</div>`;
+        }
+      }
+      boardHtml += `</div></div>`;
+    }
+    boardHtml += '</div>';
+
+    // ── Strip original kanban markup, keep <header> intact ──────
+    for (const el of [...mainEl.querySelectorAll('h1')]) el.remove();
+    for (const el of [...mainEl.querySelectorAll('ul')])  el.remove();
+    for (const el of [...mainEl.querySelectorAll('pre')]) el.remove();
+
+    // ── Tag <body> so CSS can widen the content column ──────────
+    const bodyEl = parsed.querySelector('body');
+    if (bodyEl) bodyEl.classList.add('pk-kanban-page');
+
+    // ── Inject board immediately after </header> ────────────────
+    const inner = mainEl.innerHTML;
+    const hEnd  = inner.indexOf('</header>');
+    mainEl.innerHTML = hEnd !== -1
+      ? inner.slice(0, hEnd + 9) + boardHtml + inner.slice(hEnd + 9)
+      : boardHtml + inner;
+
     return str && parsed.innerHTML;
   });
 

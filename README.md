@@ -1,206 +1,214 @@
-# Digital Obsidian Garden
-This is the template to be used together with the [Digital Garden Obsidian Plugin](https://github.com/oleeskild/Obsidian-Digital-Garden).
-See the README in the plugin repo for information on how to set it up.
+<div align="center">
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/oleeskild/digitalgarden)
+# 🌱 PK Base — Personal Digital Garden & Blog
+
+> *Write in Obsidian. Push once. Publish beautifully.*
+
+[![Fork this template](https://img.shields.io/badge/Use%20This%20Template-Fork%20Now-blueviolet?style=for-the-badge&logo=github)](https://github.com/PrabinKuSabat/pk_base/fork)
+[![Live Site](https://img.shields.io/badge/Live%20Site-prabins.vercel.app-00C7B7?style=for-the-badge&logo=vercel)](https://prabins.vercel.app)
+[![Deploy with Vercel](https://img.shields.io/badge/Deploy%20to-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/PrabinKuSabat/pk_base)
+[![Powered by Obsidian](https://img.shields.io/badge/Powered%20by-Obsidian-7c3aed?style=for-the-badge&logo=obsidian)](https://obsidian.md)
+
+</div>
 
 ---
-## Docs
-Docs are available at [dg-docs.ole.dev](https://dg-docs.ole.dev/)
+
+## 🎯 Motto
+
+> **"Think in Obsidian. Share with the world."**
+
+`pk_base` is a minimalistic, modern personal website and digital garden built on top of the [Digital Garden Obsidian Plugin](https://github.com/oleeskild/Obsidian-Digital-Garden). This is not just a website — it is a **living knowledge ecosystem** where writing, organizing, and publishing are one seamless, automated workflow.
 
 ---
-## CSS Variables
 
-The digital garden is fully customizable through CSS variables. Override these in `src/site/styles/custom-style.scss` to customize your garden's appearance.
+## ✨ Purpose
 
-### How to Customize
+This repo is a heavily customized fork of [oleeskild/digitalgarden](https://github.com/oleeskild/digitalgarden). It transforms the default Digital Garden template into a polished personal blogging platform and portfolio site that is:
 
-Add your overrides to `custom-style.scss`:
+- **Minimalistic** — no clutter, just your words and ideas front and center
+- **Modern** — clean typography, smooth interactions, responsive on all devices
+- **Automated** — write in Obsidian,publish, and your live site updates instantly
+- **Extensible** — every visual detail is themeable through CSS variables
+- **Free to host** — deploy on Vercel or Netlify at zero cost
+
+---
+
+## 🚀 Use This Template
+
+Want your own Obsidian-powered personal website? Fork this repo and you're 80% there.
+
+<div align="center">
+
+### 👉 [Fork PK Base and make it yours](https://github.com/PrabinKuSabat/pk_base/fork)
+
+</div>
+
+> ⭐ If this template helps you, please star the repo — it means a lot!
+
+---
+
+## 🔧 Quick Setup Guide
+
+1. **Fork** this repo → click [**Fork PK Base**](https://github.com/PrabinKuSabat/pk_base/fork)
+2. **Deploy** your fork instantly:
+   - Vercel: [vercel.com/new](https://vercel.com/new) → Import your fork
+   - Netlify: [app.netlify.com](https://app.netlify.com) → Import your fork
+3. **Install** the [Digital Garden Plugin](https://github.com/oleeskild/Obsidian-Digital-Garden) inside your Obsidian vault via Community Plugins
+4. **Configure** the plugin with:
+   - Your GitHub username and forked repo name
+   - A GitHub Personal Access Token (with `repo` scope)
+   - Your deployed site URL
+5. **Write** any note in Obsidian and add `dg-publish: true` to the frontmatter
+6. **Publish** using the Digital Garden plugin
+7. **Watch your site go live** — Vercel/Netlify rebuilds automatically on every push ⚡
+
+📖 Full detailed docs at [dg-docs.ole.dev](https://dg-docs.ole.dev/)
+
+---
+
+## 🌿 The Obsidian Ecosystem
+
+This entire setup is built around [Obsidian](https://obsidian.md) — a powerful, local-first, Markdown-based knowledge base. The publishing workflow is elegantly simple:
+
+```
+✍️  Write in Obsidian
+        ↓
+🏷️  Add  dg-publish: true  to frontmatter
+        ↓
+🚀  Publish uisng the Digital Garden plugin
+        ↓
+🔀  Plugin pushes your note to GitHub via API
+        ↓
+⚙️  Vercel/Netlify detects the push & rebuilds
+        ↓
+🌐  Your note is live on the web in seconds
+```
+
+### Benefits of This Automated Ecosystem
+
+- 📝 **Write locally** — all notes live on your machine, full ownership, no vendor lock-in
+- 🔗 **Backlinks & Graph View** — your published site shows an interactive knowledge graph of note connections
+- ⚡ **Instant publishing** — one click in Obsidian pushes your content live globally
+- 🎨 **Full design control** — customize every pixel via CSS variables without touching core templates
+- 🔍 **Full-text search** — built-in real-time search across all your published notes
+- 📡 **RSS Feed** — readers can subscribe to your updates at `/feed.xml`
+- 🗺️ **Sitemap** — auto-generated `sitemap.xml` for search engine indexing
+- 🌙 **Dark / Light mode** — automatic theme switching based on OS preference
+- 🖊️ **Zero CMS needed** — Obsidian IS your CMS
+
+---
+
+## 📁 Project Structure
+
+```
+pk_base/
+├── .github/              # GitHub automation (Dependabot)
+├── src/
+│   ├── helpers/          # Build-time JS utility modules
+│   └── site/
+│       ├── _data/        # Global site data and Eleventy data files
+│       ├── _includes/    # Nunjucks layout templates & UI components
+│       ├── img/          # Static site images and brand assets
+│       ├── notes/        # Auto-managed: your published Obsidian notes
+│       ├── scripts/      # Client-side JavaScript (search, graph, theme)
+│       └── styles/       # SCSS stylesheets and CSS variable overrides
+├── .eleventy.js          # Eleventy SSG configuration
+├── .env                  # Environment variables (not committed — see .gitignore)
+├── netlify.toml          # Netlify deployment configuration
+├── vercel.json           # Vercel deployment configuration
+└── package.json          # Node.js project metadata and dependencies
+```
+
+---
+
+## 🎨 Customization
+
+All visual customization lives in `src/site/styles/custom-style.scss`. Override any CSS variable there:
 
 ```scss
 body {
-    --dg-content-max-width: 800px;
-    --dg-content-font-size: 16px;
-    --dg-sidebar-max-width: 400px;
+  /* Layout */
+  --dg-content-max-width: 800px;
+  --dg-content-font-size: 16px;
+
+  /* Colors */
+  --background-primary: #0f0f0f;
+  --text-normal: #e2e2e2;
+  --text-accent: #7c6af7;
 }
 ```
 
-### Responsive Layout Notes
+See the full [CSS Variables Reference](#css-variables) section below, or visit the [styles folder README](./src/site/styles/README.md).
 
-- Content will never overlap the filetree, regardless of `--dg-content-max-width` value
-- The right sidebar (TOC/graph/backlinks) automatically hides when there isn't enough viewport space
-- To make the sidebar appear at smaller viewports, reduce `--dg-sidebar-max-width`
+---
 
-### Available Variables
+## 🙏 Credits & Acknowledgements
 
-#### Color Variables
-You can override the base Obsidian theme color variables directly:
+This project stands on the shoulders of incredible open-source work and communities.
+
+### 🌱 Digital Garden Plugin
+**Repository:** [oleeskild/Obsidian-Digital-Garden](https://github.com/oleeskild/digitalgarden)  
+**Author:** [Ole Eskild Steensen](https://github.com/oleeskild)  
+**Docs:** [dg-docs.ole.dev](https://dg-docs.ole.dev/)  
+The core engine that bridges Obsidian and the published web. `pk_base` is a fork and customization of this template. Without this plugin and its companion template, none of this workflow would exist.
+
+### 💎 Obsidian
+**Website:** [obsidian.md](https://obsidian.md)  
+The local-first Markdown knowledge base that serves as the entire writing environment. Obsidian's powerful plugin ecosystem, backlinks, canvas, and graph view make it the perfect tool for building and managing a personal knowledge base.
+
+### 🤝 Obsidian Community
+A massive thank you to the **Obsidian Community** — the plugin developers, theme designers, PKM enthusiasts, and knowledge workers who have collectively built an ecosystem that makes tools like this possible. The community forum, Discord, and Reddit have been invaluable throughout the development of this setup.  
+→ [Join the Community](https://obsidian.md/community)
+
+### ⚡ Eleventy (11ty)
+**Website:** [11ty.dev](https://www.11ty.dev/)  
+The static site generator powering the build pipeline. Fast, flexible, and zero-config friendly.
+
+### 🚀 Vercel
+**Website:** [vercel.com](https://vercel.com)  
+Free, instant global deployments triggered automatically on every push. The live site runs at [prabins.vercel.app](https://prabins.vercel.app).
+
+---
+
+## 📐 CSS Variables
+
+The site is fully customizable through CSS variables. Override these in `src/site/styles/custom-style.scss`.
+
+### Color Variables
 
 | Variable | Description |
 |----------|-------------|
 | `--text-normal` | Normal text color |
 | `--text-muted` | Muted/secondary text |
-| `--text-faint` | Faint text |
-| `--text-accent` | Accent color |
-| `--text-accent-hover` | Accent hover color |
-| `--link-color` | Link color |
-| `--link-color-hover` | Link color hover |
-| `--link-unresolved-color` | Link color unresolved |
-| `--link-unresolved-opacity` | Link color unresolved opacity |
-| `--background-primary` | Primary background |
-| `--background-primary-alt` | Alt primary background |
-| `--background-secondary` | Secondary background |
-| `--background-secondary-alt` | Alt secondary background |
-| `--interactive-normal` | Interactive element color |
-| `--interactive-hover` | Interactive hover color |
-| `--interactive-accent` | Interactive accent |
-| `--interactive-accent-hover` | Interactive accent hover |
+| `--text-accent` | Accent/highlight color |
+| `--link-color` | Hyperlink color |
+| `--background-primary` | Main page background |
+| `--background-secondary` | Secondary surface background |
+| `--interactive-accent` | Interactive element accent |
 
-#### Layout Variables
+### Layout Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `--dg-content-max-width` | `700px` | Maximum width of content area |
-| `--dg-content-margin-top` | `90px` | Top margin for content |
-| `--dg-content-margin-top-mobile` | `75px` | Top margin on mobile |
+| `--dg-content-max-width` | `700px` | Maximum width of the content area |
 | `--dg-content-font-size` | `18px` | Base font size for content |
 | `--dg-content-line-height` | `1.5` | Line height for content |
+| `--dg-filetree-width` | `250px` | Left sidebar (filetree) width |
+| `--dg-sidebar-max-width` | `350px` | Right sidebar max width |
 
-#### Sidebar (Right) Variables
+> For the complete variable reference covering all components (Graph, TOC, Search, Navbar, Backlinks, Timestamps, etc.), see [`src/site/styles/README.md`](./src/site/styles/README.md).
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-sidebar-top` | `75px` | Sidebar top offset |
-| `--dg-sidebar-gap` | `80px` | Gap between content and sidebar |
-| `--dg-sidebar-min-width` | `25px` | Minimum sidebar width |
-| `--dg-sidebar-max-width` | `350px` | Maximum sidebar width |
-| `--dg-sidebar-container-padding` | `20px` | Sidebar container padding |
-| `--dg-sidebar-container-height` | `87%` | Sidebar container height |
+---
 
-#### Graph Variables
+## 📜 License
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-graph-width` | `250px` | Graph component width |
-| `--dg-graph-height` | `250px` | Graph component height |
-| `--dg-graph-border-radius` | `10px` | Graph border radius |
-| `--dg-graph-margin-bottom` | `20px` | Graph bottom margin |
-| `--dg-graph-fullscreen-width` | `600px` | Fullscreen graph width |
-| `--dg-graph-fullscreen-height` | `600px` | Fullscreen graph height |
+This project is open-source. Fork it, customize it, make it yours — just give credit where it's due. 🙏
 
-#### Filetree (Left Sidebar) Variables
+---
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-filetree-width` | `250px` | Filetree sidebar width |
-| `--dg-filetree-min-width` | `250px` | Minimum filetree width |
-| `--dg-filetree-padding` | `10px 20px` | Filetree padding |
-| `--dg-filetree-gap` | `80px` | Gap from content |
-| `--dg-filetree-title-size` | `32px` | Filetree title font size |
+<div align="center">
 
-#### TOC (Table of Contents) Variables
+Made with ❤️ by [Prabin Kumar Sabat](https://prabins.vercel.app)  
+Powered by [Obsidian](https://obsidian.md) · [Digital Garden](https://github.com/oleeskild/digitalgarden) · [Eleventy](https://www.11ty.dev/) · [Vercel](https://vercel.com)
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-toc-padding` | `5px` | TOC container padding |
-| `--dg-toc-font-size` | `0.9rem` | TOC font size |
-| `--dg-toc-max-height` | `220px` | TOC max height |
-| `--dg-toc-title-size` | `1.2rem` | TOC title font size |
-| `--dg-toc-item-padding` | `2px 0 2px 8px` | TOC item padding |
-| `--dg-toc-indent` | `1em` | TOC nested list indent |
-
-#### Backlinks Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-backlinks-margin-top` | `10px` | Backlinks section top margin |
-| `--dg-backlinks-max-height` | `250px` | Backlinks list max height |
-| `--dg-backlinks-title-size` | `0.9rem` | Backlinks title font size |
-| `--dg-backlinks-card-size` | `0.85rem` | Backlink card font size |
-| `--dg-backlinks-card-padding` | `6px 0` | Backlink card padding |
-| `--dg-backlinks-icon-size` | `14px` | Backlink icon size |
-
-#### Search Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-search-box-width` | `900px` | Search box width |
-| `--dg-search-box-max-width` | `80%` | Search box max width |
-| `--dg-search-box-radius` | `15px` | Search box border radius |
-| `--dg-search-box-padding` | `10px` | Search box padding |
-| `--dg-search-input-size` | `2rem` | Search input font size |
-| `--dg-search-input-padding` | `10px` | Search input padding |
-| `--dg-search-input-radius` | `5px` | Search input border radius |
-| `--dg-search-results-max-height` | `50vh` | Search results max height |
-| `--dg-search-result-size` | `1.2rem` | Search result font size |
-| `--dg-search-result-radius` | `10px` | Search result border radius |
-| `--dg-search-link-size` | `1.4rem` | Search link font size |
-
-#### Search Button Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-search-btn-radius` | `8px` | Search button border radius |
-| `--dg-search-btn-height` | `32px` | Search button height |
-| `--dg-search-btn-padding` | `0 10px` | Search button padding |
-| `--dg-search-btn-gap` | `8px` | Search button icon/text gap |
-| `--dg-search-btn-font-size` | `0.85rem` | Search button font size |
-| `--dg-search-btn-icon-size` | `14px` | Search button icon size |
-
-#### Navbar Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-navbar-title-size-mobile` | `18px` | Navbar title size on mobile |
-| `--dg-navbar-search-margin` | `20px` | Navbar search button margin |
-| `--dg-navbar-search-min-width` | `36px` | Navbar search min width |
-| `--dg-logo-height` | `40px` | Site logo height on desktop |
-| `--dg-logo-height-mobile` | `32px` | Site logo height on mobile |
-| `--dg-logo-margin` | `10px 15px` | Site logo margin |
-| `--dg-filetree-logo-height` | `70px` | Site logo height in filetree sidebar |
-
-#### Note Link / Filetree Item Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-notelink-padding` | `4px 8px 4px 12px` | Note link padding |
-| `--dg-notelink-size` | `0.85rem` | Note link font size |
-| `--dg-notelink-border-width` | `2px` | Note link left border width |
-| `--dg-notelink-hover-bg` | `rgba(255, 255, 255, 0.05)` | Note link hover background |
-| `--dg-folder-margin` | `4px 0 4px 2px` | Folder name margin |
-| `--dg-folder-icon-size` | `14px` | Folder icon size |
-| `--dg-inner-folder-padding` | `3px 0 3px 0` | Inner folder padding |
-| `--dg-inner-folder-margin` | `12px` | Inner folder left margin |
-| `--dg-filelist-margin` | `8px` | File list left margin |
-
-#### Graph Controls Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-graph-ctrl-padding` | `6px 10px` | Graph controls padding |
-| `--dg-graph-ctrl-radius` | `6px` | Graph controls border radius |
-| `--dg-graph-ctrl-margin` | `10px` | Graph controls margin |
-| `--dg-graph-ctrl-size` | `0.7rem` | Graph controls font size |
-| `--dg-graph-ctrl-icon-size` | `14px` | Graph control icon size |
-| `--dg-graph-ctrl-gap` | `10px` | Graph controls gap |
-| `--dg-depth-slider-width` | `50px` | Depth slider width |
-| `--dg-depth-display-size` | `1.1rem` | Depth display size |
-
-#### Timestamps Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-timestamps-size` | `0.8em` | Timestamps font size |
-| `--dg-timestamps-gap` | `10px` | Timestamps gap |
-| `--dg-timestamps-margin-top` | `20px` | Timestamps top margin |
-
-#### Misc Component Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `--dg-overlay-bg` | `rgba(0, 0, 0, 0.5)` | Overlay background color |
-| `--dg-mermaid-radius` | `25px` | Mermaid diagram border radius |
-| `--dg-mermaid-padding` | `10px` | Mermaid diagram padding |
-| `--dg-transclusion-padding` | `8px` | Transclusion container padding |
-| `--dg-external-link-icon-size` | `13px` | External link icon size |
-| `--dg-external-link-padding` | `16px` | External link right padding |
+</div>

@@ -100,30 +100,6 @@ body.markdown-preview-view {
   height:     auto    !important;
   max-height: none    !important;
 }
-
-/* ── Regular page inner wrappers: never clip vertical flow ───────────────
-   DG base may set height:100% or overflow:hidden on inner containers.
-   Unlock all of them for normal pages so body remains the scroll root.
-   ──────────────────────────────────────────────────────────────────────── */
-body:not(.pk-excalidraw-page):not(:has(.content.canvas-page)) .site-body,
-body:not(.pk-excalidraw-page):not(:has(.content.canvas-page)) article,
-body:not(.pk-excalidraw-page):not(:has(.content.canvas-page)) .note-content,
-body:not(.pk-excalidraw-page):not(:has(.content.canvas-page)) .markdown-rendered,
-body:not(.pk-excalidraw-page):not(:has(.content.canvas-page)) .cm-s-obsidian {
-  overflow-y: visible !important;
-  overflow-x: visible !important;
-  height:     auto    !important;
-  max-height: none    !important;
-  min-height: 0       !important;
-}
-/* .content wrapper: allow overflow-x clip for horizontal safety, but never clip Y */
-body:not(.pk-excalidraw-page):not(:has(.content.canvas-page)) .content {
-  overflow-y: visible !important;
-  overflow-x: hidden  !important;
-  height:     auto    !important;
-  max-height: none    !important;
-}
-
 body.has-navbar .content,
 .content {
   margin-top: var(--pk-page-gap) !important;
@@ -152,7 +128,7 @@ body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
    Browser computes: width = parent − 28 − 28
    This automatically excludes the scrollbar (≈17px) so the
    box never overflows right, producing identical gaps on both
-   sides that match the navbar's own padding: 0 28px.
+   sides that match the navbar’s own padding: 0 28px.
 
    Height strategy:
      height: calc(100vh − navbar − top-margin − bottom-gap)
@@ -230,28 +206,6 @@ body.pk-excalidraw-page main.content > svg {
 
 /* Footer right after the box */
 body.pk-excalidraw-page .pk-footer { margin-top: 0; padding-top: 2rem; }
-
-/* ── Embedded excalidraw (SVG inside a regular markdown page) ─────────────
-   When an .excalidraw file is ![[embedded]] in a normal note, the SVG has
-   no height cap and bleeds below the viewport.  Cap it to 85 % of the
-   viewport height and let the page scroll normally.
-   ──────────────────────────────────────────────────────────────────────── */
-body:not(.pk-excalidraw-page) .excalidraw-svg {
-  display:    block   !important;
-  width:      100%    !important;
-  height:     auto    !important;
-  max-height: 85vh    !important;
-  overflow:   hidden  !important;
-  margin:     0 auto  !important;
-}
-body:not(.pk-excalidraw-page) .excalidraw-svg svg {
-  display:    block   !important;
-  width:      100%    !important;
-  height:     auto    !important;
-  max-height: 85vh    !important;
-  max-width:  100%    !important;
-  object-fit: contain;
-}
 
 /* ── Hide DG theme pill ─────────────────────────────────────── */
 .rzl-header-actions,

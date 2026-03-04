@@ -461,30 +461,44 @@ nav.rzl-footer-mini { display: none !important; }
    KANBAN BOARD  —  .kanban.md pages
    ============================================================= */
 
-/* ── Widen content column on kanban pages ───────────────────── */
-body.pk-kanban-page main.content {
-  max-width: min(1400px, 96vw) !important;
-  width: 100% !important;
+/* ── Hide sidebars + collapse body gap (like excalidraw) ─────── */
+body.pk-kanban-page aside,
+body.pk-kanban-page .sidebar,
+body.pk-kanban-page .filetree-wrapper { display: none !important; }
+
+body.pk-kanban-page {
+  padding-top: calc(var(--pk-navbar-h) + 16px) !important;
 }
 
-/* ── Board container ────────────────────────────────────────── */
+/* ── Full-width content, side padding matches navbar ─────────── */
+body.pk-kanban-page main.content,
+body.pk-kanban-page.has-navbar main.content {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 28px !important;
+  box-sizing: border-box;
+}
+
+/* ── Board container — horizontal scroll, 85vh tall ────────── */
 .pk-kanban-board {
   display: flex;
   gap: 14px;
   overflow-x: auto;
-  overflow-y: visible;
-  padding: 6px 2px 24px;
-  align-items: flex-start;
+  overflow-y: hidden;
+  height: 85vh;
+  padding: 0 0 12px;
+  align-items: stretch;
   width: 100%;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: var(--pk-border) transparent;
 }
-.pk-kanban-board::-webkit-scrollbar       { height: 5px; }
+.pk-kanban-board::-webkit-scrollbar       { height: 6px; }
 .pk-kanban-board::-webkit-scrollbar-track { background: transparent; }
 .pk-kanban-board::-webkit-scrollbar-thumb { background: var(--pk-border); border-radius: 999px; }
 
-/* ── Column ─────────────────────────────────────────────────── */
+/* ── Column — fixed width, fills the full board height ──────── */
 .pk-kanban-column {
   flex: 0 0 240px;
   min-width: 200px;
@@ -493,7 +507,7 @@ body.pk-kanban-page main.content {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  max-height: 72vh;
+  height: 100%;
   overflow: hidden;
 }
 .pk-kanban-column-header {
@@ -503,6 +517,7 @@ body.pk-kanban-page main.content {
   padding: 10px 14px 9px;
   border-bottom: 1px solid var(--pk-border);
   gap: 8px;
+  flex-shrink: 0;
 }
 .pk-kanban-column-title {
   font-family: var(--pk-font-ui);
@@ -535,6 +550,7 @@ body.pk-kanban-page main.content {
   flex-direction: column;
   gap: 6px;
   flex: 1;
+  min-height: 0;
   scrollbar-width: thin;
   scrollbar-color: var(--pk-border) transparent;
 }
@@ -552,6 +568,7 @@ body.pk-kanban-page main.content {
   align-items: flex-start;
   gap: 8px;
   cursor: default;
+  flex-shrink: 0;
   transition: box-shadow 140ms ease, border-color 140ms ease;
 }
 .pk-kanban-card:hover {
@@ -561,7 +578,7 @@ body.pk-kanban-page main.content {
 .pk-kanban-card.is-complete { opacity: 0.45; }
 .pk-kanban-card.is-complete .pk-kanban-card-text { text-decoration: line-through; }
 
-/* ── Checkbox ───────────────────────────────────────────────── */
+/* ── Checkbox dot ─────────────────────────────────────────────── */
 .pk-kanban-card-cb {
   flex-shrink: 0;
   width: 14px;
@@ -594,10 +611,11 @@ body.pk-kanban-page main.content {
 
 /* ── Empty column placeholder ───────────────────────────────── */
 .pk-kanban-empty {
-  min-height: 44px;
+  flex: 1;
   border: 1.5px dashed var(--pk-border);
   border-radius: 7px;
-  opacity: 0.35;
+  opacity: 0.25;
+  min-height: 44px;
 }
 
 /* ── Dark mode card shadow ──────────────────────────────────── */

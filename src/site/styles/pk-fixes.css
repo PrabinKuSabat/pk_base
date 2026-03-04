@@ -470,23 +470,26 @@ body.pk-kanban-page {
   padding-top: calc(var(--pk-navbar-h) + 16px) !important;
 }
 
-/* ── Full-width content, side padding matches navbar ─────────── */
+/* ── Full-width content — side padding aligns with navbar ────── */
 body.pk-kanban-page main.content,
 body.pk-kanban-page.has-navbar main.content {
   width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
-  padding: 0 28px !important;
+  padding: 20px 28px 0 !important;
   box-sizing: border-box;
 }
 
-/* ── Board container — horizontal scroll, 85vh tall ────────── */
+/* ── Hide the note header (title/tags) on kanban pages ───────── */
+body.pk-kanban-page main.content > header { display: none !important; }
+
+/* ── Board container — horizontal scroll, 90vh tall ────────── */
 .pk-kanban-board {
   display: flex;
   gap: 14px;
   overflow-x: auto;
   overflow-y: hidden;
-  height: 85vh;
+  height: 90vh;
   padding: 0 0 12px;
   align-items: stretch;
   width: 100%;

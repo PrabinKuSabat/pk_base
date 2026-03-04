@@ -2,17 +2,17 @@
   var PEEK_THRESHOLD = 64;
   var root = document.documentElement;
 
-  /* ── IMMEDIATE — safety guard ───────────────────────────────────
+  /* ── IMMEDIATE — safety guard ─────────────────────────────────
      The inline anti-FOUC script in pageheader.njk already adds
      pk-excalidraw-page to <html> synchronously before first CSS paint.
      This guard is a belt-and-suspenders fallback only.
-   ──────────────────────────────────────────────────────────── */
+   ──────────────────────────────────────────────────── */
   var isExcalidrawPage = window.location.pathname.toLowerCase().includes('.excalidraw');
   if (isExcalidrawPage && !root.classList.contains('pk-excalidraw-page')) {
     root.classList.add('pk-excalidraw-page');
   }
 
-  /* ── Progress bar ───────────────────────────────────────── */
+  /* ── Progress bar ──────────────────────────────────────── */
   function setupProgress() {
     function update() {
       var scrollTop = root.scrollTop || document.body.scrollTop || 0;
@@ -50,6 +50,31 @@
     }, { passive: true });
   }
 
+  /* ── Auto-hide navbar after 5 s of inactivity (all pages) ───
+     Timer resets on any scroll, mousemove, touchstart, or keydown.
+     Showing the navbar is handled by setupHideOnScroll (scroll-up)
+     and setupPeek (mouse near top) — this only handles the hide.
+   ──────────────────────────────────────────────────── */
+  function setupAutoHide() {
+    var navbar = document.querySelector('.pk-navbar');
+    if (!navbar) return;
+    var idleTimer = null;
+
+    function scheduleHide() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(function () {
+        navbar.classList.add('pk-nav-hidden');
+      }, 5000);
+    }
+
+    scheduleHide();
+
+    window.addEventListener('scroll',     scheduleHide, { passive: true });
+    window.addEventListener('mousemove',  scheduleHide, { passive: true });
+    window.addEventListener('touchstart', scheduleHide, { passive: true });
+    window.addEventListener('keydown',    scheduleHide);
+  }
+
   /* ── Navbar peek on mouse near top ─────────────────────── */
   function setupPeek() {
     var body = document.body;
@@ -63,7 +88,7 @@
     window.addEventListener('mouseleave', function () { set(false); });
   }
 
-  /* ── Theme toggle ───────────────────────────────────────── */
+  /* ── Theme toggle ─────────────────────────────────────── */
   var THEME_KEY = 'pk_theme';
   function getCurrentTheme() {
     if (document.body.classList.contains('theme-dark')) return 'dark';
@@ -85,7 +110,7 @@
     if (saved) applyTheme(saved);
   }
 
-  /* ── Page transitions across the excalidraw/normal boundary ───── */
+  /* ── Page transitions across the excalidraw/normal boundary ──── */
   function setupPageTransitions() {
     var currentIsExcalidraw = isExcalidrawPage;
     document.addEventListener('click', function (e) {
@@ -117,7 +142,7 @@
 
      ResizeObserver keeps the min-height in sync as the force-graph
      widget loads asynchronously and makes the sidebar taller.
-   ──────────────────────────────────────────────────────────── */
+   ──────────────────────────────────────────────────── */
   function syncContentMinHeight() {
     if (isExcalidrawPage) return;
     var sidebar = document.querySelector('.sidebar');
@@ -138,7 +163,7 @@
     setTimeout(update, 1500);
   }
 
-  /* ── Short-note detection ───────────────────────────────────────
+  /* ── Short-note detection ──────────────────────────────────
      1. syncContentMinHeight() runs first — content expands to
         sidebar height, footer is pushed below the fold.
      2. After layout settles (150ms), re-check: if footer is STILL
@@ -162,7 +187,7 @@
     }, 150);
   }
 
-  /* ── Excalidraw dedicated pages ──────────────────────────── */
+  /* ── Excalidraw dedicated pages ─────────────────────────── */
   function setupExcalidrawPage() {
     if (!isExcalidrawPage) return;
     document.body.classList.add('pk-excalidraw-page');
@@ -202,7 +227,7 @@
     setTimeout(attachWheelForward, 400);
   }
 
-  /* ── Boot ─────────────────────────────────────────────────────── */
+  /* ── Boot ─────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     restoreTheme();
     setupExcalidrawPage();
@@ -211,5 +236,6 @@
     setupProgress();
     setupHideOnScroll();
     setupPeek();
+    setupAutoHide();
   });
 })();

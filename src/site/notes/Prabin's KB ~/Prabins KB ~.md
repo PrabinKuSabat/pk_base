@@ -3,8 +3,8 @@
 ---
 
 
-
 ![image-97.png](/img/user/Extras/ATTACHMENTS/image-97.png)
+
 # Systems Engineering Logbook — Kernel, Performance, and Architecture Experiments
 
 ---
@@ -21,7 +21,7 @@
 > [!check] TO-DO Kanban Boards👇
 
 [[Excalidraw/Dissertation Status.excalidraw\|Dissertation To-DO]]  
-[[Status Kanban\|Status Kanban]]
+[[Kanban Boards/Status Kanban.kanban\|Status Kanban.kanban]]
 
 > [!info]  
 > The above Kanban board tracks both my completed tasks and my current work in progress.

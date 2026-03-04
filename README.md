@@ -75,7 +75,7 @@ This entire setup is built around [Obsidian](https://obsidian.md) — a powerful
         ↓
 🏷️  Add  dg-publish: true  to frontmatter
         ↓
-🚀  Click Publish in the Digital Garden plugin
+🚀  Publish uisng the Digital Garden plugin
         ↓
 🔀  Plugin pushes your note to GitHub via API
         ↓

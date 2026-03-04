@@ -73,19 +73,16 @@
     if (saved) applyTheme(saved);
   }
 
-  /* ── Scroll rescue (global) ────────────────────────────────
-     If some upstream script prevents wheel/PageDown on the main
-     note area, scrolling may only work via dragging the scrollbar.
+  /* ── Scroll unblock (global) ────────────────────────────────
+     Some DG builds/scripts can accidentally call preventDefault()
+     on wheel or PageDown/PageUp, which breaks mouse + keyboard
+     scrolling but still allows dragging the scrollbar.
 
-     This handler forces scrolling when the pointer/focus is inside
-     the main note (.content), while avoiding sidebar scrollers and
-     interactive UI.
+     This runs at window capture phase and stops propagation for
+     "page scroll" interactions so native scrolling works.
+     It intentionally avoids interactive widgets & inner scrollers.
    ──────────────────────────────────────────────────────────── */
-  function setupScrollRescue() {
-    function scrollingEl() {
-      return document.scrollingElement || document.documentElement;
-    }
-
+  function setupScrollUnblock() {
     function isInInteractive(target) {
       if (!target || !target.closest) return false;
       if (target.closest('.excalidraw-svg')) return true;
@@ -94,103 +91,54 @@
       return false;
     }
 
-    function isInMainContent(target) {
-      if (!target || !target.closest) return false;
-      return !!target.closest('.content');
-    }
-
     function hasScrollableAncestor(target) {
       var el = target;
       while (el && el !== document.body && el !== document.documentElement) {
         if (el.nodeType !== 1) { el = el.parentElement; continue; }
         var style = window.getComputedStyle(el);
         var oy = style.overflowY;
-        if ((oy === 'auto' || oy === 'scroll') && (el.scrollHeight > el.clientHeight + 1)) return true;
+        if ((oy === 'auto' || oy === 'scroll') && (el.scrollHeight > el.clientHeight + 1)) {
+          return true;
+        }
         el = el.parentElement;
       }
       return false;
     }
 
-    function normalizeWheelDelta(e) {
-      var x = e.deltaX || 0;
-      var y = e.deltaY || 0;
-      if (e.deltaMode === 1) { /* lines */
-        x *= 16;
-        y *= 16;
-      } else if (e.deltaMode === 2) { /* pages */
-        x *= window.innerWidth;
-        y *= window.innerHeight;
-      }
-      return { x: x, y: y };
-    }
-
-    document.addEventListener('wheel', function (e) {
-      if (e.ctrlKey) return;
-      if (!e.cancelable) return;
-      if (!isInMainContent(e.target)) return;
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey) return; /* browser zoom gesture */
       if (isInInteractive(e.target)) return;
       if (hasScrollableAncestor(e.target)) return;
+      if (Math.abs(e.deltaY) < 0.5 && Math.abs(e.deltaX) < 0.5) return;
+      e.stopPropagation();
+    }, { passive: true, capture: true });
 
-      var d = normalizeWheelDelta(e);
-      if (Math.abs(d.x) < 0.5 && Math.abs(d.y) < 0.5) return;
-
-      e.preventDefault();
-      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-      else e.stopPropagation();
-
-      var se = scrollingEl();
-      var dx = e.shiftKey ? d.y : d.x;
-      var dy = e.shiftKey ? 0   : d.y;
-      se.scrollBy({ left: dx, top: dy, behavior: 'auto' });
-    }, { capture: true, passive: false });
-
-    document.addEventListener('keydown', function (e) {
-      if (!e.cancelable) return;
-      if (!isInMainContent(e.target)) return;
+    window.addEventListener('keydown', function (e) {
       if (isInInteractive(e.target)) return;
-
       var k = e.key;
-      var se = scrollingEl();
-      var vh = window.innerHeight || 800;
-      var step = Math.max(120, Math.floor(vh * 0.9));
-
-      if (k === 'PageDown') {
-        e.preventDefault();
-        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-        else e.stopPropagation();
-        se.scrollBy({ top: step, behavior: 'auto' });
-      } else if (k === 'PageUp') {
-        e.preventDefault();
-        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-        else e.stopPropagation();
-        se.scrollBy({ top: -step, behavior: 'auto' });
-      } else if (k === 'Home') {
-        e.preventDefault();
-        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-        else e.stopPropagation();
-        se.scrollTo({ top: 0, behavior: 'auto' });
-      } else if (k === 'End') {
-        e.preventDefault();
-        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-        else e.stopPropagation();
-        se.scrollTo({ top: se.scrollHeight, behavior: 'auto' });
-      } else if (k === ' ') {
-        e.preventDefault();
-        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-        else e.stopPropagation();
-        var dir = e.shiftKey ? -1 : 1;
-        se.scrollBy({ top: dir * step, behavior: 'auto' });
+      if (k === 'PageDown' || k === 'PageUp' || k === 'Home' || k === 'End' || k === ' ') {
+        e.stopPropagation();
       }
-    }, { capture: true, passive: false });
+    }, { capture: true });
   }
 
-  /* ── Excalidraw fullscreen layout ──────────────────────────── */
+  /* ── Excalidraw fullscreen layout ────────────────────────────
+
+     What this does:
+     1. Detects URL containing ".excalidraw" → adds pk-excalidraw-page
+     2. Fixes the SVG so all drawing elements fit (preserveAspectRatio)
+     3. INTERCEPTS wheel events on the excalidraw container and
+        forwards them to window.scrollBy — this makes the mouse
+        wheel scroll the PAGE instead of zooming the canvas.
+        Use the − / + buttons at the bottom for canvas zoom.
+   ──────────────────────────────────────────────────────────── */
   function setupExcalidrawPage() {
     var path = window.location.pathname.toLowerCase();
     if (!path.includes('.excalidraw')) return;
 
     document.body.classList.add('pk-excalidraw-page');
 
+    /* ─ SVG fitting ───────────────────────────────────────── */
     function fitSVGs() {
       var svgs = document.querySelectorAll(
         '.excalidraw-svg svg, .content > svg, .content .excalidraw-svg svg'
@@ -211,6 +159,7 @@
     setTimeout(fitSVGs, 250);
     setTimeout(fitSVGs, 800);
 
+    /* ─ Wheel → page scroll forwarding ────────────────────── */
     function attachWheelForward() {
       var container = document.querySelector('.excalidraw-svg');
       if (!container) return;
@@ -230,7 +179,7 @@
 
   /* ── Boot ─────────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
-    setupScrollRescue();
+    setupScrollUnblock();
     restoreTheme();
     setupExcalidrawPage();
     setupProgress();

@@ -1,39 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!--
-  ANTI-FOUC SCRIPT — must be synchronous and BEFORE any <link rel="stylesheet">
-
-  Problem: pk-ui.js is `defer`, so it runs after HTML parsing. By the time it
-  adds `html.pk-excalidraw-page`, the browser has already done a first paint with
-  the default :root blue palette — causing a visible flash before the excalidraw
-  chalkboard theme kicks in.
-
-  Fix: this inline script runs synchronously during HTML parsing, before CSS is
-  applied to the DOM. It adds:
-    1. `pk-excalidraw-page` to <html> if the URL is an excalidraw page, so
-       `html.pk-excalidraw-page body { opacity:0; animation:... }` fires from
-       the very first paint — body is invisible while deferred scripts settle.
-    2. `theme-dark` (or light) to <html> from localStorage, so CSS vars
-       declared on `html.theme-dark` are active before the first paint,
-       preventing a light→dark flash for dark-mode users.
--->
-<script>
-(function(){
-  var h = document.documentElement;
-  if (window.location.pathname.toLowerCase().indexOf('.excalidraw') !== -1) {
-    h.classList.add('pk-excalidraw-page');
-  }
-  try {
-    var t = localStorage.getItem('pk_theme') || localStorage.getItem('rzl-theme');
-    if (t === 'dark' || t === 'light') {
-      h.classList.remove('theme-dark', 'theme-light');
-      h.classList.add('theme-' + t);
-    }
-  } catch(e) {}
-})();
-</script>
-
 {% if metatags %}
     {% for name, content in metatags %}
         {% if name.includes("og:") %}
@@ -43,11 +10,6 @@
         {% endif %}
     {% endfor %}
 {% endif %}
-
-<!-- Google Fonts: Fraunces (headings) + Source Serif 4 (body) + Space Grotesk (UI) + JetBrains Mono (code) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..500&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <script async type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -74,8 +36,6 @@
 <link href="/styles/digital-garden-base.css" rel="stylesheet">
 
 <link href="/styles/custom-style.css" rel="stylesheet">
-<link href="/styles/pk-fixes.css" rel="stylesheet">
-
 {%- for style in dynamics.styles -%}
 <link href="{{style}}?v={{meta.buildDate|isoDate}}" rel="stylesheet">
 {%- endfor -%}
@@ -87,6 +47,5 @@
         {{ meta.styleSettingsCss | safe }}
     </style>
 {% endif %}
-<style></style>
-
-<script defer src="/scripts/pk-ui.js"></script>
+<style>
+</style>

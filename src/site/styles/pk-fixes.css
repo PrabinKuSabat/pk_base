@@ -2,16 +2,17 @@
    pk-fixes.css  —  Ring0Ledger global overrides
    ============================================================= */
 
-/* ── Design tokens (Ink & Slate palette) ────────────────────── */
+/* ── Design tokens (Ink & Slate palette) ───────────────────── */
 :root {
   --pk-navbar-h:  56px;
-  --pk-page-gap:  14px;
+  --pk-page-gap:  28px;   /* breathing room between navbar and content */
 
   --pk-accent:    #2e5da6;
   --pk-accent-lt: #4a90d9;
   --pk-bg:        #f0f4fb;
   --pk-bg-card:   #ffffff;
-  --pk-bg-nav:    #e6ecf7;
+  /* navbar uses a separate frosted token — see .pk-navbar below */
+  --pk-bg-nav:    rgba(255, 255, 255, 0.72);
   --pk-text:      #141c30;
   --pk-muted:     #536278;
   --pk-border:    #cdd7eb;
@@ -19,7 +20,7 @@
   /* Override DG/Obsidian surface tokens */
   --background-primary:         var(--pk-bg);
   --background-primary-alt:     #e9eef8;
-  --background-secondary:       var(--pk-bg-nav);
+  --background-secondary:       #e6ecf7;
   --background-secondary-alt:   #dce4f2;
   --background-modifier-border: var(--pk-border);
   --text-normal:  var(--pk-text);
@@ -35,20 +36,20 @@
   --rzl-progress-pct: 0%;
 }
 
-/* ── Dark theme overrides ──────────────────────────────────── */
+/* ── Dark theme ─────────────────────────────────────────────── */
 body.theme-dark {
   --pk-accent:    #5b9bd5;
   --pk-accent-lt: #7ab8e8;
   --pk-bg:        #111827;
   --pk-bg-card:   #1a2236;
-  --pk-bg-nav:    #0e1420;
+  --pk-bg-nav:    rgba(10, 14, 24, 0.82);
   --pk-text:      #dce8f6;
   --pk-muted:     #7a95b0;
   --pk-border:    #253347;
 
   --background-primary:         var(--pk-bg);
   --background-primary-alt:     #1e2c42;
-  --background-secondary:       var(--pk-bg-nav);
+  --background-secondary:       #0e1420;
   --background-secondary-alt:   #162030;
   --background-modifier-border: var(--pk-border);
   --text-normal:  var(--pk-text);
@@ -58,7 +59,7 @@ body.theme-dark {
   --pk-seal-color: rgba(220, 232, 246, 0.90);
 }
 
-/* ── Progress bar ────────────────────────────────────────── */
+/* ── Progress bar ───────────────────────────────────────────── */
 html::before {
   content: '';
   position: fixed;
@@ -71,11 +72,7 @@ html::before {
   transition: width 80ms linear;
 }
 
-/* ── SCROLL FIX + page gap ─────────────────────────────────
-   body padding-top = navbar height + intentional page gap.
-   DG's own .content { padding-top: 90px } is cancelled so
-   we only have one consistent offset throughout the site.
-*/
+/* ── Scroll fix + page gap ──────────────────────────────────── */
 html {
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -88,11 +85,10 @@ body {
   padding-top: calc(var(--pk-navbar-h) + var(--pk-page-gap)) !important;
   background: var(--pk-bg);
 }
-/* Cancel DG's large content top padding — body already offsets for navbar */
-body.has-navbar .content {
-  margin-top: 0 !important;
-}
+/* Belt-and-braces: explicit content margin so DG overrides can't win */
+body.has-navbar .content,
 .content {
+  margin-top: var(--pk-page-gap) !important;
   padding-top: 0 !important;
 }
 
@@ -103,18 +99,12 @@ body.has-navbar .content {
   max-height: none !important;
 }
 
-/* ── Canvas / Excalidraw: true full-screen, NO navbar ────────────
-   Digital Garden marks these pages with .content.canvas-page.
-   We hide the navbar, zero body padding, and stretch the
-   canvas-wrapper to fill the full viewport.
-*/
+/* ── Canvas / Excalidraw: true full-screen, no navbar ───────── */
 body:has(.content.canvas-page) {
   padding-top: 0 !important;
   overflow: hidden !important;
 }
-body:has(.content.canvas-page) .pk-navbar {
-  display: none !important;
-}
+body:has(.content.canvas-page) .pk-navbar { display: none !important; }
 body:has(.content.canvas-page) .content.canvas-page {
   height: 100vh !important;
   min-height: 100vh !important;
@@ -127,12 +117,9 @@ body:has(.content.canvas-page) .canvas-wrapper {
   height: 100vh !important;
   min-height: 100vh !important;
 }
-/* Also hide filetree sidebar on canvas pages */
-body:has(.content.canvas-page) .filetree-wrapper {
-  display: none !important;
-}
+body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
-/* ── Hide DG theme pill ────────────────────────────────────── */
+/* ── Hide DG theme pill ─────────────────────────────────────── */
 .rzl-header-actions,
 .theme-toggle-wrapper,
 .dg-theme-toggle,
@@ -140,27 +127,48 @@ body:has(.content.canvas-page) .filetree-wrapper {
   display: none !important;
 }
 
-/* ── Navbar ──────────────────────────────────────────────── */
+/* ── Navbar — frosted glass ─────────────────────────────────────
+   Semi-transparent background + saturated blur = depth without
+   weight. The page content subtly shows through as you scroll,
+   making the navbar feel elevated rather than painted-on.
+   A hairline shadow replaces the hard border for a softer edge.
+   ──────────────────────────────────────────────────────────── */
 .pk-navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
+
+  /* frosted glass */
   background: var(--pk-bg-nav);
-  border-bottom: 1px solid var(--pk-border);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+
+  /* soft elevation instead of a hard border */
+  border-bottom: none;
+  box-shadow:
+    0 1px 0   rgba(0, 0, 0, 0.06),
+    0 4px 16px rgba(0, 0, 0, 0.04);
+
   transform: translateY(0);
-  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 220ms ease;
   will-change: transform;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
-.pk-navbar.pk-nav-hidden { transform: translateY(-100%); }
+.pk-navbar.pk-nav-hidden  { transform: translateY(-100%); }
 body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
+
+/* Slightly stronger shadow when scrolled */
+.pk-navbar.pk-nav-scrolled {
+  box-shadow:
+    0 1px 0   rgba(0, 0, 0, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.07);
+}
 
 .pk-navbar-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 0 28px;
   height: var(--pk-navbar-h);
   gap: 14px;
 }
@@ -173,7 +181,6 @@ body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
   flex-shrink: 0;
 }
 .pk-logo { width: 26px; height: 26px; color: var(--pk-accent); }
-body.theme-dark .pk-logo { color: var(--pk-accent); }
 .pk-brand-text { display: flex; flex-direction: column; }
 .pk-site-name {
   font-family: var(--pk-font-ui);
@@ -187,22 +194,36 @@ body.theme-dark .pk-logo { color: var(--pk-accent); }
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  opacity: 0.55;
+  opacity: 0.50;
   margin-top: 2px;
   line-height: 1;
 }
-.pk-navlinks { display: flex; align-items: center; gap: 22px; }
+.pk-navlinks { display: flex; align-items: center; gap: 24px; }
 .pk-navlink {
   font-family: var(--pk-font-ui);
   font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
   color: inherit;
-  opacity: 0.65;
+  opacity: 0.60;
   letter-spacing: 0.01em;
   transition: opacity 140ms;
+  position: relative;
+}
+/* subtle underline indicator on hover */
+.pk-navlink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1.5px;
+  background: var(--pk-accent);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .pk-navlink:hover { opacity: 1; }
+.pk-navlink:hover::after { transform: scaleX(1); }
+
 .pk-nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .pk-theme-btn {
   background: transparent;
@@ -210,17 +231,20 @@ body.theme-dark .pk-logo { color: var(--pk-accent); }
   padding: 6px;
   cursor: pointer;
   color: inherit;
-  opacity: 0.6;
-  transition: opacity 140ms;
+  opacity: 0.55;
+  transition: opacity 140ms, background 140ms;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  border-radius: 8px;
   line-height: 0;
 }
-.pk-theme-btn:hover { opacity: 1; }
+.pk-theme-btn:hover {
+  opacity: 1;
+  background: rgba(46, 93, 166, 0.08);
+}
 
-/* ── Typography ───────────────────────────────────────────── */
+/* ── Typography ─────────────────────────────────────────────── */
 body {
   font-family: var(--pk-font-body);
   font-size: 1.0625rem;
@@ -257,7 +281,7 @@ pre, pre code {
   line-height: 1.65;
 }
 
-/* ── Sidebar: fade out as footer enters view (via IntersectionObserver) ── */
+/* ── Sidebar fade-out at footer ─────────────────────────────── */
 .sidebar {
   transition: opacity 400ms ease, transform 400ms ease;
 }
@@ -267,7 +291,7 @@ pre, pre code {
   transform: translateY(16px);
 }
 
-/* ── Footer ─────────────────────────────────────────────── */
+/* ── Footer ─────────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
 
 .pk-footer {
@@ -335,7 +359,7 @@ nav.rzl-footer-mini { display: none !important; }
   color: inherit;
   font-family: var(--pk-font-ui);
   font-size: 0.83rem;
-  opacity: 0.5;
+  opacity: 0.50;
   letter-spacing: 0.03em;
   transition: opacity 140ms;
 }
@@ -345,5 +369,5 @@ nav.rzl-footer-mini { display: none !important; }
   flex-shrink: 0;
 }
 
-/* ── Graph/canvas z-index ─────────────────────────────────── */
+/* ── Graph z-index ──────────────────────────────────────────── */
 .graph-page, .graph-wrapper, #graph { position: relative; z-index: 1; }

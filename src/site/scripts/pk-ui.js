@@ -2,12 +2,13 @@
   var PEEK_THRESHOLD = 64;
   var root = document.documentElement;
 
-  /* ── IMMEDIATE — runs before DOMContentLoaded ──────────────────
-     Add pk-excalidraw-page to <html> synchronously so CSS palette
-     and fade-in fire on the very first paint (no flash of wrong styles).
+  /* ── IMMEDIATE — safety guard ───────────────────────────────────
+     The inline anti-FOUC script in pageheader.njk already adds
+     pk-excalidraw-page to <html> synchronously before first CSS paint.
+     This guard is a belt-and-suspenders fallback only.
    ──────────────────────────────────────────────────────────── */
   var isExcalidrawPage = window.location.pathname.toLowerCase().includes('.excalidraw');
-  if (isExcalidrawPage) {
+  if (isExcalidrawPage && !root.classList.contains('pk-excalidraw-page')) {
     root.classList.add('pk-excalidraw-page');
   }
 
@@ -72,8 +73,6 @@
   function applyTheme(theme) {
     document.body.classList.remove('theme-light', 'theme-dark');
     document.body.classList.add('theme-' + theme);
-    /* Mirror theme class to <html> so scrollbar CSS can target it
-       (::-webkit-scrollbar-thumb lives outside <body> inheritance). */
     root.classList.remove('theme-light', 'theme-dark');
     root.classList.add('theme-' + theme);
     localStorage.setItem(THEME_KEY, theme);
@@ -86,16 +85,7 @@
     if (saved) applyTheme(saved);
   }
 
-  /* ── Page transitions across the excalidraw/normal boundary ─────
-     When clicking a link that crosses the boundary (normal → excalidraw
-     or excalidraw → normal), we fade the current page out first,
-     then navigate. This fixes the "first-click jump" where the exit
-     used to be an instant hard-cut.
-
-     Alt + arrow (back/forward) already works because the browser
-     restores the page and our html.pk-excalidraw-page rule fires
-     synchronously on the incoming page.
-   ──────────────────────────────────────────────────────────── */
+  /* ── Page transitions across the excalidraw/normal boundary ───── */
   function setupPageTransitions() {
     var currentIsExcalidraw = isExcalidrawPage;
     document.addEventListener('click', function (e) {
@@ -108,9 +98,8 @@
           link.target === '_blank') return;
 
       var targetIsExcalidraw = href.toLowerCase().indexOf('.excalidraw') !== -1;
-      if (targetIsExcalidraw === currentIsExcalidraw) return; /* same type — no transition needed */
+      if (targetIsExcalidraw === currentIsExcalidraw) return;
 
-      /* Cross-boundary: fade out current page, then navigate */
       e.preventDefault();
       var body = document.body;
       body.style.transition = 'opacity 180ms ease, transform 180ms ease';
@@ -120,27 +109,57 @@
     });
   }
 
-  /* ── Short-note detection ───────────────────────────────────────
-     When the note is short enough that the footer is visible in
-     the initial viewport, the IntersectionObserver in footer-contact.njk
-     immediately adds pk-sidebar-end — fading the whole sidebar to
-     opacity:0 and hiding the graph and backlinks too.
+  /* ── Content min-height = sidebar height ──────────────────────
+     Ensures the note content block is always at least as tall as
+     the sidebar. This pushes the footer BELOW the sidebar bottom
+     on short notes, so the full-width footer border-top never
+     visually coincides with sidebar content.
 
-     Fix: add pk-short-note to <body>.
-       CSS then:
-         • Cancels the sidebar fade-out (sidebar stays fully visible)
-         • Hides only .toc (pointless without scrolling)
-         • Keeps graph view + backlinks
+     ResizeObserver keeps the min-height in sync as the force-graph
+     widget loads asynchronously and makes the sidebar taller.
+   ──────────────────────────────────────────────────────────── */
+  function syncContentMinHeight() {
+    if (isExcalidrawPage) return;
+    var sidebar = document.querySelector('.sidebar');
+    var content = document.querySelector('main.content');
+    if (!sidebar || !content) return;
+
+    function update() {
+      var h = sidebar.offsetHeight;
+      if (h > 10) content.style.minHeight = h + 'px';
+    }
+
+    update();
+    if (window.ResizeObserver) {
+      new ResizeObserver(update).observe(sidebar);
+    }
+    /* Fallback ticks — force-graph loads after DOMContentLoaded */
+    setTimeout(update, 500);
+    setTimeout(update, 1500);
+  }
+
+  /* ── Short-note detection ───────────────────────────────────────
+     1. syncContentMinHeight() runs first — content expands to
+        sidebar height, footer is pushed below the fold.
+     2. After layout settles (150ms), re-check: if footer is STILL
+        visible in the initial viewport (very tiny notes), add
+        pk-short-note to hide the TOC.
+     This two-step order is important: min-height sync must run
+     before the viewport check so the check is accurate.
    ──────────────────────────────────────────────────────────── */
   function setupShortNoteDetection() {
     if (isExcalidrawPage) return;
     if (document.querySelector('.content.canvas-page')) return;
-    var footer = document.querySelector('#contact, .pk-footer');
-    if (!footer) return;
-    /* Footer is already in the viewport — this is a short note */
-    if (footer.getBoundingClientRect().top < window.innerHeight) {
-      document.body.classList.add('pk-short-note');
-    }
+
+    syncContentMinHeight();
+
+    setTimeout(function () {
+      var footer = document.querySelector('#contact, .pk-footer');
+      if (!footer) return;
+      if (footer.getBoundingClientRect().top < window.innerHeight) {
+        document.body.classList.add('pk-short-note');
+      }
+    }, 150);
   }
 
   /* ── Excalidraw dedicated pages ──────────────────────────── */

@@ -34,7 +34,7 @@
   --rzl-progress-pct: 0%;
 }
 
-/* ── Dark theme ─────────────────────────────────────────────── */
+/* ── Dark theme (body) ──────────────────────────────────────── */
 body.theme-dark {
   --pk-accent:    #5b9bd5;
   --pk-accent-lt: #7ab8e8;
@@ -45,23 +45,46 @@ body.theme-dark {
   --pk-muted:     #7a95b0;
   --pk-border:    #253347;
 
-  --background-primary:         var(--pk-bg);
+  --background-primary:         #111827;
   --background-primary-alt:     #1e2c42;
   --background-secondary:       #0e1420;
   --background-secondary-alt:   #162030;
-  --background-modifier-border: var(--pk-border);
-  --text-normal:  var(--pk-text);
-  --text-muted:   var(--pk-muted);
-  --text-accent:  var(--pk-accent);
+  --background-modifier-border: #253347;
+  --text-normal:  #dce8f6;
+  --text-muted:   #7a95b0;
+  --text-accent:  #5b9bd5;
 
   --pk-seal-color: rgba(220, 232, 246, 0.90);
 }
 
-/* ── Dark theme mirrored on <html> (for scrollbar targeting) ── */
+/* ── Dark theme mirrored on <html> ──────────────────────────
+   The anti-FOUC inline script (pageheader.njk) adds theme-dark to
+   <html> synchronously before any CSS paint. All critical vars are
+   set here so CSS custom properties resolve correctly via inheritance
+   before body.theme-dark is applied by the deferred pk-ui.js.
+
+   This prevents the light→dark flash for returning dark-mode users.
+   ──────────────────────────────────────────────────────────── */
 html.theme-dark {
-  --pk-border: #253347;
-  --pk-muted:  #7a95b0;
+  --pk-accent:    #5b9bd5;
   --pk-accent-lt: #7ab8e8;
+  --pk-bg:        #111827;
+  --pk-bg-card:   #1a2236;
+  --pk-bg-nav:    rgba(10, 14, 24, 0.82);
+  --pk-text:      #dce8f6;
+  --pk-muted:     #7a95b0;
+  --pk-border:    #253347;
+
+  --background-primary:         #111827;
+  --background-primary-alt:     #1e2c42;
+  --background-secondary:       #0e1420;
+  --background-secondary-alt:   #162030;
+  --background-modifier-border: #253347;
+  --text-normal:  #dce8f6;
+  --text-muted:   #7a95b0;
+  --text-accent:  #5b9bd5;
+
+  --pk-seal-color: rgba(220, 232, 246, 0.90);
 }
 
 /* ── Custom scrollbar ─────────────────────────────────────── */
@@ -135,7 +158,13 @@ body:has(.content.canvas-page) .canvas-wrapper {
 }
 body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
-/* ── Short-note sidebar fix ───────────────────────────────── */
+/* ── Short-note sidebar fix ─────────────────────────────────
+   The content block min-height is set to sidebar height via JS
+   (syncContentMinHeight in pk-ui.js), pushing the footer below
+   the sidebar bottom in all cases. pk-short-note is only added
+   on extreme edge cases where footer is still in viewport after
+   min-height expansion.
+   ──────────────────────────────────────────────────────────── */
 body.pk-short-note .sidebar.pk-sidebar-end {
   opacity:         1    !important;
   pointer-events:  auto !important;
@@ -143,10 +172,7 @@ body.pk-short-note .sidebar.pk-sidebar-end {
 }
 body.pk-short-note .toc { display: none !important; }
 
-/* ── Reading meta (word count + read time) ───────────────────
-   Inserted by rzl.js after the H1.
-   Design: monospace + small + low-contrast — data, not prose.
-   ──────────────────────────────────────────────────────────── */
+/* ── Reading meta (word count + read time) ─────────────────── */
 .rzl-reading-meta {
   display:         flex;
   align-items:     center;
@@ -160,10 +186,7 @@ body.pk-short-note .toc { display: none !important; }
   opacity:         0.80;
   user-select:     none;
 }
-.rzl-reading-meta__dot {
-  opacity: 0.45;
-  font-size: 0.65rem;
-}
+.rzl-reading-meta__dot { opacity: 0.45; font-size: 0.65rem; }
 .rzl-reading-meta__item { white-space: nowrap; }
 
 /* =============================================================
@@ -171,12 +194,10 @@ body.pk-short-note .toc { display: none !important; }
    ============================================================= */
 
 /* ── PART 1: EARLY RULES (html.pk-excalidraw-page) ────────────
-   Fire the moment the script tag is parsed (first paint).
-
-   Body starts opacity:0, then fades in with a PURE opacity
-   animation (no translateY) — this completes the exit→entry
-   cross-fade: the departing page slides up + fades, the arriving
-   page simply fades in. Zero delay so there is no blank gap.
+   The anti-FOUC inline script adds pk-excalidraw-page to <html>
+   BEFORE pk-fixes.css is even fetched. So by the time these rules
+   are parsed, the class is already present and body starts at
+   opacity:0 on the very first paint — no flash of blue styles.
    ──────────────────────────────────────────────────────────── */
 html.pk-excalidraw-page body {
   opacity:     0;
@@ -189,7 +210,6 @@ html.pk-excalidraw-page body {
   to   { opacity: 1; }
 }
 
-/* Navbar: dark slate from first paint */
 html.pk-excalidraw-page .pk-navbar {
   background:              rgba(20, 23, 28, 0.97)    !important;
   backdrop-filter:         saturate(110%) blur(10px) !important;
@@ -251,7 +271,6 @@ body.pk-excalidraw-page .pk-theme-btn { color: #e2ddd4 !important; }
 body.pk-excalidraw-page .pk-logo      { color: #78b896 !important; }
 body.pk-excalidraw-page .pk-navlink::after { background: #78b896 !important; }
 body.pk-excalidraw-page .pk-theme-btn:hover { background: rgba(120,184,150,.12) !important; }
-
 body.pk-excalidraw-page .excalidraw-svg {
   display: block !important; width: 100% !important;
   height: calc(100dvh - var(--pk-navbar-h)) !important;
@@ -268,12 +287,6 @@ body.pk-excalidraw-page .excalidraw-svg svg,
 body.pk-excalidraw-page main.content > svg {
   display: block !important; width: 100% !important; height: 100% !important;
   max-width: 100% !important; max-height: 100% !important;
-}
-body.pk-excalidraw-page .excalidraw-zoom-buttons,
-body.pk-excalidraw-page [class*="zoom"] {
-  color: #1c1c1c !important;
-  background: rgba(238,234,225,.92) !important;
-  border: 1px solid rgba(0,0,0,.10) !important;
 }
 body.pk-excalidraw-page .pk-footer {
   margin-top: 0; padding-top: 2rem;
@@ -376,27 +389,16 @@ pre, pre code { font-family: var(--pk-font-mono); font-size: 0.875rem; line-heig
 }
 
 /* ── Footer ───────────────────────────────────────────────────
-   The old full-width border-top clashed with the sidebar on short
-   pages — the line visually "cut through" sidebar content at the
-   same Y position.
-
-   Fix: replace with a ::before pseudo-element that is max-width
-   capped, so the separator only spans the content column width
-   and never reaches the sidebar area.
+   Full-width border-top is correct — the content min-height JS
+   (syncContentMinHeight) ensures the footer always starts below
+   the sidebar bottom, so the separator never coincides with
+   sidebar content regardless of note length.
    ──────────────────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
 .pk-footer {
   width: 100%; text-align: center;
-  margin-top: 3rem;
-  /* No border-top here — handled by ::before below */
-}
-.pk-footer::before {
-  content: '';
-  display: block;
-  width: min(660px, 86%);
-  height: 1px;
-  background: var(--pk-border);
-  margin: 0 auto 2.4rem;
+  margin-top: 3rem; padding-top: 2rem;
+  border-top: 1px solid var(--pk-border);
 }
 .pk-footer-institute,
 .pk-footer-links {

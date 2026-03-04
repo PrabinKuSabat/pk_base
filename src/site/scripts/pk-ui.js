@@ -3,11 +3,8 @@
   var root = document.documentElement;
 
   /* ── IMMEDIATE — runs before DOMContentLoaded ──────────────────
-     Adding pk-excalidraw-page to <html> synchronously means the
-     CSS palette + fade-in animation fire on the very first paint.
-     This eliminates the flash of wrong background / navbar colour
-     and the layout-jump when the class was previously only added
-     on DOMContentLoaded.
+     Add pk-excalidraw-page to <html> synchronously so CSS palette
+     and fade-in fire on the very first paint (no flash of wrong styles).
    ──────────────────────────────────────────────────────────── */
   var isExcalidrawPage = window.location.pathname.toLowerCase().includes('.excalidraw');
   if (isExcalidrawPage) {
@@ -75,6 +72,10 @@
   function applyTheme(theme) {
     document.body.classList.remove('theme-light', 'theme-dark');
     document.body.classList.add('theme-' + theme);
+    /* Mirror theme class to <html> so scrollbar CSS can target it
+       (::-webkit-scrollbar-thumb lives outside <body> inheritance). */
+    root.classList.remove('theme-light', 'theme-dark');
+    root.classList.add('theme-' + theme);
     localStorage.setItem(THEME_KEY, theme);
   }
   window.pkToggleTheme = function () {
@@ -85,17 +86,68 @@
     if (saved) applyTheme(saved);
   }
 
-  /* ── Excalidraw dedicated pages ────────────────────────────
-     isExcalidrawPage is already computed above.
-     Here we add the class to <body> (DOMContentLoaded) and do
-     SVG fitting + wheel forwarding.
+  /* ── Page transitions across the excalidraw/normal boundary ─────
+     When clicking a link that crosses the boundary (normal → excalidraw
+     or excalidraw → normal), we fade the current page out first,
+     then navigate. This fixes the "first-click jump" where the exit
+     used to be an instant hard-cut.
+
+     Alt + arrow (back/forward) already works because the browser
+     restores the page and our html.pk-excalidraw-page rule fires
+     synchronously on the incoming page.
    ──────────────────────────────────────────────────────────── */
+  function setupPageTransitions() {
+    var currentIsExcalidraw = isExcalidrawPage;
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href]');
+      if (!link) return;
+      var href = link.getAttribute('href');
+      if (!href || href.charAt(0) === '#' ||
+          href.indexOf('mailto:') === 0 ||
+          href.indexOf('javascript:') === 0 ||
+          link.target === '_blank') return;
+
+      var targetIsExcalidraw = href.toLowerCase().indexOf('.excalidraw') !== -1;
+      if (targetIsExcalidraw === currentIsExcalidraw) return; /* same type — no transition needed */
+
+      /* Cross-boundary: fade out current page, then navigate */
+      e.preventDefault();
+      var body = document.body;
+      body.style.transition = 'opacity 180ms ease, transform 180ms ease';
+      body.style.opacity    = '0';
+      body.style.transform  = 'translateY(-5px)';
+      setTimeout(function () { window.location.href = href; }, 185);
+    });
+  }
+
+  /* ── Short-note detection ───────────────────────────────────────
+     When the note is short enough that the footer is visible in
+     the initial viewport, the IntersectionObserver in footer-contact.njk
+     immediately adds pk-sidebar-end — fading the whole sidebar to
+     opacity:0 and hiding the graph and backlinks too.
+
+     Fix: add pk-short-note to <body>.
+       CSS then:
+         • Cancels the sidebar fade-out (sidebar stays fully visible)
+         • Hides only .toc (pointless without scrolling)
+         • Keeps graph view + backlinks
+   ──────────────────────────────────────────────────────────── */
+  function setupShortNoteDetection() {
+    if (isExcalidrawPage) return;
+    if (document.querySelector('.content.canvas-page')) return;
+    var footer = document.querySelector('#contact, .pk-footer');
+    if (!footer) return;
+    /* Footer is already in the viewport — this is a short note */
+    if (footer.getBoundingClientRect().top < window.innerHeight) {
+      document.body.classList.add('pk-short-note');
+    }
+  }
+
+  /* ── Excalidraw dedicated pages ──────────────────────────── */
   function setupExcalidrawPage() {
     if (!isExcalidrawPage) return;
-
     document.body.classList.add('pk-excalidraw-page');
 
-    /* SVG fitting: remove pixel dims, add viewBox + preserveAspectRatio */
     function fitSVGs() {
       var svgs = document.querySelectorAll(
         '.excalidraw-svg svg, .content > svg, .content .excalidraw-svg svg'
@@ -116,7 +168,6 @@
     setTimeout(fitSVGs, 250);
     setTimeout(fitSVGs, 800);
 
-    /* Wheel forwarding: SVG canvas → page scroll */
     function attachWheelForward() {
       var container = document.querySelector('.excalidraw-svg');
       if (!container) return;
@@ -136,6 +187,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     restoreTheme();
     setupExcalidrawPage();
+    setupPageTransitions();
+    setupShortNoteDetection();
     setupProgress();
     setupHideOnScroll();
     setupPeek();

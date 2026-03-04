@@ -57,6 +57,47 @@ body.theme-dark {
   --pk-seal-color: rgba(220, 232, 246, 0.90);
 }
 
+/* ── Dark theme mirrored on <html> (for scrollbar targeting) ──
+   applyTheme() in pk-ui.js mirrors theme-dark/light to <html>.
+   We only need the vars actually used by scrollbar here.
+   ──────────────────────────────────────────────────────────── */
+html.theme-dark {
+  --pk-border: #253347;
+  --pk-muted:  #7a95b0;
+  --pk-accent-lt: #7ab8e8;
+}
+
+/* ── Custom scrollbar ───────────────────────────────────────
+   html is the scroll container (overflow-y: auto on html).
+   Theme class is mirrored to html by applyTheme() so css vars work.
+   ──────────────────────────────────────────────────────────── */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--pk-border) transparent;
+}
+html::-webkit-scrollbar              { width: 5px; height: 5px; }
+html::-webkit-scrollbar-track        { background: transparent; }
+html::-webkit-scrollbar-thumb        { background: var(--pk-border); border-radius: 999px; }
+html::-webkit-scrollbar-thumb:hover  { background: var(--pk-muted); }
+
+/* Dark: slightly brighter thumb so it's findable */
+html.theme-dark::-webkit-scrollbar-thumb       { background: #2e4260; }
+html.theme-dark::-webkit-scrollbar-thumb:hover { background: var(--pk-muted); }
+
+/* Excalidraw pages: chalky warm-grey thumb */
+html.pk-excalidraw-page {
+  scrollbar-color: #bdb8b0 transparent;
+}
+html.pk-excalidraw-page::-webkit-scrollbar-thumb       { background: #bdb8b0; }
+html.pk-excalidraw-page::-webkit-scrollbar-thumb:hover { background: #9a9690; }
+
+/* Excalidraw dark: near-invisible blackboard scrollbar */
+html.theme-dark.pk-excalidraw-page {
+  scrollbar-color: #28282e transparent;
+}
+html.theme-dark.pk-excalidraw-page::-webkit-scrollbar-thumb       { background: #28282e; }
+html.theme-dark.pk-excalidraw-page::-webkit-scrollbar-thumb:hover { background: #3a3a44; }
+
 /* ── Progress bar ───────────────────────────────────────────── */
 html::before {
   content: '';
@@ -110,61 +151,54 @@ body:has(.content.canvas-page) .canvas-wrapper {
 }
 body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
+/* ── Short-note sidebar fix ─────────────────────────────────
+   On short notes the footer IntersectionObserver fires immediately
+   and adds .pk-sidebar-end — fading the ENTIRE sidebar to opacity:0.
+   We cancel the fade-out and hide only .toc (useless w/o scrolling).
+   Graph view + backlinks stay fully visible.
+   ──────────────────────────────────────────────────────────── */
+body.pk-short-note .sidebar.pk-sidebar-end {
+  opacity:         1    !important;
+  pointer-events:  auto !important;
+  transform:       none !important;
+}
+body.pk-short-note .toc { display: none !important; }
+
 /* =============================================================
    EXCALIDRAW PAGES — Chalkboard × Whiteboard Theme
-
-   The class .pk-excalidraw-page is added to BOTH <html> and <body>:
-     • <html>  — immediately (synchronous JS, first paint)
-     • <body>  — on DOMContentLoaded
-
-   Early <html> rules below fire on the very first paint so the
-   page never flashes wrong colors. The body fade-in animation
-   keeps everything invisible until all classes are settled, then
-   reveals with a smooth 300ms lift.
    ============================================================= */
 
-/* ────────────────────────────────────────────────────────────
-   PART 1 — EARLY RULES (html.pk-excalidraw-page)
-   These fire the moment the script tag is parsed, before the
-   browser paints a single pixel of the page.
+/* ── PART 1: EARLY RULES (html.pk-excalidraw-page) ────────────
+   Fire the moment the script tag is parsed (first paint).
+   Body starts opacity:0, reveals smoothly after classes settle.
    ──────────────────────────────────────────────────────────── */
-
-/* Body: hide immediately, reveal smoothly once classes settle */
 html.pk-excalidraw-page body {
   opacity:     0;
   padding-top: var(--pk-navbar-h) !important;
   animation:   pk-excalidraw-reveal 300ms cubic-bezier(.4,0,.2,1) 60ms both;
 }
-
 @keyframes pk-excalidraw-reveal {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Navbar: dark slate frame from first paint — no flash of frosted glass */
+/* Navbar: dark slate from first paint */
 html.pk-excalidraw-page .pk-navbar {
   background:              rgba(20, 23, 28, 0.97)    !important;
   backdrop-filter:         saturate(110%) blur(10px) !important;
   -webkit-backdrop-filter: saturate(110%) blur(10px) !important;
-  box-shadow:
-    0 1px 0   rgba(255,255,255,.04),
-    0 2px 20px rgba(0,0,0,.5)         !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 2px 20px rgba(0,0,0,.5) !important;
 }
-/* Chalk text in navbar from first paint */
 html.pk-excalidraw-page .pk-site-name,
 html.pk-excalidraw-page .pk-site-tagline,
 html.pk-excalidraw-page .pk-navlink,
 html.pk-excalidraw-page .pk-theme-btn { color: #e2ddd4 !important; }
-html.pk-excalidraw-page .pk-logo       { color: #78b896 !important; }
+html.pk-excalidraw-page .pk-logo      { color: #78b896 !important; }
 html.pk-excalidraw-page .pk-navlink::after { background: #78b896 !important; }
 
-/* ────────────────────────────────────────────────────────────
-   PART 2 — FULL PALETTE (body.pk-excalidraw-page)
-   Applied on DOMContentLoaded. By then the body has already
-   faded in correctly — these just provide the complete theme.
-   ──────────────────────────────────────────────────────────── */
+/* ── PART 2: FULL PALETTE (body.pk-excalidraw-page) ──────────── */
 
-/* Light: warm parchment chalk-dust frame */
+/* Light: warm parchment */
 body.pk-excalidraw-page {
   --pk-bg:        #eeeae1;
   --pk-bg-nav:    rgba(26, 30, 36, 0.96);
@@ -178,7 +212,7 @@ body.pk-excalidraw-page {
   padding-top: var(--pk-navbar-h) !important;
 }
 
-/* Dark: deep blackboard frame */
+/* Dark: deep blackboard */
 body.theme-dark.pk-excalidraw-page {
   --pk-bg:        #0c0d0f;
   --pk-bg-nav:    rgba(4, 4, 6, 0.98);
@@ -196,7 +230,7 @@ body.pk-excalidraw-page aside,
 body.pk-excalidraw-page .sidebar,
 body.pk-excalidraw-page .filetree-wrapper { display: none !important; }
 
-/* Content: full-width, transparent so body bg shows */
+/* Content: full-width, transparent */
 body.pk-excalidraw-page .content,
 body.pk-excalidraw-page.has-navbar .content {
   width: 100% !important; max-width: 100% !important;
@@ -206,61 +240,49 @@ body.pk-excalidraw-page.has-navbar .content {
 }
 body.pk-excalidraw-page .content > header { display: none !important; }
 
-/* Navbar: dark slate on both themes (also covered by early html rule) */
+/* Navbar: dark slate (also covered by early html rule) */
 body.pk-excalidraw-page .pk-navbar {
   background:              rgba(20, 23, 28, 0.97)    !important;
   backdrop-filter:         saturate(110%) blur(10px) !important;
   -webkit-backdrop-filter: saturate(110%) blur(10px) !important;
-  box-shadow:
-    0 1px 0   rgba(255,255,255,.04),
-    0 2px 20px rgba(0,0,0,.5)         !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 2px 20px rgba(0,0,0,.5) !important;
 }
 body.pk-excalidraw-page .pk-site-name,
 body.pk-excalidraw-page .pk-site-tagline,
 body.pk-excalidraw-page .pk-navlink,
 body.pk-excalidraw-page .pk-theme-btn { color: #e2ddd4 !important; }
-body.pk-excalidraw-page .pk-logo       { color: #78b896 !important; }
+body.pk-excalidraw-page .pk-logo      { color: #78b896 !important; }
 body.pk-excalidraw-page .pk-navlink::after { background: #78b896 !important; }
 body.pk-excalidraw-page .pk-theme-btn:hover {
   background: rgba(120, 184, 150, 0.12) !important;
 }
 
-/* ── THE WHITEBOARD ───────────────────────────────────────
-   Always white/warm-white. In dark mode it pops against
-   the blackboard like a real mounted whiteboard.
-   ──────────────────────────────────────────────────────────── */
+/* THE WHITEBOARD */
 body.pk-excalidraw-page .excalidraw-svg {
-  display:    block   !important;
-  width:      100%    !important;
-  height:     calc(100dvh - var(--pk-navbar-h)) !important;
-  height:     calc(100vh  - var(--pk-navbar-h)) !important;
-  overflow:   hidden  !important;
-  padding:    0       !important;
-  margin:     0       !important;
+  display: block !important; width: 100% !important;
+  height: calc(100dvh - var(--pk-navbar-h)) !important;
+  height: calc(100vh  - var(--pk-navbar-h)) !important;
+  overflow: hidden !important; padding: 0 !important; margin: 0 !important;
   background: #ffffff !important;
   box-shadow: 0 2px 0 rgba(0,0,0,.08), 0 6px 32px rgba(0,0,0,.10);
-  /* Whiteboard slides in as part of the body reveal */
   transition: box-shadow 300ms ease;
 }
 body.theme-dark.pk-excalidraw-page .excalidraw-svg {
   background: #f5f1eb !important;
-  box-shadow:
-    0 0   0 1px rgba(240,230,210,.08),
-    0 4px 60px  rgba(0,0,0,.75),
-    0 1px 0     rgba(255,255,255,.06);
+  box-shadow: 0 0 0 1px rgba(240,230,210,.08), 0 4px 60px rgba(0,0,0,.75), 0 1px 0 rgba(255,255,255,.06);
 }
 body.pk-excalidraw-page .excalidraw-svg svg,
 body.pk-excalidraw-page main.content > svg {
-  display: block !important; width: 100% !important;
-  height: 100% !important; max-width: 100% !important; max-height: 100% !important;
+  display: block !important; width: 100% !important; height: 100% !important;
+  max-width: 100% !important; max-height: 100% !important;
 }
 
 /* Zoom controls */
 body.pk-excalidraw-page .excalidraw-zoom-buttons,
 body.pk-excalidraw-page [class*="zoom"] {
-  color:      #1c1c1c              !important;
+  color: #1c1c1c !important;
   background: rgba(238,234,225,.92) !important;
-  border:     1px solid rgba(0,0,0,.10) !important;
+  border: 1px solid rgba(0,0,0,.10) !important;
 }
 
 /* Footer */
@@ -268,7 +290,7 @@ body.pk-excalidraw-page .pk-footer {
   margin-top: 0; padding-top: 2rem;
   background: var(--pk-bg);
   border-top: 1px solid var(--pk-border);
-  color:      var(--pk-text);
+  color: var(--pk-text);
 }
 
 /* ── Hide DG theme pill ─────────────────────────────────────── */
@@ -331,12 +353,28 @@ body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
 .pk-navlink:hover::after { transform: scaleX(1); }
 .pk-nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .pk-theme-btn {
-  background: transparent; border: none; padding: 6px; cursor: pointer;
-  color: inherit; opacity: 0.55; transition: opacity 140ms, background 140ms;
+  /* Reset all browser default button appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.55;
+  transition: opacity 140ms, background 140ms;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 8px; line-height: 0;
+  border-radius: 8px;
+  line-height: 0;
+  /* Ensure OS chrome doesn't add grey button box */
+  box-shadow: none;
+  outline: none;
 }
 .pk-theme-btn:hover { opacity: 1; background: rgba(46,93,166,.08); }
+.pk-theme-btn:focus-visible {
+  outline: 2px solid var(--pk-accent);
+  outline-offset: 2px;
+}
 
 /* ── Typography ─────────────────────────────────────────────── */
 body {
@@ -372,6 +410,12 @@ nav.rzl-footer-mini { display: none !important; }
   width: 100%; text-align: center; margin-top: 3rem; padding-top: 2rem;
   border-top: 1px solid var(--pk-border);
 }
+/* Inner content centered and width-capped for readability */
+.pk-footer-institute,
+.pk-footer-links {
+  max-width: 640px;
+  margin-inline: auto;
+}
 .pk-footer-institute { display: flex; flex-direction: column; align-items: center; padding: 0 16px; }
 .pk-footer-seal {
   width: 80px; height: 80px; display: block; margin: 0 0 10px;
@@ -388,7 +432,10 @@ nav.rzl-footer-mini { display: none !important; }
   text-transform: uppercase; color: var(--pk-seal-color); line-height: 1.35;
 }
 .pk-footer-inst-link:hover .pk-footer-inst-name { opacity: 0.75; }
-.pk-footer-divider { width: 40px; height: 1px; background: var(--pk-border); margin: 12px auto 14px; }
+.pk-footer-divider {
+  width: 40px; height: 1px; background: var(--pk-border);
+  margin: 12px auto 14px;
+}
 .pk-footer-links {
   display: flex; gap: 20px; flex-wrap: wrap;
   align-items: center; justify-content: center; padding: 0 16px 28px;

@@ -1,60 +1,22 @@
-<nav class="navbar pk-navbar" aria-label="Primary">
-  <div class="navbar-inner pk-navbar-inner">
-
-    <a class="pk-brand" href="/" aria-label="Home">
-      {% if meta.siteLogoPath %}
-        <img class="site-logo" src="{{meta.siteLogoPath}}" alt="{{meta.siteName}}">
-      {% else %}
-        <svg class="pk-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" color="currentColor">
-          <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="0.9" stroke-dasharray="3 2.8" opacity="0.28"/>
-          <circle cx="24" cy="24" r="14" stroke="currentColor" stroke-width="1.6" opacity="0.6"/>
-          <circle cx="24" cy="24" r="7.5" stroke="currentColor" stroke-width="2.6"/>
-          <circle cx="24" cy="24" r="2.8" fill="currentColor"/>
-          <line x1="24" y1="16.4" x2="24" y2="13.2" stroke="currentColor" stroke-width="1.5"/>
-          <line x1="31.6" y1="24" x2="34.8" y2="24" stroke="currentColor" stroke-width="1.5"/>
-          <line x1="24" y1="31.6" x2="24" y2="34.8" stroke="currentColor" stroke-width="1.5"/>
-          <line x1="16.4" y1="24" x2="13.2" y2="24" stroke="currentColor" stroke-width="1.5"/>
-        </svg>
-        <div class="pk-brand-text">
-          <span class="pk-site-name">{{ meta.siteName }}</span>
-          <span class="pk-site-tagline">Systems Engineering Log</span>
+{%if settings.dgHomeLink === true%}
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="/" style="text-decoration: none;">
+                {% if meta.siteLogoPath %}
+                    <img class="site-logo" src="{{meta.siteLogoPath}}" alt="{{meta.siteName}}">
+                {% else %}
+                    <h1 style="margin: 15px !important;">{{meta.siteName}}</h1>
+                {% endif %}
+            </a>
         </div>
-      {% endif %}
-    </a>
-
-    <div class="pk-navlinks" aria-label="Site links">
-      <a class="pk-navlink" href="/">Homepage</a>
-      <a class="pk-navlink" href="/projects/">Projects</a>
-      <a class="pk-navlink" href="#contact">Contact</a>
+        {% if settings.dgEnableSearch === true%}
+            {% include "components/searchButton.njk" %}
+        {%endif%}
+    </nav>
+    {%else%}
+    <div class="empty-navbar" >
+        {% if settings.dgEnableSearch === true%}
+            {% include "components/searchButton.njk" %}
+        {%endif%}
     </div>
-
-    <div class="pk-nav-actions">
-      {% if settings.dgEnableSearch === true %}
-        {% include "components/searchButton.njk" %}
-      {% endif %}
-
-      <button
-        class="pk-theme-btn"
-        type="button"
-        aria-label="Toggle theme"
-        title="Toggle light / dark"
-        onclick="pkToggleTheme()"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="4"/>
-          <line x1="12" y1="2"  x2="12" y2="5"/>
-          <line x1="12" y1="19" x2="12" y2="22"/>
-          <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
-          <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
-          <line x1="2" y1="12" x2="5" y2="12"/>
-          <line x1="19" y1="12" x2="22" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
-          <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
-        </svg>
-      </button>
-    </div>
-
-  </div>
-</nav>
+{%endif%}

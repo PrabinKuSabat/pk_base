@@ -85,7 +85,7 @@
    ──────────────────────────────────────────────────────────── */
   function setupExcalidrawPage() {
     var path = window.location.pathname.toLowerCase();
-    if (!path.includes('.excalidraw')) return;
+    if (!path.includes('excalidraw')) return;
 
     document.body.classList.add('pk-excalidraw-page');
 

@@ -2,16 +2,14 @@
    pk-fixes.css  —  Ring0Ledger global overrides
    ============================================================= */
 
-/* ── Design tokens (Ink & Slate palette) ───────────────────── */
+/* ── Design tokens ────────────────────────────────────────── */
 :root {
   --pk-navbar-h:  56px;
   --pk-page-gap:  28px;
-
   --pk-accent:    #2e5da6;
   --pk-accent-lt: #4a90d9;
   --pk-bg:        #f0f4fb;
   --pk-bg-card:   #ffffff;
-  --pk-bg-nav:    rgba(255, 255, 255, 0.97);
   --pk-text:      #141c30;
   --pk-muted:     #536278;
   --pk-border:    #cdd7eb;
@@ -34,56 +32,37 @@
   --rzl-progress-pct: 0%;
 }
 
-/* ── Dark theme (body) ──────────────────────────────────────── */
 body.theme-dark {
   --pk-accent:    #5b9bd5;
   --pk-accent-lt: #7ab8e8;
   --pk-bg:        #111827;
   --pk-bg-card:   #1a2236;
-  --pk-bg-nav:    rgba(14, 20, 34, 0.88);
   --pk-text:      #dce8f6;
   --pk-muted:     #7a95b0;
   --pk-border:    #253347;
-
-  --background-primary:         #111827;
-  --background-primary-alt:     #1e2c42;
-  --background-secondary:       #0e1420;
-  --background-secondary-alt:   #162030;
+  --background-primary: #111827; --background-primary-alt: #1e2c42;
+  --background-secondary: #0e1420; --background-secondary-alt: #162030;
   --background-modifier-border: #253347;
-  --text-normal:  #dce8f6;
-  --text-muted:   #7a95b0;
-  --text-accent:  #5b9bd5;
-
+  --text-normal: #dce8f6; --text-muted: #7a95b0; --text-accent: #5b9bd5;
   --pk-seal-color: rgba(220, 232, 246, 0.90);
 }
-
 html.theme-dark {
   --pk-accent:    #5b9bd5;
   --pk-accent-lt: #7ab8e8;
   --pk-bg:        #111827;
   --pk-bg-card:   #1a2236;
-  --pk-bg-nav:    rgba(14, 20, 34, 0.88);
   --pk-text:      #dce8f6;
   --pk-muted:     #7a95b0;
   --pk-border:    #253347;
-
-  --background-primary:         #111827;
-  --background-primary-alt:     #1e2c42;
-  --background-secondary:       #0e1420;
-  --background-secondary-alt:   #162030;
+  --background-primary: #111827; --background-primary-alt: #1e2c42;
+  --background-secondary: #0e1420; --background-secondary-alt: #162030;
   --background-modifier-border: #253347;
-  --text-normal:  #dce8f6;
-  --text-muted:   #7a95b0;
-  --text-accent:  #5b9bd5;
-
+  --text-normal: #dce8f6; --text-muted: #7a95b0; --text-accent: #5b9bd5;
   --pk-seal-color: rgba(220, 232, 246, 0.90);
 }
 
-/* ── Custom scrollbar ─────────────────────────────────────── */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: var(--pk-border) transparent;
-}
+/* ── Scrollbar ─────────────────────────────────────────────── */
+html { scrollbar-width: thin; scrollbar-color: var(--pk-border) transparent; }
 html::-webkit-scrollbar              { width: 5px; height: 5px; }
 html::-webkit-scrollbar-track        { background: transparent; }
 html::-webkit-scrollbar-thumb        { background: var(--pk-border); border-radius: 999px; }
@@ -97,81 +76,60 @@ html.theme-dark.pk-excalidraw-page { scrollbar-color: #28282e transparent; }
 html.theme-dark.pk-excalidraw-page::-webkit-scrollbar-thumb       { background: #28282e; }
 html.theme-dark.pk-excalidraw-page::-webkit-scrollbar-thumb:hover { background: #3a3a44; }
 
-/* ── Progress bar (on html::before so body::before is free) ─── */
+/* ── Progress bar ──────────────────────────────────────────── */
 html::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0;
-  height: 2px;
+  content: ''; position: fixed; top: 0; left: 0; height: 2px;
   width: var(--rzl-progress-pct, 0%);
-  background: var(--pk-accent-lt);
-  z-index: 9999;
-  pointer-events: none;
-  transition: width 80ms linear;
+  background: var(--pk-accent-lt); z-index: 9999;
+  pointer-events: none; transition: width 80ms linear;
 }
 
-/* ── Scroll fix + page gap ────────────────────────────────── */
-html {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-}
+/* ── Scroll + page gap ─────────────────────────────────────── */
+html { overflow-y: auto !important; overflow-x: hidden !important; }
 body {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  height: auto !important;
-  min-height: 100vh;
-  /* pill top:12px + height:56px = 68px bottom edge; 84px gives 16px gap */
+  overflow-y: auto !important; overflow-x: hidden !important;
+  height: auto !important; min-height: 100vh;
   padding-top: calc(var(--pk-navbar-h) + var(--pk-page-gap)) !important;
   background: var(--pk-bg);
 }
-body.has-navbar .content,
-.content {
-  margin-top: var(--pk-page-gap) !important;
-  padding-top: 0 !important;
+body.has-navbar .content, .content {
+  margin-top: var(--pk-page-gap) !important; padding-top: 0 !important;
 }
 .markdown-preview-view,
 .markdown-preview-view.is-readable-line-width {
-  overflow: visible !important;
-  height: auto !important;
-  max-height: none !important;
+  overflow: visible !important; height: auto !important; max-height: none !important;
 }
 
-/* ── Page fade-in ────────────────────────────────────────────── */
+/* ── Page fade-in ───────────────────────────────────────────── */
 html:not(.pk-excalidraw-page) body {
   opacity: 0;
   animation: pk-page-reveal 900ms cubic-bezier(0.4,0,0.2,1) 0.08s both;
 }
 @keyframes pk-page-reveal {
-  0%   { opacity: 0; }
-  20%  { opacity: 0; }
-  100% { opacity: 1; }
+  0%  { opacity: 0; } 20% { opacity: 0; } 100% { opacity: 1; }
 }
 
-/* ── Canvas pages ──────────────────────────────────────────────── */
-body:has(.content.canvas-page) {
-  padding-top: 0 !important;
-  overflow: hidden !important;
-}
+/* ── Canvas pages ───────────────────────────────────────────── */
+body:has(.content.canvas-page) { padding-top: 0 !important; overflow: hidden !important; }
 body:has(.content.canvas-page) .pk-navbar { display: none !important; }
 body:has(.content.canvas-page) .content.canvas-page {
   height: 100vh !important; min-height: 100vh !important;
   margin: 0 !important; padding: 0 !important; max-width: none !important;
 }
 body:has(.content.canvas-page) .canvas-wrapper {
-  width: 100vw !important; height: 100vh !important; min-height: 100vh !important;
+  width: 100vw !important; height: 100vh !important;
 }
 body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
-/* ── Short-note sidebar fix ───────────────────────────────── */
+/* ── Short-note sidebar ──────────────────────────────────────── */
 body.pk-short-note .sidebar.pk-sidebar-end {
   opacity: 1 !important; pointer-events: auto !important; transform: none !important;
 }
 body.pk-short-note .toc { display: none !important; }
 
-/* ── Reading meta ─────────────────────────────────────────────── */
+/* ── Reading meta ───────────────────────────────────────────── */
 .rzl-reading-meta {
-  display: flex; align-items: center; gap: 6px;
-  margin: 0.3em 0 1.4em;
+  display: flex; align-items: center; gap: 6px; margin: 0.3em 0 1.4em;
   font-family: var(--pk-font-mono); font-size: 0.70rem;
   letter-spacing: 0.06em; text-transform: lowercase;
   color: var(--pk-muted); opacity: 0.80; user-select: none;
@@ -188,14 +146,11 @@ html.pk-excalidraw-page body {
   animation: pk-excalidraw-reveal 700ms cubic-bezier(0.4,0,0.2,1) 0ms both;
 }
 @keyframes pk-excalidraw-reveal {
-  0%  { opacity: 0; }
-  25% { opacity: 0; }
-  100%{ opacity: 1; }
+  0% { opacity: 0; } 25% { opacity: 0; } 100% { opacity: 1; }
 }
-
-/* Excalidraw: dark chalk pill */
-html.pk-excalidraw-page .pk-navbar .pk-navbar-inner,
-body.pk-excalidraw-page .pk-navbar .pk-navbar-inner {
+/* Excalidraw navbar skin — dark chalk */
+html.pk-excalidraw-page .pk-navbar,
+body.pk-excalidraw-page  .pk-navbar {
   background:              rgba(18, 22, 30, 0.90) !important;
   border-color:            rgba(120, 184, 150, 0.22) !important;
   box-shadow:
@@ -223,24 +178,16 @@ body.pk-excalidraw-page .pk-navlink:hover {
 body.pk-excalidraw-page .pk-theme-btn:hover { background: rgba(120,184,150,.14) !important; }
 
 body.pk-excalidraw-page {
-  --pk-bg:        #eeeae1;
-  --pk-text:      #1c1c1c;
-  --pk-muted:     #5a5550;
-  --pk-border:    #c4bcb2;
-  --pk-accent:    #3a6349;
-  --pk-accent-lt: #5c9470;
+  --pk-bg: #eeeae1; --pk-text: #1c1c1c; --pk-muted: #5a5550;
+  --pk-border: #c4bcb2; --pk-accent: #3a6349; --pk-accent-lt: #5c9470;
   --pk-seal-color: var(--pk-accent);
   background: var(--pk-bg) !important;
   padding-top: calc(var(--pk-navbar-h) + 16px) !important;
 }
 body.theme-dark.pk-excalidraw-page {
-  --pk-bg:        #0c0d0f;
-  --pk-text:      #d8d2c8;
-  --pk-muted:     #7a7570;
-  --pk-border:    #1e2026;
-  --pk-accent:    #78b896;
-  --pk-accent-lt: #96d0b2;
-  --pk-seal-color: rgba(210, 200, 185, 0.80);
+  --pk-bg: #0c0d0f; --pk-text: #d8d2c8; --pk-muted: #7a7570;
+  --pk-border: #1e2026; --pk-accent: #78b896; --pk-accent-lt: #96d0b2;
+  --pk-seal-color: rgba(210,200,185,.80);
   background: var(--pk-bg) !important;
 }
 body.pk-excalidraw-page aside,
@@ -272,9 +219,7 @@ body.pk-excalidraw-page main.content > svg {
 }
 body.pk-excalidraw-page .pk-footer {
   margin-top: 0; padding-top: 2rem;
-  background: var(--pk-bg);
-  border-top: 1px solid var(--pk-border);
-  color: var(--pk-text);
+  background: var(--pk-bg); border-top: 1px solid var(--pk-border); color: var(--pk-text);
 }
 
 /* ── Hide DG theme pill ─────────────────────────────────────── */
@@ -284,76 +229,45 @@ body.pk-excalidraw-page .pk-footer {
 [data-tippy-content="Toggle theme"] { display: none !important; }
 
 /* =============================================================
-   NAVBAR — Floating Glass Pill
+   NAVBAR — The pill IS .pk-navbar
 
-   Architecture fix: instead of a full-width fixed wrapper that
-   leaks background (the "rectangle"), the .pk-navbar element
-   is now EXACTLY the pill’s width, centred via:
+   .pk-navbar itself is the floating pill — it owns the shape,
+   the glass, the shadow and the positioning. No inner wrapper
+   layering. .pk-navbar-inner is a pure transparent flex layout
+   passthrough so the HTML structure is unchanged.
 
-     left: 50%; transform: translateX(-50%);
-     width: min(1100px, calc(100vw − 32px))
+   Brand  →  left     (flex-shrink:0)
+   Links  →  centre   (position:absolute or flex-grow)
+   Toggle →  right    (flex-shrink:0)
 
-   .pk-navbar-inner is 100% of that width and carries all the
-   visual glass/shadow. No rectangle possible.
-
-   Show/hide keeps the X-offset:  translateX(-50%) translateY(-140%)
+   Show/hide keeps the X centring:
+     visible  →  translateX(-50%) translateY(0)
+     hidden   →  translateX(-50%) translateY(-140%) + opacity:0
    ============================================================= */
 
-/* ── Pill-width fixed wrapper ──────────────────────────────── */
 .pk-navbar {
+  /* Positioning — centred, pill-width only, no full-width bar */
   position: fixed;
   top: 12px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(0);
   width: min(1100px, calc(100vw - 32px));
+  height: var(--pk-navbar-h);
   z-index: 1000;
 
-  /* Zero visual footprint — defeats any theme background leak */
-  background:              transparent !important;
-  border:                  none        !important;
-  box-shadow:              none        !important;
-  backdrop-filter:         none        !important;
-  -webkit-backdrop-filter: none        !important;
-
-  transition: transform 240ms cubic-bezier(.4,0,.2,1), opacity 180ms ease;
-  will-change: transform;
-}
-/* Hidden: keep the X centering, add Y slide + fade */
-.pk-navbar.pk-nav-hidden {
-  transform: translateX(-50%) translateY(-140%);
-  opacity: 0;
-}
-/* Peek override (scroll up) */
-body.pk-nav-peek .pk-navbar {
-  transform: translateX(-50%) translateY(0) !important;
-  opacity: 1 !important;
-}
-
-/* ── The glass pill (full width of its now-sized wrapper) ────
-   Light mode: near-opaque white + brand-blue border & glow —
-   clearly visible on the #f0f4fb page background.
-   ─────────────────────────────────────────────────────────── */
-.pk-navbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: var(--pk-navbar-h);
-  padding: 0 24px;
-  gap: 14px;
-
-  /* Pill shape */
+  /* ─ Pill shape ─ */
   border-radius: 999px;
+  overflow: hidden; /* clips children to the rounded edge */
 
-  /* High-clarity white glass */
+  /* ─ High-clarity white glass — visible on #f0f4fb ─ */
   background: rgba(255, 255, 255, 0.97);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
 
-  /* Brand-tinted border — readable against #f0f4fb */
-  border: 1px solid rgba(46, 93, 166, 0.15);
+  /* Brand-tinted border — ties to the site palette */
+  border: 1px solid rgba(46, 93, 166, 0.16);
 
-  /* Layered shadow: crystal top edge + brand elevation glow */
+  /* Layered shadow: crystal top edge + brand-blue elevation */
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 1),
     0 0 0 1px rgba(46, 93, 166, 0.06),
@@ -361,10 +275,15 @@ body.pk-nav-peek .pk-navbar {
     0 8px 24px  rgba(46, 93, 166, 0.13),
     0 24px 60px rgba(0, 0, 0, 0.06);
 
-  transition: background 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  transition: transform 240ms cubic-bezier(.4,0,.2,1),
+              opacity   180ms ease,
+              background 200ms ease,
+              box-shadow 200ms ease;
+  will-change: transform;
 }
-.pk-navbar.pk-nav-scrolled .pk-navbar-inner {
-  background: rgba(255, 255, 255, 0.99);
+
+/* Scrolled: slightly deeper shadow */
+.pk-navbar.pk-nav-scrolled {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 1),
     0 0 0 1px rgba(46, 93, 166, 0.10),
@@ -373,9 +292,21 @@ body.pk-nav-peek .pk-navbar {
     0 32px 70px rgba(0, 0, 0, 0.07);
 }
 
-/* ── Dark mode pill ───────────────────────────────────────── */
-html.theme-dark .pk-navbar-inner,
-body.theme-dark .pk-navbar-inner {
+/* Hidden: slide up + fade, keep X centering */
+.pk-navbar.pk-nav-hidden {
+  transform: translateX(-50%) translateY(-140%);
+  opacity: 0;
+}
+
+/* Peek: force back in view */
+body.pk-nav-peek .pk-navbar {
+  transform: translateX(-50%) translateY(0) !important;
+  opacity: 1 !important;
+}
+
+/* ── Dark mode navbar pill ─────────────────────────────────── */
+html.theme-dark .pk-navbar,
+body.theme-dark .pk-navbar {
   background: rgba(14, 20, 34, 0.88);
   border-color: rgba(91, 155, 213, 0.18);
   box-shadow:
@@ -386,15 +317,37 @@ body.theme-dark .pk-navbar-inner {
     0 12px 36px rgba(0, 0, 0, 0.40),
     0 0 60px rgba(91, 155, 213, 0.08);
 }
-html.theme-dark .pk-navbar.pk-nav-scrolled .pk-navbar-inner,
-body.theme-dark .pk-navbar.pk-nav-scrolled .pk-navbar-inner {
+html.theme-dark .pk-navbar.pk-nav-scrolled,
+body.theme-dark .pk-navbar.pk-nav-scrolled {
   background: rgba(14, 20, 34, 0.96);
 }
 
-/* ── Brand ───────────────────────────────────────────────────── */
+/* ── .pk-navbar-inner — transparent flex layout passthrough ──
+   No background, no border, no shadow — just layout.
+   Brand left | Links centre (absolute) | Toggle right
+   ────────────────────────────────────────────────────────── */
+.pk-navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;   /* needed for absolute-centred links */
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  gap: 12px;
+  /* zero visual footprint */
+  background:              transparent !important;
+  border:                  none        !important;
+  box-shadow:              none        !important;
+  backdrop-filter:         none        !important;
+  -webkit-backdrop-filter: none        !important;
+  border-radius:           0           !important;
+}
+
+/* ── Brand (left) ───────────────────────────────────────────── */
 .pk-brand {
   display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: inherit; flex-shrink: 0;
+  text-decoration: none; color: inherit; flex-shrink: 0; z-index: 1;
 }
 .pk-logo  { width: 24px; height: 24px; color: var(--pk-accent); flex-shrink: 0; }
 .pk-brand-text { display: flex; flex-direction: column; }
@@ -403,28 +356,38 @@ body.theme-dark .pk-navbar.pk-nav-scrolled .pk-navbar-inner {
   letter-spacing: -0.015em; line-height: 1.1; color: var(--pk-text);
 }
 .pk-site-tagline {
-  font-family: var(--pk-font-mono); font-size: 0.575rem; text-transform: uppercase;
-  letter-spacing: 0.10em; opacity: 0.40; margin-top: 2px; line-height: 1;
+  font-family: var(--pk-font-mono); font-size: 0.575rem;
+  text-transform: uppercase; letter-spacing: 0.10em;
+  opacity: 0.40; margin-top: 2px; line-height: 1;
 }
 
-/* ── Navlinks ──────────────────────────────────────────────── */
-.pk-navlinks { display: flex; align-items: center; gap: 2px; }
+/* ── Nav links (absolute centre) ──────────────────────────────
+   Absolute centering ensures links sit dead-centre regardless
+   of brand or action widths.
+   ───────────────────────────────────────────────────────── */
+.pk-navlinks {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .pk-navlink {
   font-family: var(--pk-font-ui); font-size: 0.875rem; font-weight: 500;
   text-decoration: none; color: var(--pk-text); opacity: 0.72;
-  letter-spacing: 0.005em;
+  letter-spacing: 0.005em; white-space: nowrap;
   padding: 6px 14px;
   border-radius: 999px;
   transition: opacity 130ms ease, background 130ms ease, color 130ms ease;
-  white-space: nowrap;
 }
 .pk-navlink::after { display: none; }
 .pk-navlink:hover  { opacity: 1; background: rgba(46,93,166,.08); color: var(--pk-accent); }
 html.theme-dark .pk-navlink:hover,
 body.theme-dark .pk-navlink:hover { background: rgba(91,155,213,.12); color: #7ab8e8; }
 
-/* ── Action buttons ─────────────────────────────────────────── */
-.pk-nav-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+/* ── Actions (right) ───────────────────────────────────────────── */
+.pk-nav-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; z-index: 1; }
 .pk-theme-btn {
   -webkit-appearance: none; appearance: none;
   background: transparent; border: none; box-shadow: none; outline: none;
@@ -444,10 +407,12 @@ body {
   line-height: 1.82; color: var(--pk-text);
   font-feature-settings: 'kern' 1, 'liga' 1;
 }
-.pk-navbar, .pk-footer, .header-meta, .tag,
-.timestamps, .search-button, .graph-title,
-.backlink-title, .sidebar-title, label { font-family: var(--pk-font-ui); }
-.cm-s-obsidian h1, .cm-s-obsidian h2, .cm-s-obsidian h3, h1, h2, h3 {
+.pk-navbar, .pk-footer, .header-meta, .tag, .timestamps,
+.search-button, .graph-title, .backlink-title, .sidebar-title, label {
+  font-family: var(--pk-font-ui);
+}
+h1, h2, h3,
+.cm-s-obsidian h1, .cm-s-obsidian h2, .cm-s-obsidian h3 {
   font-family: var(--pk-font-head); font-weight: 500; line-height: 1.22;
   letter-spacing: -0.02em; color: var(--pk-text);
 }
@@ -456,12 +421,11 @@ h2 { font-size: clamp(1.25rem,3vw,1.75rem); margin-top: 2.2em; margin-bottom: 0.
 h3 { font-size: clamp(1.1rem,2vw,1.3rem);   margin-top: 1.6em;  margin-bottom: 0.4em; }
 h4, h5, h6 { font-family: var(--pk-font-ui); font-weight: 600; }
 code:not(pre code) {
-  font-family: var(--pk-font-mono); font-size: 0.84em;
-  padding: 0.1em 0.38em; border-radius: 4px;
+  font-family: var(--pk-font-mono); font-size: 0.84em; padding: 0.1em 0.38em; border-radius: 4px;
 }
 pre, pre code { font-family: var(--pk-font-mono); font-size: 0.875rem; line-height: 1.65; }
 
-/* ── Sidebar fade-out ──────────────────────────────────────────── */
+/* ── Sidebar fade-out ─────────────────────────────────────────── */
 .sidebar { transition: opacity 400ms ease, transform 400ms ease; }
 .sidebar.pk-sidebar-end {
   opacity: 0 !important; pointer-events: none !important; transform: translateY(16px);
@@ -509,7 +473,7 @@ nav.rzl-footer-mini { display: none !important; }
 .graph-page, .graph-wrapper, #graph { position: relative; z-index: 1; }
 
 /* =============================================================
-   KANBAN BOARD  —  Blueprint Execution Pipeline
+   KANBAN  —  Blueprint Execution Pipeline
    ============================================================= */
 body.pk-kanban-page aside,
 body.pk-kanban-page .sidebar,
@@ -520,12 +484,8 @@ body.pk-kanban-page {
   padding-top: calc(var(--pk-navbar-h) + 26px) !important;
   position: relative;
 }
-
-/* Blueprint texture */
 body.pk-kanban-page::before {
-  content: "";
-  position: fixed; inset: 0;
-  z-index: 0; pointer-events: none;
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background-image:
     radial-gradient(ellipse 900px 650px at 0% 0%, rgba(37,99,235,.16) 0%, transparent 60%),
     radial-gradient(ellipse 750px 550px at 100% 100%, rgba(20,184,166,.09) 0%, transparent 60%),
@@ -537,36 +497,32 @@ body.pk-kanban-page::before {
   background-size: auto, auto, auto, 100px 100px, 100px 100px, 20px 20px, 20px 20px;
   background-attachment: fixed;
 }
-
 body.pk-kanban-page .pk-navbar,
 body.pk-kanban-page main.content,
 body.pk-kanban-page .pk-footer { position: relative; z-index: 1; }
 
-/* Kanban: ops glass pill — no wrapper override needed since
-   .pk-navbar is already transparent !important in the base rule */
-body.pk-kanban-page .pk-navbar .pk-navbar-inner {
-  background:              rgba(6, 10, 18, 0.82) !important;
-  border-color:            rgba(37, 99, 235, 0.28) !important;
+/* Kanban navbar skin — ops dark glass */
+body.pk-kanban-page .pk-navbar {
+  background:              rgba(6, 10, 18, 0.82)     !important;
+  border-color:            rgba(37, 99, 235, 0.28)   !important;
   box-shadow:
-    inset 0 1px 0 rgba(37, 99, 235, 0.14),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.50),
-    0 8px 28px rgba(0, 0, 0, 0.55),
-    0 0 70px rgba(37, 99, 235, 0.13) !important;
-  backdrop-filter:         saturate(120%) blur(24px) !important;
-  -webkit-backdrop-filter: saturate(120%) blur(24px) !important;
+    inset 0 1px 0 rgba(37,99,235,.14),
+    inset 0 -1px 0 rgba(0,0,0,.50),
+    0 8px 28px rgba(0,0,0,.55),
+    0 0 70px rgba(37,99,235,.13) !important;
+  backdrop-filter:         saturate(120%) blur(24px)  !important;
+  -webkit-backdrop-filter: saturate(120%) blur(24px)  !important;
 }
-body.pk-kanban-page .pk-navbar .pk-site-name,
-body.pk-kanban-page .pk-navbar .pk-site-tagline,
-body.pk-kanban-page .pk-navbar .pk-navlink,
-body.pk-kanban-page .pk-navbar .pk-theme-btn { color: #bdd0e8 !important; }
-body.pk-kanban-page .pk-navbar .pk-logo      { color: #4a7cdc !important; }
-body.pk-kanban-page .pk-navbar .pk-navlink:hover {
+body.pk-kanban-page .pk-site-name,
+body.pk-kanban-page .pk-site-tagline,
+body.pk-kanban-page .pk-navlink,
+body.pk-kanban-page .pk-theme-btn { color: #bdd0e8 !important; }
+body.pk-kanban-page .pk-logo      { color: #4a7cdc !important; }
+body.pk-kanban-page .pk-navlink:hover {
   color: #ffffff !important; opacity: 1 !important;
   background: rgba(37,99,235,.20) !important;
 }
-body.pk-kanban-page .pk-navbar .pk-theme-btn:hover {
-  background: rgba(37,99,235,.18) !important;
-}
+body.pk-kanban-page .pk-theme-btn:hover { background: rgba(37,99,235,.18) !important; }
 
 body.pk-kanban-page main.content,
 body.pk-kanban-page.has-navbar main.content {
@@ -577,10 +533,9 @@ body.pk-kanban-page.has-navbar main.content {
 body.pk-kanban-page main.content > header { display: none !important; }
 
 body.pk-kanban-page .pk-footer {
-  border-top-color: rgba(37,99,235,.22) !important;
-  background: transparent !important;
+  border-top-color: rgba(37,99,235,.22) !important; background: transparent !important;
 }
-body.pk-kanban-page .pk-footer-links a   { color: #5a80a8 !important; opacity: 0.85 !important; }
+body.pk-kanban-page .pk-footer-links a { color: #5a80a8 !important; opacity: 0.85 !important; }
 body.pk-kanban-page .pk-footer-links a:hover { color: #c8d8ea !important; opacity: 1 !important; }
 body.pk-kanban-page .pk-footer-inst-name { color: rgba(74,124,220,.72) !important; }
 body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !important; }
@@ -603,8 +558,7 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
 .pk-kanban-board .pk-kanban-column:nth-child(15) { --col-accent: #94a3b8; }
 
 .pk-kanban-board {
-  display: flex; gap: 12px;
-  justify-content: safe center;
+  display: flex; gap: 12px; justify-content: safe center;
   overflow-x: auto; overflow-y: hidden;
   height: 90vh; padding-bottom: 10px;
   align-items: stretch; width: 100%;
@@ -623,8 +577,7 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
   border: 1px solid rgba(255,255,255,.05);
   border-top: 2px solid var(--col-accent, #2563eb);
   border-radius: 3px;
-  display: flex; flex-direction: column;
-  height: 100%; overflow: hidden;
+  display: flex; flex-direction: column; height: 100%; overflow: hidden;
 }
 .pk-kanban-column[data-status="doing"]   { border-top-color: #0ea5e9; }
 .pk-kanban-column[data-status="review"]  { border-top-color: #f59e0b; }
@@ -634,8 +587,7 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
 .pk-kanban-column-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 9px 12px 8px;
-  background: rgba(5,8,14,.60);
-  border-bottom: 1px solid rgba(255,255,255,.04);
+  background: rgba(5,8,14,.60); border-bottom: 1px solid rgba(255,255,255,.04);
   gap: 8px; flex-shrink: 0;
 }
 .pk-kanban-column-title {
@@ -649,10 +601,8 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
 .pk-kanban-column[data-status="blocked"] .pk-kanban-column-title { color: #f87171; }
 .pk-kanban-column[data-status="done"]    .pk-kanban-column-title { color: #4ade80; }
 .pk-kanban-column-count {
-  flex-shrink: 0;
-  background: rgba(15,26,43,.80); color: #3a5a7a;
-  border: 1px solid rgba(255,255,255,.06); border-radius: 2px;
-  padding: 1px 6px;
+  flex-shrink: 0; background: rgba(15,26,43,.80); color: #3a5a7a;
+  border: 1px solid rgba(255,255,255,.06); border-radius: 2px; padding: 1px 6px;
   font-family: var(--pk-font-mono); font-size: 0.64rem; font-weight: 700; letter-spacing: 0.06em;
 }
 
@@ -682,7 +632,7 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
 .pk-kanban-column[data-status="review"]  .pk-kanban-card { border-left-color: #d97706; }
 .pk-kanban-column[data-status="blocked"] .pk-kanban-card { border-left-color: #dc2626; }
 .pk-kanban-column[data-status="done"]    .pk-kanban-card { border-left-color: #16a34a; }
-.pk-kanban-card.is-complete             { opacity: 0.35; }
+.pk-kanban-card.is-complete { opacity: 0.35; }
 .pk-kanban-card.is-complete .pk-kanban-card-text { text-decoration: line-through; }
 
 .pk-kanban-card-text {

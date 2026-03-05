@@ -443,7 +443,7 @@ pre, pre code { font-family: var(--pk-font-mono); font-size: 0.875rem; line-heig
   opacity: 0 !important; pointer-events: none !important; transform: translateY(16px);
 }
 
-/* ── Footer ─────────────────────────────────────────────── */
+/* ── Footer ─────────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
 .pk-footer {
   width: 100%; text-align: center;
@@ -651,4 +651,100 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
 .pk-kanban-empty {
   flex: 1; border: 1px dashed rgba(30,50,80,.50);
   border-radius: 2px; opacity: 0.25; min-height: 40px;
+}
+
+/* =============================================================
+   NORMAL PAGES  —  Digital Garden / Blog Notes
+
+   Design: soft aurora corner blobs (sky-blue, lavender, mint,
+   peach) + fine 26px dot grid. Feels like frosted paper with
+   subtle colour breathing in the corners. Dark mode shifts to
+   deeper jewel-tone blobs on the dark slate base.
+   ============================================================= */
+
+/* ── Light mode: aurora blobs + dot grid ────────────────────── */
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page)::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 900px 700px at -5%  5%,   rgba(147, 197, 253, 0.34) 0%, transparent 65%),
+    radial-gradient(ellipse 800px 650px at 108% 100%, rgba(196, 181, 253, 0.28) 0%, transparent 65%),
+    radial-gradient(ellipse 600px 500px at 88%  0%,   rgba(167, 243, 208, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 500px 450px at 0%   100%, rgba(253, 186, 116, 0.18) 0%, transparent 55%),
+    radial-gradient(circle, rgba(100, 130, 200, 0.22) 1px, transparent 1px);
+  background-size: auto, auto, auto, auto, 26px 26px;
+  background-attachment: fixed;
+}
+
+/* ── Dark mode: deep jewel aurora + dot grid ────────────────── */
+html.theme-dark body:not(.pk-kanban-page):not(.pk-excalidraw-page)::before,
+body.theme-dark:not(.pk-kanban-page):not(.pk-excalidraw-page)::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 900px 700px at -5%  5%,   rgba(37,  99, 235, 0.16) 0%, transparent 65%),
+    radial-gradient(ellipse 800px 650px at 108% 100%, rgba(139,  92, 246, 0.13) 0%, transparent 65%),
+    radial-gradient(ellipse 600px 500px at 88%  0%,   rgba(20,  184, 166, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 500px 450px at 0%   100%, rgba(251, 146,  60, 0.08) 0%, transparent 55%),
+    radial-gradient(circle, rgba(50, 80, 150, 0.20) 1px, transparent 1px);
+  background-size: auto, auto, auto, auto, 26px 26px;
+  background-attachment: fixed;
+}
+
+/* ── Lift content above the fixed bg layer ──────────────────── */
+body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar,
+body:not(.pk-kanban-page):not(.pk-excalidraw-page) main.content,
+body:not(.pk-kanban-page):not(.pk-excalidraw-page) aside,
+body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-footer { position: relative; z-index: 1; }
+
+/* ── Navbar text: guaranteed visibility on light normal pages ── */
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar {
+  background:              rgba(10, 16, 32, 0.94)   !important;
+  backdrop-filter:         saturate(180%) blur(24px) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(24px) !important;
+}
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-site-name    { color: rgba(220, 235, 255, 0.95) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-site-tagline { color: rgba(130, 165, 210, 0.62) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-navlink      { color: rgba(190, 215, 248, 0.82) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-navlink:hover { color: #ffffff !important; background: rgba(255, 255, 255, 0.12) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-logo         { color: #5b9bd5 !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-theme-btn    { color: rgba(190, 215, 248, 0.65) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-theme-btn:hover { color: rgba(220, 235, 255, 0.95) !important; background: rgba(255, 255, 255, 0.10) !important; }
+
+/* =============================================================
+   EXCALIDRAW PAGES  —  Sketchbook Background
+
+   Design: warm parchment (#eeeae1) base with sepia watercolor
+   blobs bleeding in from corners, plus a faint horizontal ruled
+   line pattern (28px pitch) like a real sketch-pad page.
+   Dark mode: deep shadow tones + same ruled lines at low opacity.
+   ============================================================= */
+
+/* ── Light: warm parchment watercolor + ruled lines ─────────── */
+body.pk-excalidraw-page:not(.theme-dark) {
+  background:
+    radial-gradient(ellipse 700px 550px at 5%   10%,  rgba(180, 155, 110, 0.24) 0%, transparent 60%),
+    radial-gradient(ellipse 650px 500px at 95%  90%,  rgba(100, 150, 120, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 450px 380px at 88%  4%,   rgba(160, 130,  90, 0.16) 0%, transparent 55%),
+    radial-gradient(ellipse 400px 350px at 4%   96%,  rgba(120, 160, 100, 0.14) 0%, transparent 55%),
+    repeating-linear-gradient(transparent, transparent 27px, rgba(140, 120, 90, 0.09) 28px),
+    var(--pk-bg) !important;
+  background-attachment: fixed !important;
+}
+
+/* ── Dark: deep shadow parchment + ruled lines ──────────────── */
+body.theme-dark.pk-excalidraw-page {
+  background:
+    radial-gradient(ellipse 700px 550px at 5%  10%,  rgba(80, 60, 30, 0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 650px 500px at 95% 90%,  rgba(40, 70, 50, 0.26) 0%, transparent 60%),
+    radial-gradient(ellipse 450px 380px at 88% 4%,   rgba(60, 40, 20, 0.22) 0%, transparent 55%),
+    repeating-linear-gradient(transparent, transparent 27px, rgba(80, 65, 45, 0.13) 28px),
+    var(--pk-bg) !important;
+  background-attachment: fixed !important;
 }

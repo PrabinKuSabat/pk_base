@@ -468,10 +468,14 @@ module.exports = function(eleventyConfig) {
      and converts the rendered H1 + UL structure into a .pk-kanban-board
      layout at build time — zero client-side JS, fully static HTML.
 
-     Kanban file format (written by obsidian-kanban plugin):
-       # Column Name          ← H1 = column
-       - [ ] Todo card        ← UL/LI = cards
-       - [x] Done card        ← checked = is-complete
+     Column status detection (getColStatus):
+     Reads the normalized column slug and maps known keywords to one of
+     five canonical statuses: todo | doing | review | blocked | done.
+     CSS targets [data-status="..."] with exact matches, so column name
+     changes never require CSS edits — only this keyword map needs updating.
+
+     To add support for a new column name pattern, add its keyword to the
+     appropriate regex branch below.
   ─────────────────────────────────────────────────────────────── */
   eleventyConfig.addTransform("kanban-board", function(str) {
     if (!isMarkdownPage(this.page.inputPath)) return str;
@@ -480,6 +484,19 @@ module.exports = function(eleventyConfig) {
     const parsed  = parse(str);
     const mainEl  = parsed.querySelector('main.content');
     if (!mainEl) return str;
+
+    /* ── Canonical status from slug ─────────────────────────────────
+       Each branch is a regex of common synonyms for that workflow stage.
+       Order matters — blocked is checked before done because "blocked"
+       doesn't contain any done-keywords, but being explicit is safer.
+    ──────────────────────────────────────────────────────────── */
+    function getColStatus(slug) {
+      if (/block|stuck|waiting|hold|parked/.test(slug))              return 'blocked';
+      if (/doing|in-progress|wip|active|current|started/.test(slug)) return 'doing';
+      if (/review|test|check|qa|verify|assess/.test(slug))           return 'review';
+      if (/done|complet|finish|merged|shipped|closed|resolv/.test(slug)) return 'done';
+      return 'todo';
+    }
 
     // ── Walk direct children: H1 = new column, UL = cards ──────
     const columns = [];
@@ -511,13 +528,18 @@ module.exports = function(eleventyConfig) {
     let boardHtml = '<div class="pk-kanban-board">';
     for (const col of columns) {
       const count = col.cards.length;
-      // Derive a stable, CSS-targetable key from the column title
+
+      // Stable slug from the visible title text (used for exact overrides via data-col)
       const colKey = col.titleHtml
-        .replace(/<[^>]+>/g, '')      // strip HTML tags
+        .replace(/<[^>]+>/g, '')       // strip HTML tags
         .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-') // spaces / parens / special chars → hyphens
-        .replace(/^-+|-+$/g, '');    // trim leading/trailing hyphens
-      boardHtml += `<div class="pk-kanban-column" data-col="${colKey}">`;
+        .replace(/[^a-z0-9]+/g, '-')  // spaces / parens / special chars → hyphens
+        .replace(/^-+|-+$/g, '');     // trim leading/trailing hyphens
+
+      // Canonical workflow status (drives CSS color-coding)
+      const colStatus = getColStatus(colKey);
+
+      boardHtml += `<div class="pk-kanban-column" data-col="${colKey}" data-status="${colStatus}">`;
       boardHtml += `<div class="pk-kanban-column-header">`;
       boardHtml += `<span class="pk-kanban-column-title">${col.titleHtml}</span>`;
       if (count) boardHtml += `<span class="pk-kanban-column-count">${count}</span>`;

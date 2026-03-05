@@ -473,7 +473,12 @@ body.pk-kanban-page {
   padding-top: var(--pk-navbar-h) !important;
 }
 
-/* ── Navbar gets a harder edge on kanban pages ──────────────── */
+/* ── Navbar: hard dark surface + force light text ────────────
+   The kanban navbar background is fully opaque near-black, so
+   we must explicitly set all text/icon colors to light values.
+   Without this, the text inherits from the site's light-mode
+   body color and becomes invisible against the dark background.
+   ──────────────────────────────────────────────────────────── */
 body.pk-kanban-page .pk-navbar {
   background: rgba(4, 6, 10, 0.97) !important;
   border-bottom: 1px solid #1a2540 !important;
@@ -481,6 +486,14 @@ body.pk-kanban-page .pk-navbar {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
+body.pk-kanban-page .pk-navbar .pk-site-name,
+body.pk-kanban-page .pk-navbar .pk-site-tagline,
+body.pk-kanban-page .pk-navbar .pk-navlink,
+body.pk-kanban-page .pk-navbar .pk-theme-btn { color: #c8d8e8 !important; }
+body.pk-kanban-page .pk-navbar .pk-logo      { color: #4a7cdc !important; }
+body.pk-kanban-page .pk-navbar .pk-navlink:hover { color: #ffffff !important; opacity: 1 !important; }
+body.pk-kanban-page .pk-navbar .pk-navlink::after { background: #2563eb !important; }
+body.pk-kanban-page .pk-navbar .pk-theme-btn:hover { background: rgba(37,99,235,.15) !important; }
 
 /* ── Full-width content, 28px gap from navbar ───────────────── */
 body.pk-kanban-page main.content,
@@ -497,12 +510,15 @@ body.pk-kanban-page.has-navbar main.content {
 body.pk-kanban-page main.content > header { display: none !important; }
 
 /* ── Board container ─────────────────────────────────────────
-   Columns spread to fill full width. Scrollbar sits at the
-   very bottom of the board, styled to match the dark surface.
+   'justify-content: safe center' centers columns when they don't
+   fill the board width, and automatically falls back to flex-start
+   when columns overflow — preventing the left-side clipping bug
+   that plain 'justify-content: center' causes on overflow.
    ────────────────────────────────────────────────────────── */
 .pk-kanban-board {
   display: flex;
   gap: 12px;
+  justify-content: safe center;
   overflow-x: auto;
   overflow-y: hidden;
   height: 90vh;
@@ -521,14 +537,18 @@ body.pk-kanban-page main.content > header { display: none !important; }
 }
 .pk-kanban-board::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
-/* ── Column — spreads to fill space evenly ───────────────────── */
+/* ── Column ─────────────────────────────────────────────────────
+   flex: 1 1 0  — columns grow equally to fill available space.
+   max-width cap prevents columns from becoming too wide on sparse
+   boards (e.g. 2 columns on a 1400px screen).
+   ──────────────────────────────────────────────────────────── */
 .pk-kanban-column {
   flex: 1 1 0;
   min-width: 200px;
   max-width: 300px;
   background: #0c1018;
   border: 1px solid #151f2e;
-  border-top: 2px solid #2563eb;
+  border-top: 2px solid #2563eb;   /* default: electric blue (todo) */
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -536,13 +556,23 @@ body.pk-kanban-page main.content > header { display: none !important; }
   overflow: hidden;
 }
 
-/* ── Column accent rails by status ──────────────────────────── */
-.pk-kanban-column[data-col*="doing"],
-.pk-kanban-column[data-col*="progress"]  { border-top-color: #0ea5e9; }
-.pk-kanban-column[data-col*="review"]    { border-top-color: #f59e0b; }
-.pk-kanban-column[data-col*="blocked"]   { border-top-color: #ef4444; }
-.pk-kanban-column[data-col*="completed"],
-.pk-kanban-column[data-col*="done"]      { border-top-color: #22c55e; }
+/* ── Column accent rails by data-status ─────────────────────────
+   data-status is set by the eleventy kanban-board transform using
+   keyword detection on the column title slug. This means the CSS
+   never needs to change when column names change — only the JS
+   keyword map in .eleventy.js needs updating for exotic new names.
+
+   Current status → keyword mapping (in .eleventy.js):
+     doing    → doing, in-progress, wip, active, current
+     review   → review, test, check, qa, verify
+     blocked  → blocked, block, stuck, waiting, hold
+     done     → done, completed, finish, merged, shipped, closed
+     todo     → everything else (default)
+   ──────────────────────────────────────────────────────────── */
+.pk-kanban-column[data-status="doing"]   { border-top-color: #0ea5e9; }  /* cyan    */
+.pk-kanban-column[data-status="review"]  { border-top-color: #f59e0b; }  /* amber   */
+.pk-kanban-column[data-status="blocked"] { border-top-color: #ef4444; }  /* red     */
+.pk-kanban-column[data-status="done"]    { border-top-color: #22c55e; }  /* green   */
 
 /* ── Column header ───────────────────────────────────────────── */
 .pk-kanban-column-header {
@@ -562,20 +592,18 @@ body.pk-kanban-page main.content > header { display: none !important; }
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: #4a7cdc;
+  color: #4a7cdc;   /* default: blue (todo) */
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Title color per column status */
-.pk-kanban-column[data-col*="doing"]     .pk-kanban-column-title,
-.pk-kanban-column[data-col*="progress"]  .pk-kanban-column-title { color: #38bdf8; }
-.pk-kanban-column[data-col*="review"]    .pk-kanban-column-title { color: #fbbf24; }
-.pk-kanban-column[data-col*="blocked"]   .pk-kanban-column-title { color: #f87171; }
-.pk-kanban-column[data-col*="completed"] .pk-kanban-column-title,
-.pk-kanban-column[data-col*="done"]      .pk-kanban-column-title { color: #4ade80; }
+/* Title color per data-status */
+.pk-kanban-column[data-status="doing"]   .pk-kanban-column-title { color: #38bdf8; }
+.pk-kanban-column[data-status="review"]  .pk-kanban-column-title { color: #fbbf24; }
+.pk-kanban-column[data-status="blocked"] .pk-kanban-column-title { color: #f87171; }
+.pk-kanban-column[data-status="done"]    .pk-kanban-column-title { color: #4ade80; }
 
 .pk-kanban-column-count {
   flex-shrink: 0;
@@ -613,7 +641,7 @@ body.pk-kanban-page main.content > header { display: none !important; }
 .pk-kanban-card {
   background: #0d1520;
   border: 1px solid #151f2e;
-  border-left: 2px solid #2563eb;
+  border-left: 2px solid #2563eb;   /* default: blue (todo) */
   border-radius: 2px;
   padding: 8px 10px;
   display: flex;
@@ -628,13 +656,11 @@ body.pk-kanban-page main.content > header { display: none !important; }
   border-left-color: #3b82f6;
 }
 
-/* Card left-border per parent column status */
-.pk-kanban-column[data-col*="doing"]     .pk-kanban-card,
-.pk-kanban-column[data-col*="progress"]  .pk-kanban-card { border-left-color: #0284c7; }
-.pk-kanban-column[data-col*="review"]    .pk-kanban-card { border-left-color: #d97706; }
-.pk-kanban-column[data-col*="blocked"]   .pk-kanban-card { border-left-color: #dc2626; }
-.pk-kanban-column[data-col*="completed"] .pk-kanban-card,
-.pk-kanban-column[data-col*="done"]      .pk-kanban-card { border-left-color: #16a34a; }
+/* Card left-border per data-status */
+.pk-kanban-column[data-status="doing"]   .pk-kanban-card { border-left-color: #0284c7; }
+.pk-kanban-column[data-status="review"]  .pk-kanban-card { border-left-color: #d97706; }
+.pk-kanban-column[data-status="blocked"] .pk-kanban-card { border-left-color: #dc2626; }
+.pk-kanban-column[data-status="done"]    .pk-kanban-card { border-left-color: #16a34a; }
 
 .pk-kanban-card.is-complete { opacity: 0.35; }
 .pk-kanban-card.is-complete .pk-kanban-card-text { text-decoration: line-through; }

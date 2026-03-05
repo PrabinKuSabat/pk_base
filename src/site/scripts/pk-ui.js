@@ -6,13 +6,13 @@
      The inline anti-FOUC script in pageheader.njk already adds
      pk-excalidraw-page to <html> synchronously before first CSS paint.
      This guard is a belt-and-suspenders fallback only.
-   ──────────────────────────────────────────────────── */
+   ────────────────────────────────────────────────────── */
   var isExcalidrawPage = window.location.pathname.toLowerCase().includes('.excalidraw');
   if (isExcalidrawPage && !root.classList.contains('pk-excalidraw-page')) {
     root.classList.add('pk-excalidraw-page');
   }
 
-  /* ── Progress bar ──────────────────────────────────────── */
+  /* ── Progress bar ──────────────────────────────────────────── */
   function setupProgress() {
     function update() {
       var scrollTop = root.scrollTop || document.body.scrollTop || 0;
@@ -25,7 +25,7 @@
     window.addEventListener('resize', update);
   }
 
-  /* ── Hide navbar on scroll-down, show on scroll-up ────────── */
+  /* ── Hide navbar on scroll-down, show on scroll-up ─────────── */
   function setupHideOnScroll() {
     var navbar = document.querySelector('.pk-navbar');
     if (!navbar) return;
@@ -50,30 +50,25 @@
     }, { passive: true });
   }
 
-  /* ── Auto-hide navbar after 5 s of inactivity (all pages) ───
-     Timer resets on any scroll, mousemove, touchstart, or keydown.
-   ──────────────────────────────────────────────────── */
+  /* ── Auto-hide navbar after 5 s of inactivity ──────────────── */
   function setupAutoHide() {
     var navbar = document.querySelector('.pk-navbar');
     if (!navbar) return;
     var idleTimer = null;
-
     function scheduleHide() {
       clearTimeout(idleTimer);
       idleTimer = setTimeout(function () {
         navbar.classList.add('pk-nav-hidden');
       }, 5000);
     }
-
     scheduleHide();
-
     window.addEventListener('scroll',     scheduleHide, { passive: true });
     window.addEventListener('mousemove',  scheduleHide, { passive: true });
     window.addEventListener('touchstart', scheduleHide, { passive: true });
     window.addEventListener('keydown',    scheduleHide);
   }
 
-  /* ── Navbar peek on mouse near top ─────────────────────── */
+  /* ── Navbar peek on mouse near top ─────────────────────────── */
   function setupPeek() {
     var body = document.body;
     var active = false;
@@ -86,10 +81,10 @@
     window.addEventListener('mouseleave', function () { set(false); });
   }
 
-  /* ── Theme toggle ─────────────────────────────────────── */
+  /* ── Theme toggle ───────────────────────────────────────────── */
   var THEME_KEY = 'pk_theme';
   function getCurrentTheme() {
-    if (document.body.classList.contains('theme-dark')) return 'dark';
+    if (document.body.classList.contains('theme-dark'))  return 'dark';
     if (document.body.classList.contains('theme-light')) return 'light';
     return localStorage.getItem(THEME_KEY) || 'light';
   }
@@ -108,7 +103,7 @@
     if (saved) applyTheme(saved);
   }
 
-  /* ── Page transitions across the excalidraw/normal boundary ──── */
+  /* ── Page transitions across the excalidraw/normal boundary ── */
   function setupPageTransitions() {
     var currentIsExcalidraw = isExcalidrawPage;
     document.addEventListener('click', function (e) {
@@ -116,13 +111,11 @@
       if (!link) return;
       var href = link.getAttribute('href');
       if (!href || href.charAt(0) === '#' ||
-          href.indexOf('mailto:') === 0 ||
+          href.indexOf('mailto:')     === 0 ||
           href.indexOf('javascript:') === 0 ||
           link.target === '_blank') return;
-
       var targetIsExcalidraw = href.toLowerCase().indexOf('.excalidraw') !== -1;
       if (targetIsExcalidraw === currentIsExcalidraw) return;
-
       e.preventDefault();
       var body = document.body;
       body.style.transition = 'opacity 180ms ease, transform 180ms ease';
@@ -132,33 +125,27 @@
     });
   }
 
-  /* ── Content min-height = sidebar height ────────────────────── */
+  /* ── Content min-height = sidebar height ───────────────────── */
   function syncContentMinHeight() {
     if (isExcalidrawPage) return;
     var sidebar = document.querySelector('.sidebar');
     var content = document.querySelector('main.content');
     if (!sidebar || !content) return;
-
     function update() {
       var h = sidebar.offsetHeight;
       if (h > 10) content.style.minHeight = h + 'px';
     }
-
     update();
-    if (window.ResizeObserver) {
-      new ResizeObserver(update).observe(sidebar);
-    }
+    if (window.ResizeObserver) new ResizeObserver(update).observe(sidebar);
     setTimeout(update, 500);
     setTimeout(update, 1500);
   }
 
-  /* ── Short-note detection ────────────────────────────────── */
+  /* ── Short-note detection ───────────────────────────────────── */
   function setupShortNoteDetection() {
     if (isExcalidrawPage) return;
     if (document.querySelector('.content.canvas-page')) return;
-
     syncContentMinHeight();
-
     setTimeout(function () {
       var footer = document.querySelector('#contact, .pk-footer');
       if (!footer) return;
@@ -168,11 +155,10 @@
     }, 150);
   }
 
-  /* ── Excalidraw dedicated pages ─────────────────────────── */
+  /* ── Excalidraw dedicated pages ─────────────────────────────── */
   function setupExcalidrawPage() {
     if (!isExcalidrawPage) return;
     document.body.classList.add('pk-excalidraw-page');
-
     function fitSVGs() {
       var svgs = document.querySelectorAll(
         '.excalidraw-svg svg, .content > svg, .content .excalidraw-svg svg'
@@ -192,7 +178,6 @@
     fitSVGs();
     setTimeout(fitSVGs, 250);
     setTimeout(fitSVGs, 800);
-
     function attachWheelForward() {
       var container = document.querySelector('.excalidraw-svg');
       if (!container) return;
@@ -209,13 +194,11 @@
   }
 
   /* ── Copy-to-clipboard for code blocks ─────────────────────── */
-  var COPY_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  var COPY_ICON  = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
   var CHECK_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
 
   function copyText(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text);
-    }
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
     var ta = document.createElement('textarea');
     ta.value = text;
     ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
@@ -227,21 +210,16 @@
   }
 
   function setupCodeCopy() {
-    var blocks = document.querySelectorAll('pre');
-    blocks.forEach(function (pre) {
+    document.querySelectorAll('pre').forEach(function (pre) {
       if (pre.querySelector('.pk-copy-btn')) return;
       if (pre.closest('.pk-kanban-card')) return;
-
       pre.style.position = 'relative';
-
       var btn = document.createElement('button');
       btn.className = 'pk-copy-btn';
       btn.setAttribute('aria-label', 'Copy code');
       btn.setAttribute('title', 'Copy code');
       btn.innerHTML = COPY_ICON;
-
       var resetTimer = null;
-
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
         var code = pre.querySelector('code');
@@ -256,46 +234,32 @@
           }, 2000);
         }).catch(function () {});
       });
-
       pre.appendChild(btn);
     });
   }
 
-  /* ── Active nav link highlight ────────────────────────────────
-     Compares window.location.pathname against each .pk-navlink href.
-
+  /* ── Active nav link highlight ──────────────────────────────────
      Rules:
-       • Hash-only hrefs ("#contact") are skipped — they’re not pages.
-       • The root link "/" matches ONLY the exact homepage ("/").
-       • All other links match if the current path starts with the
-         link path (so /notes/foo still lights up a "/notes/" link).
+       • Hash-only hrefs ("#contact") are skipped.
+       • "/" matches ONLY the exact homepage.
+       • Other links match if current path starts with the link path.
        • Adds .pk-navlink--active + aria-current="page" to the winner.
-   ──────────────────────────────────────────────────────────── */
+   ────────────────────────────────────────────────────────── */
   function setupActiveNavLink() {
     var links = document.querySelectorAll('.pk-navlink');
     if (!links.length) return;
-
-    /* Normalise current path: lowercase + ensure trailing slash */
     var currentPath = window.location.pathname.toLowerCase();
     if (currentPath !== '/' && !currentPath.endsWith('/')) currentPath += '/';
-
     links.forEach(function (link) {
       var raw = link.getAttribute('href');
-      if (!raw || raw.charAt(0) === '#') return; /* skip hash anchors */
-
-      /* Resolve to a clean pathname (handles relative or absolute hrefs) */
+      if (!raw || raw.charAt(0) === '#') return;
       var linkPath;
-      try {
-        linkPath = new URL(raw, window.location.origin).pathname.toLowerCase();
-      } catch (e) {
-        linkPath = raw.toLowerCase();
-      }
+      try { linkPath = new URL(raw, window.location.origin).pathname.toLowerCase(); }
+      catch (e) { linkPath = raw.toLowerCase(); }
       if (linkPath !== '/' && !linkPath.endsWith('/')) linkPath += '/';
-
       var isActive = (linkPath === '/')
-        ? currentPath === '/'               /* homepage: exact only */
-        : currentPath.startsWith(linkPath); /* sections: prefix match */
-
+        ? currentPath === '/'
+        : currentPath.startsWith(linkPath);
       if (isActive) {
         link.classList.add('pk-navlink--active');
         link.setAttribute('aria-current', 'page');
@@ -303,7 +267,74 @@
     });
   }
 
-  /* ── Boot ─────────────────────────────────────────────────── */
+  /* ── Image lightbox ─────────────────────────────────────────────
+     Click any <img> inside main.content to view it fullscreen.
+     Close via: click overlay background · × button · Escape key.
+   ────────────────────────────────────────────────────────── */
+  function setupLightbox() {
+    if (isExcalidrawPage) return;
+
+    var imgs = document.querySelectorAll(
+      'main.content img:not(.site-logo):not(.pk-logo):not([data-no-lightbox])'
+    );
+    if (!imgs.length) return;
+
+    /* Build overlay once and reuse it */
+    var overlay = document.createElement('div');
+    overlay.className = 'pk-lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Image viewer');
+
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'pk-lightbox-close';
+    closeBtn.setAttribute('aria-label', 'Close image');
+    closeBtn.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"' +
+      ' fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+      '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+    var lbImg = document.createElement('img');
+    lbImg.className = 'pk-lightbox-img';
+    lbImg.setAttribute('alt', '');
+
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(lbImg);
+    document.body.appendChild(overlay);
+
+    function open(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      overlay.classList.add('pk-lightbox--open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      overlay.classList.remove('pk-lightbox--open');
+      document.body.style.overflow = '';
+      setTimeout(function () { lbImg.src = ''; }, 280);
+    }
+
+    imgs.forEach(function (img) {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function () { open(img.src, img.alt); });
+    });
+
+    closeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      close();
+    });
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('pk-lightbox--open')) close();
+    });
+  }
+
+  /* ── Boot ───────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     restoreTheme();
     setupExcalidrawPage();
@@ -315,5 +346,6 @@
     setupAutoHide();
     setupCodeCopy();
     setupActiveNavLink();
+    setupLightbox();
   });
 })();

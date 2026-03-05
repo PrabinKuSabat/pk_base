@@ -2,7 +2,7 @@
    pk-fixes.css  —  Ring0Ledger global overrides
    ============================================================= */
 
-/* ── Design tokens ────────────────────────────────────────── */
+/* ── Design tokens ─────────────────────────────────────────── */
 :root {
   --pk-navbar-h:  56px;
   --pk-page-gap:  20px;
@@ -100,7 +100,7 @@ body.has-navbar .content, .content {
   overflow: visible !important; height: auto !important; max-height: none !important;
 }
 
-/* ── Page fade-in ───────────────────────────────────────────── */
+/* ── Page fade-in ──────────────────────────────────────────── */
 html:not(.pk-excalidraw-page) body {
   opacity: 0;
   animation: pk-page-reveal 900ms cubic-bezier(0.4,0,0.2,1) 0.08s both;
@@ -109,25 +109,23 @@ html:not(.pk-excalidraw-page) body {
   0%  { opacity: 0; } 20% { opacity: 0; } 100% { opacity: 1; }
 }
 
-/* ── Canvas pages ───────────────────────────────────────────── */
+/* ── Canvas pages ──────────────────────────────────────────── */
 body:has(.content.canvas-page) { padding-top: 0 !important; overflow: hidden !important; }
 body:has(.content.canvas-page) .pk-navbar { display: none !important; }
 body:has(.content.canvas-page) .content.canvas-page {
   height: 100vh !important; min-height: 100vh !important;
   margin: 0 !important; padding: 0 !important; max-width: none !important;
 }
-body:has(.content.canvas-page) .canvas-wrapper {
-  width: 100vw !important; height: 100vh !important;
-}
+body:has(.content.canvas-page) .canvas-wrapper { width: 100vw !important; height: 100vh !important; }
 body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
-/* ── Short-note sidebar ──────────────────────────────────────── */
+/* ── Short-note sidebar ────────────────────────────────────── */
 body.pk-short-note .sidebar.pk-sidebar-end {
   opacity: 1 !important; pointer-events: auto !important; transform: none !important;
 }
 body.pk-short-note .toc { display: none !important; }
 
-/* ── Reading meta ───────────────────────────────────────────── */
+/* ── Reading meta ──────────────────────────────────────────── */
 .rzl-reading-meta {
   display: flex; align-items: center; gap: 6px; margin: 0.3em 0 1.4em;
   font-family: var(--pk-font-mono); font-size: 0.70rem;
@@ -166,7 +164,6 @@ body.pk-excalidraw-page .pk-navbar .pk-navlink:hover {
   background: rgba(120,184,150,.16) !important; color: #ffffff !important;
 }
 body.pk-excalidraw-page .pk-theme-btn:hover { background: rgba(120,184,150,.14) !important; }
-
 body.pk-excalidraw-page {
   --pk-bg: #eeeae1; --pk-text: #1c1c1c; --pk-muted: #5a5550;
   --pk-border: #c4bcb2; --pk-accent: #3a6349; --pk-accent-lt: #5c9470;
@@ -223,186 +220,118 @@ body.pk-excalidraw-page .pk-footer {
    ============================================================= */
 
 .pk-navbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  width: 100%;
-  height: var(--pk-navbar-h);
-  z-index: 1000;
-
+  position: fixed; top: 0; left: 0; right: 0;
+  width: 100%; height: var(--pk-navbar-h); z-index: 1000;
   background: rgba(12, 20, 38, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(74, 144, 217, 0.22);
-
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
-    0 2px 4px   rgba(0, 0, 0, 0.12),
-    0 8px 28px  rgba(0, 0, 0, 0.18),
-    0 0 60px    rgba(46, 93, 166, 0.14);
-
-  transform: translateY(0) translateZ(0);
-  will-change: transform;
-
-  transition: transform 240ms cubic-bezier(.4,0,.2,1),
-              opacity   180ms ease,
-              background 200ms ease,
-              box-shadow 200ms ease;
+    inset 0 1px 0 rgba(255,255,255,.07), inset 0 -1px 0 rgba(0,0,0,.35),
+    0 2px 4px rgba(0,0,0,.12), 0 8px 28px rgba(0,0,0,.18), 0 0 60px rgba(46,93,166,.14);
+  transform: translateY(0) translateZ(0); will-change: transform;
+  transition: transform 240ms cubic-bezier(.4,0,.2,1), opacity 180ms ease,
+              background 200ms ease, box-shadow 200ms ease;
 }
-
 .pk-navbar.pk-nav-scrolled {
   background: rgba(10, 16, 32, 0.97);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.40),
-    0 4px 8px   rgba(0, 0, 0, 0.20),
-    0 16px 48px rgba(0, 0, 0, 0.24),
-    0 0 80px    rgba(46, 93, 166, 0.18);
+    inset 0 1px 0 rgba(255,255,255,.08), inset 0 -1px 0 rgba(0,0,0,.40),
+    0 4px 8px rgba(0,0,0,.20), 0 16px 48px rgba(0,0,0,.24), 0 0 80px rgba(46,93,166,.18);
 }
-
-.pk-navbar.pk-nav-hidden {
-  transform: translateY(-150%) translateZ(0);
-  opacity: 0;
-}
-
-body.pk-nav-peek .pk-navbar {
-  transform: translateY(0) translateZ(0) !important;
-  opacity: 1 !important;
-}
-
+.pk-navbar.pk-nav-hidden { transform: translateY(-150%) translateZ(0); opacity: 0; }
+body.pk-nav-peek .pk-navbar { transform: translateY(0) translateZ(0) !important; opacity: 1 !important; }
 .pk-navbar .pk-site-name    { color: rgba(220, 235, 255, 0.95); }
 .pk-navbar .pk-site-tagline { color: rgba(130, 165, 210, 0.55); }
 .pk-navbar .pk-logo         { color: #5b9bd5; }
 .pk-navbar .pk-navlink      { color: rgba(190, 215, 248, 0.72); }
 .pk-navbar .pk-theme-btn    { color: rgba(190, 215, 248, 0.55); }
-
-html.theme-dark .pk-navbar,
-body.theme-dark .pk-navbar {
+html.theme-dark .pk-navbar, body.theme-dark .pk-navbar {
   background: rgba(22, 32, 52, 0.90);
   border-bottom-color: rgba(91, 155, 213, 0.22);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.09),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.40),
-    0 4px 8px   rgba(0, 0, 0, 0.30),
-    0 16px 48px rgba(0, 0, 0, 0.40),
-    0 0 70px rgba(91, 155, 213, 0.10);
+    inset 0 1px 0 rgba(255,255,255,.09), inset 0 -1px 0 rgba(0,0,0,.40),
+    0 4px 8px rgba(0,0,0,.30), 0 16px 48px rgba(0,0,0,.40), 0 0 70px rgba(91,155,213,.10);
 }
 html.theme-dark .pk-navbar.pk-nav-scrolled,
-body.theme-dark .pk-navbar.pk-nav-scrolled {
-  background: rgba(18, 26, 44, 0.97);
-}
+body.theme-dark .pk-navbar.pk-nav-scrolled { background: rgba(18, 26, 44, 0.97); }
 
 .pk-navbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  width: 100%; height: 100%;
-  padding: 0 20px; gap: 12px;
-  background:              transparent !important;
-  border:                  none        !important;
-  box-shadow:              none        !important;
-  backdrop-filter:         none        !important;
-  -webkit-backdrop-filter: none        !important;
-  border-radius:           0           !important;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; width: 100%; height: 100%; padding: 0 20px; gap: 12px;
+  background: transparent !important; border: none !important;
+  box-shadow: none !important; backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important; border-radius: 0 !important;
 }
 
-/* ── Brand (left) ───────────────────────────────────────────── */
+/* ── Brand ─────────────────────────────────────────────────── */
 .pk-brand {
   display: flex; align-items: center; gap: 10px;
   text-decoration: none; color: inherit; flex-shrink: 0; z-index: 1;
 }
-.pk-logo  { width: 24px; height: 24px; color: #5b9bd5; flex-shrink: 0; }
+.pk-logo { width: 24px; height: 24px; color: #5b9bd5; flex-shrink: 0; }
 .pk-brand-text { display: flex; flex-direction: column; }
 .pk-site-name {
   font-family: var(--pk-font-ui); font-weight: 700; font-size: 0.975rem;
-  letter-spacing: -0.015em; line-height: 1.1;
-  color: rgba(220, 235, 255, 0.95);
+  letter-spacing: -0.015em; line-height: 1.1; color: rgba(220, 235, 255, 0.95);
 }
 .pk-site-tagline {
   font-family: var(--pk-font-mono); font-size: 0.575rem;
   text-transform: uppercase; letter-spacing: 0.10em;
-  color: rgba(130, 165, 210, 0.55);
-  margin-top: 2px; line-height: 1;
+  color: rgba(130, 165, 210, 0.55); margin-top: 2px; line-height: 1;
 }
 
-/* ── Nav links (absolute dead-centre) ───────────────────────── */
+/* ── Nav links (absolute dead-centre) ──────────────────────── */
 .pk-navlinks {
   display: flex; align-items: center; gap: 2px;
   position: absolute; left: 50%; transform: translateX(-50%);
 }
 .pk-navlink {
-  position: relative; /* needed for the ::after underline indicator */
+  position: relative;
   font-family: var(--pk-font-ui); font-size: 0.875rem; font-weight: 500;
   text-decoration: none; white-space: nowrap;
-  color: rgba(190, 215, 248, 0.72);
-  letter-spacing: 0.005em;
-  padding: 6px 14px;
-  border-radius: 999px;
+  color: rgba(190, 215, 248, 0.72); letter-spacing: 0.005em;
+  padding: 6px 14px; border-radius: 999px;
   transition: opacity 130ms ease, background 130ms ease, color 130ms ease;
 }
-/* Suppress the DG default underline; our indicator uses ::after */
 .pk-navlink::after { display: none; }
-.pk-navlink:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.10);
-  opacity: 1;
-}
+.pk-navlink:hover { color: #ffffff; background: rgba(255,255,255,.10); opacity: 1; }
 
-/* ── Active nav link ───────────────────────────────────────────
-   JS adds .pk-navlink--active when the link’s pathname matches
-   (or is a prefix of) window.location.pathname.
-   Design: full-brightness text + a 2 px accent underline sitting
-   flush at the bottom of the pill, drawn with box-shadow so it
-   respects the border-radius naturally.
-──────────────────────────────────────────────────────────── */
+/* Active nav link */
 .pk-navlink--active {
-  color: rgba(220, 235, 255, 0.97) !important;
-  font-weight: 600;
-  /* Inset bottom shadow = 2 px accent underline that curves with the pill */
+  color: rgba(220, 235, 255, 0.97) !important; font-weight: 600;
   box-shadow: inset 0 -2px 0 var(--pk-accent-lt);
 }
-/* Keep the underline even while hovering the active link */
 .pk-navlink--active:hover {
-  color: #ffffff !important;
-  background: rgba(255, 255, 255, 0.10);
+  color: #ffffff !important; background: rgba(255,255,255,.10);
   box-shadow: inset 0 -2px 0 var(--pk-accent-lt);
 }
-/* Override the light-page !important colour rules so active stays bright */
 html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page)
   .pk-navbar .pk-navlink--active {
   color: rgba(220, 235, 255, 0.97) !important;
   box-shadow: inset 0 -2px 0 var(--pk-accent-lt) !important;
 }
 
-/* ── Actions (right) ───────────────────────────────────────────── */
+/* ── Actions (right) ───────────────────────────────────────── */
 .pk-nav-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; z-index: 1; }
 .pk-theme-btn {
   -webkit-appearance: none; appearance: none;
   background: transparent; border: none; box-shadow: none; outline: none;
-  padding: 7px; cursor: pointer;
-  color: rgba(190, 215, 248, 0.55);
+  padding: 7px; cursor: pointer; color: rgba(190, 215, 248, 0.55);
   display: flex; align-items: center; justify-content: center;
   border-radius: 999px; line-height: 0;
   transition: color 130ms ease, background 130ms ease;
 }
-.pk-theme-btn:hover {
-  color: rgba(220, 235, 255, 0.95);
-  background: rgba(255, 255, 255, 0.10);
-}
-.pk-theme-btn:focus-visible { outline: 2px solid rgba(74,144,217,0.6); outline-offset: 2px; }
+.pk-theme-btn:hover { color: rgba(220, 235, 255, 0.95); background: rgba(255,255,255,.10); }
+.pk-theme-btn:focus-visible { outline: 2px solid rgba(74,144,217,.6); outline-offset: 2px; }
 
-/* ── Typography ─────────────────────────────────────────────── */
+/* ── Typography ────────────────────────────────────────────── */
 body {
   font-family: var(--pk-font-body); font-size: 1.0625rem;
   line-height: 1.82; color: var(--pk-text);
   font-feature-settings: 'kern' 1, 'liga' 1;
 }
 .pk-navbar, .pk-footer, .header-meta, .tag, .timestamps,
-.search-button, .graph-title, .backlink-title, .sidebar-title, label {
-  font-family: var(--pk-font-ui);
-}
+.search-button, .graph-title, .backlink-title, .sidebar-title, label { font-family: var(--pk-font-ui); }
 h1, h2, h3,
 .cm-s-obsidian h1, .cm-s-obsidian h2, .cm-s-obsidian h3 {
   font-family: var(--pk-font-head); font-weight: 500; line-height: 1.22;
@@ -412,18 +341,14 @@ h1 { font-size: clamp(1.75rem,4vw,2.5rem);  margin-bottom: 0.45em; }
 h2 { font-size: clamp(1.25rem,3vw,1.75rem); margin-top: 2.2em; margin-bottom: 0.45em; }
 h3 { font-size: clamp(1.1rem,2vw,1.3rem);   margin-top: 1.6em;  margin-bottom: 0.4em; }
 h4, h5, h6 { font-family: var(--pk-font-ui); font-weight: 600; }
-code:not(pre code) {
-  font-family: var(--pk-font-mono); font-size: 0.84em; padding: 0.1em 0.38em; border-radius: 4px;
-}
+code:not(pre code) { font-family: var(--pk-font-mono); font-size: 0.84em; padding: 0.1em 0.38em; border-radius: 4px; }
 pre, pre code { font-family: var(--pk-font-mono); font-size: 0.875rem; line-height: 1.65; }
 
-/* ── Sidebar fade-out ─────────────────────────────────────────── */
+/* ── Sidebar fade-out ──────────────────────────────────────── */
 .sidebar { transition: opacity 400ms ease, transform 400ms ease; }
-.sidebar.pk-sidebar-end {
-  opacity: 0 !important; pointer-events: none !important; transform: translateY(16px);
-}
+.sidebar.pk-sidebar-end { opacity: 0 !important; pointer-events: none !important; transform: translateY(16px); }
 
-/* ── Footer ─────────────────────────────────────────────────── */
+/* ── Footer ────────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
 .pk-footer {
   width: 100%; text-align: center;
@@ -467,60 +392,177 @@ nav.rzl-footer-mini { display: none !important; }
 /* =============================================================
    COPY-TO-CLIPBOARD BUTTON
    ============================================================= */
-
 .pk-copy-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background: rgba(120, 140, 180, 0.14);
-  color: rgba(180, 200, 230, 0.55);
-  opacity: 0;
-  pointer-events: none;
+  position: absolute; top: 10px; right: 10px;
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; padding: 0;
+  border-radius: 6px; border: none; cursor: pointer;
+  background: rgba(120,140,180,.14); color: rgba(180,200,230,.55);
+  opacity: 0; pointer-events: none;
   transition: opacity 140ms ease, background 120ms ease, color 120ms ease, transform 120ms ease;
-  z-index: 10;
-  line-height: 0;
+  z-index: 10; line-height: 0;
 }
 .pk-copy-btn svg { display: block; flex-shrink: 0; }
-pre:hover .pk-copy-btn {
+pre:hover .pk-copy-btn { opacity: 1; pointer-events: auto; }
+.pk-copy-btn:hover { background: rgba(120,160,220,.26); color: rgba(210,230,255,.90); transform: scale(1.08); }
+.pk-copy-btn:active { transform: scale(0.96); }
+.pk-copy-btn--done { background: rgba(52,211,153,.20) !important; color: #34d399 !important; transform: scale(1.0) !important; }
+.pk-copy-btn:focus-visible { outline: 2px solid rgba(74,144,217,.70); outline-offset: 2px; }
+html:not(.theme-dark) .pk-copy-btn { background: rgba(60,80,130,.10); color: rgba(60,80,140,.50); }
+html:not(.theme-dark) .pk-copy-btn:hover { background: rgba(46,93,166,.18); color: rgba(20,50,120,.90); }
+html:not(.theme-dark) .pk-copy-btn--done { background: rgba(20,160,100,.16) !important; color: #16a34a !important; }
+
+/* =============================================================
+   CALLOUT BLOCKS  —  Obsidian > [!type] callouts
+   DG renders: <div data-callout="note" class="callout"
+                     style="--callout-color: R, G, B">
+   --callout-color is an RGB triplet so we can use rgb()/rgba().
+   ============================================================= */
+
+.callout {
+  position: relative;
+  border-radius: 8px;
+  border-left: 3.5px solid rgb(var(--callout-color, 68, 138, 255));
+  background: rgba(var(--callout-color, 68, 138, 255), 0.07);
+  padding: 14px 18px 14px 16px;
+  margin: 1.6em 0;
+  overflow: hidden;
+}
+
+/* Soft inner glow behind the left border */
+.callout::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 44px;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--callout-color, 68, 138, 255), 0.10) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  border-radius: 8px 0 0 8px;
+}
+
+.callout-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--pk-font-ui);
+  font-size: 0.875rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: rgb(var(--callout-color, 68, 138, 255));
+  margin-bottom: 8px;
+  line-height: 1.3;
+  position: relative; /* above ::before glow */
+}
+
+.callout-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0.90;
+}
+
+.callout-icon svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+}
+
+.callout-title-inner { flex: 1; }
+
+.callout-content {
+  font-size: 0.94rem;
+  line-height: 1.72;
+  color: var(--pk-text);
+  opacity: 0.92;
+  position: relative;
+}
+
+.callout-content > p:first-child { margin-top: 0; }
+.callout-content > p:last-child  { margin-bottom: 0; }
+
+/* Collapsible toggle arrow */
+.callout.is-collapsible .callout-title { cursor: pointer; user-select: none; }
+.callout.is-collapsible .callout-title::after {
+  content: '';
+  display: block;
+  width: 14px; height: 14px;
+  margin-left: auto; flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-size: contain; background-repeat: no-repeat; background-position: center;
+  opacity: 0.55;
+  transition: transform 180ms ease;
+}
+.callout.is-collapsed .callout-title::after { transform: rotate(-90deg); }
+.callout.is-collapsed .callout-content     { display: none; }
+
+/* Dark mode: slightly stronger tint */
+body.theme-dark .callout,
+html.theme-dark  .callout {
+  background: rgba(var(--callout-color, 68, 138, 255), 0.11);
+}
+body.theme-dark .callout::before,
+html.theme-dark  .callout::before {
+  background: linear-gradient(
+    90deg,
+    rgba(var(--callout-color, 68, 138, 255), 0.14) 0%,
+    transparent 100%
+  );
+}
+
+/* =============================================================
+   IMAGE LIGHTBOX
+   Click any content image → fullscreen dark overlay.
+   Close: click overlay bg · × button · Escape key.
+   ============================================================= */
+
+.pk-lightbox {
+  position: fixed; inset: 0; z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(4, 8, 16, 0.92);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  padding: 24px; box-sizing: border-box;
+  opacity: 0; pointer-events: none;
+  transition: opacity 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: zoom-out;
+}
+
+.pk-lightbox--open {
   opacity: 1;
   pointer-events: auto;
 }
-.pk-copy-btn:hover {
-  background: rgba(120, 160, 220, 0.26);
-  color: rgba(210, 230, 255, 0.90);
-  transform: scale(1.08);
+
+.pk-lightbox-img {
+  max-width: 100%;
+  max-height: calc(100dvh - 80px);
+  width: auto; height: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.60), 0 2px 8px rgba(0,0,0,.40);
+  transform: scale(0.94);
+  transition: transform 260ms cubic-bezier(0.34, 1.28, 0.64, 1);
+  cursor: default;
+  display: block;
+  user-select: none;
 }
-.pk-copy-btn:active { transform: scale(0.96); }
-.pk-copy-btn--done {
-  background: rgba(52, 211, 153, 0.20) !important;
-  color: #34d399 !important;
-  transform: scale(1.0) !important;
+
+.pk-lightbox--open .pk-lightbox-img { transform: scale(1); }
+
+.pk-lightbox-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 38px; height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.08);
+  color: rgba(220, 235, 255, 0.80);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; line-height: 0; padding: 0; z-index: 1;
+  transition: background 130ms ease, color 130ms ease, transform 130ms ease;
 }
-.pk-copy-btn:focus-visible {
-  outline: 2px solid rgba(74, 144, 217, 0.70);
-  outline-offset: 2px;
-}
-html:not(.theme-dark) .pk-copy-btn {
-  background: rgba(60, 80, 130, 0.10);
-  color: rgba(60, 80, 140, 0.50);
-}
-html:not(.theme-dark) .pk-copy-btn:hover {
-  background: rgba(46, 93, 166, 0.18);
-  color: rgba(20, 50, 120, 0.90);
-}
-html:not(.theme-dark) .pk-copy-btn--done {
-  background: rgba(20, 160, 100, 0.16) !important;
-  color: #16a34a !important;
-}
+.pk-lightbox-close:hover  { background: rgba(255,255,255,.20); color: #ffffff; transform: scale(1.08); }
+.pk-lightbox-close:active { transform: scale(0.94); }
+.pk-lightbox-close:focus-visible { outline: 2px solid rgba(74,144,217,.70); outline-offset: 2px; }
 
 /* =============================================================
    KANBAN  —  Blueprint Execution Pipeline
@@ -528,17 +570,14 @@ html:not(.theme-dark) .pk-copy-btn--done {
 body.pk-kanban-page aside,
 body.pk-kanban-page .sidebar,
 body.pk-kanban-page .filetree-wrapper { display: none !important; }
-
 body.pk-kanban-page {
   background-color: #060a12 !important;
   padding-top: calc(var(--pk-navbar-h) + 26px) !important;
   position: relative;
 }
-
 body.pk-kanban-page::before {
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  transform: translateZ(0);
-  will-change: transform;
+  transform: translateZ(0); will-change: transform;
   background-image:
     radial-gradient(ellipse 900px 650px at 0% 0%, rgba(37,99,235,.16) 0%, transparent 60%),
     radial-gradient(ellipse 750px 550px at 100% 100%, rgba(20,184,166,.09) 0%, transparent 60%),
@@ -547,30 +586,22 @@ body.pk-kanban-page::before {
     linear-gradient(90deg, rgba(100,150,230,.065) 1px, transparent 1px),
     linear-gradient(rgba(100,150,230,.022) 1px, transparent 1px),
     linear-gradient(90deg, rgba(100,150,230,.022) 1px, transparent 1px);
-  background-size: auto, auto, auto, 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-size: auto,auto,auto,100px 100px,100px 100px,20px 20px,20px 20px;
 }
 body.pk-kanban-page .pk-navbar,
 body.pk-kanban-page main.content,
 body.pk-kanban-page .pk-footer { position: relative; z-index: 1; }
-
 body.pk-kanban-page .pk-navbar {
-  background:          rgba(4, 8, 16, 0.88)     !important;
-  border-bottom-color: rgba(37, 99, 235, 0.32)  !important;
+  background: rgba(4,8,16,.88) !important;
+  border-bottom-color: rgba(37,99,235,.32) !important;
   box-shadow:
-    inset 0 1px 0 rgba(37,99,235,.16),
-    inset 0 -1px 0 rgba(0,0,0,.55),
-    0 8px 32px rgba(0,0,0,.60),
-    0 0 80px rgba(37,99,235,.15) !important;
-  backdrop-filter:         blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
+    inset 0 1px 0 rgba(37,99,235,.16), inset 0 -1px 0 rgba(0,0,0,.55),
+    0 8px 32px rgba(0,0,0,.60), 0 0 80px rgba(37,99,235,.15) !important;
+  backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important;
 }
 body.pk-kanban-page .pk-navbar .pk-logo { color: #4a7cdc !important; }
-body.pk-kanban-page .pk-navbar .pk-navlink:hover {
-  color: #ffffff !important;
-  background: rgba(37,99,235,.22) !important;
-}
+body.pk-kanban-page .pk-navbar .pk-navlink:hover { color: #ffffff !important; background: rgba(37,99,235,.22) !important; }
 body.pk-kanban-page .pk-navbar .pk-theme-btn:hover { background: rgba(37,99,235,.20) !important; }
-
 body.pk-kanban-page main.content,
 body.pk-kanban-page.has-navbar main.content {
   width: 100% !important; max-width: 100% !important;
@@ -578,7 +609,6 @@ body.pk-kanban-page.has-navbar main.content {
   background: transparent !important; box-sizing: border-box;
 }
 body.pk-kanban-page main.content > header { display: none !important; }
-
 body.pk-kanban-page .pk-footer {
   border-top-color: rgba(37,99,235,.22) !important; background: transparent !important;
 }
@@ -611,11 +641,10 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin; scrollbar-color: #1e3a5f transparent;
 }
-.pk-kanban-board::-webkit-scrollbar       { height: 5px; }
+.pk-kanban-board::-webkit-scrollbar { height: 5px; }
 .pk-kanban-board::-webkit-scrollbar-track { background: transparent; }
 .pk-kanban-board::-webkit-scrollbar-thumb { background: #1a3054; border-radius: 2px; }
 .pk-kanban-board::-webkit-scrollbar-thumb:hover { background: #2563eb; }
-
 .pk-kanban-column {
   flex: 1 1 0; min-width: 200px; max-width: 300px;
   background: rgba(10,15,24,.72);
@@ -629,7 +658,6 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
 .pk-kanban-column[data-status="review"]  { border-top-color: #f59e0b; }
 .pk-kanban-column[data-status="blocked"] { border-top-color: #ef4444; }
 .pk-kanban-column[data-status="done"]    { border-top-color: #22c55e; }
-
 .pk-kanban-column-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 9px 12px 8px;
@@ -651,17 +679,15 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
   border: 1px solid rgba(255,255,255,.06); border-radius: 2px; padding: 1px 6px;
   font-family: var(--pk-font-mono); font-size: 0.64rem; font-weight: 700; letter-spacing: 0.06em;
 }
-
 .pk-kanban-column-body {
   padding: 8px; overflow-y: auto;
   display: flex; flex-direction: column; gap: 5px;
   flex: 1; min-height: 0;
   scrollbar-width: thin; scrollbar-color: rgba(30,58,95,.50) transparent;
 }
-.pk-kanban-column-body::-webkit-scrollbar       { width: 3px; }
+.pk-kanban-column-body::-webkit-scrollbar { width: 3px; }
 .pk-kanban-column-body::-webkit-scrollbar-track { background: transparent; }
 .pk-kanban-column-body::-webkit-scrollbar-thumb { background: rgba(30,58,95,.60); border-radius: 1px; }
-
 .pk-kanban-card {
   background: rgba(12,20,34,.70);
   border: 1px solid rgba(255,255,255,.05);
@@ -680,14 +706,12 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
 .pk-kanban-column[data-status="done"]    .pk-kanban-card { border-left-color: #16a34a; }
 .pk-kanban-card.is-complete { opacity: 0.35; }
 .pk-kanban-card.is-complete .pk-kanban-card-text { text-decoration: line-through; }
-
 .pk-kanban-card-text {
   font-family: var(--pk-font-mono); font-size: 0.78rem;
   line-height: 1.55; color: #7a96b0; word-break: break-word;
 }
 .pk-kanban-card-text p { margin: 0; }
 .pk-kanban-card-text a { color: #3b82f6; }
-
 .pk-kanban-empty {
   flex: 1; border: 1px dashed rgba(30,50,80,.50);
   border-radius: 2px; opacity: 0.25; min-height: 40px;
@@ -697,82 +721,69 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
    NORMAL PAGES  —  Digital Garden / Blog Notes
    ============================================================= */
 
-/* ── Light mode: aurora blobs + SVG dot tile ──────────────────── */
+/* ── Light mode: aurora blobs + SVG dot tile ──────────────── */
 html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page)::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  transform: translateZ(0);
-  will-change: transform;
+  content: ''; position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; transform: translateZ(0); will-change: transform;
   background-image:
-    radial-gradient(ellipse 900px 700px at -5%  5%,   rgba(147, 197, 253, 0.34) 0%, transparent 65%),
-    radial-gradient(ellipse 800px 650px at 108% 100%, rgba(196, 181, 253, 0.28) 0%, transparent 65%),
-    radial-gradient(ellipse 600px 500px at 88%  0%,   rgba(167, 243, 208, 0.22) 0%, transparent 55%),
-    radial-gradient(ellipse 500px 450px at 0%   100%, rgba(253, 186, 116, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 900px 700px at -5%  5%,   rgba(147,197,253,.34) 0%, transparent 65%),
+    radial-gradient(ellipse 800px 650px at 108% 100%, rgba(196,181,253,.28) 0%, transparent 65%),
+    radial-gradient(ellipse 600px 500px at 88%  0%,   rgba(167,243,208,.22) 0%, transparent 55%),
+    radial-gradient(ellipse 500px 450px at 0%   100%, rgba(253,186,116,.18) 0%, transparent 55%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Ccircle cx='13' cy='13' r='0.7' fill='rgba(100%2C130%2C200%2C0.20)'/%3E%3C/svg%3E");
-  background-size: auto, auto, auto, auto, 26px 26px;
+  background-size: auto,auto,auto,auto,26px 26px;
 }
 
-/* ── Dark mode: deep jewel aurora + SVG dot tile ─────────────── */
+/* ── Dark mode: deep jewel aurora + SVG dot tile ─────────── */
 html.theme-dark body:not(.pk-kanban-page):not(.pk-excalidraw-page)::before,
 body.theme-dark:not(.pk-kanban-page):not(.pk-excalidraw-page)::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  transform: translateZ(0);
-  will-change: transform;
+  content: ''; position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; transform: translateZ(0); will-change: transform;
   background-image:
-    radial-gradient(ellipse 900px 700px at -5%  5%,   rgba(37,  99, 235, 0.16) 0%, transparent 65%),
-    radial-gradient(ellipse 800px 650px at 108% 100%, rgba(139,  92, 246, 0.13) 0%, transparent 65%),
-    radial-gradient(ellipse 600px 500px at 88%  0%,   rgba(20,  184, 166, 0.10) 0%, transparent 55%),
-    radial-gradient(ellipse 500px 450px at 0%   100%, rgba(251, 146,  60, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 900px 700px at -5%  5%,   rgba(37,99,235,.16) 0%, transparent 65%),
+    radial-gradient(ellipse 800px 650px at 108% 100%, rgba(139,92,246,.13) 0%, transparent 65%),
+    radial-gradient(ellipse 600px 500px at 88%  0%,   rgba(20,184,166,.10) 0%, transparent 55%),
+    radial-gradient(ellipse 500px 450px at 0%   100%, rgba(251,146,60,.08) 0%, transparent 55%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Ccircle cx='13' cy='13' r='0.7' fill='rgba(50%2C80%2C150%2C0.18)'/%3E%3C/svg%3E");
-  background-size: auto, auto, auto, auto, 26px 26px;
+  background-size: auto,auto,auto,auto,26px 26px;
 }
 
-/* ── Lift content above the fixed bg layer ──────────────────── */
+/* ── Lift content above the fixed bg layer ────────────────── */
 body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar,
 body:not(.pk-kanban-page):not(.pk-excalidraw-page) main.content,
 body:not(.pk-kanban-page):not(.pk-excalidraw-page) aside,
 body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-footer { position: relative; z-index: 1; }
 
-/* ── Navbar text: guaranteed visibility on light normal pages ── */
+/* ── Navbar text: guaranteed visibility on light normal pages  */
 html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar {
-  background:              rgba(10, 16, 32, 0.94)   !important;
-  backdrop-filter:         blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
+  background: rgba(10,16,32,.94) !important;
+  backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important;
 }
-html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-site-name    { color: rgba(220, 235, 255, 0.95) !important; }
-html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-site-tagline { color: rgba(130, 165, 210, 0.62) !important; }
-html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-navlink      { color: rgba(190, 215, 248, 0.82) !important; }
-html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-navlink:hover { color: #ffffff !important; background: rgba(255, 255, 255, 0.12) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-site-name    { color: rgba(220,235,255,.95) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-site-tagline { color: rgba(130,165,210,.62) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-navlink      { color: rgba(190,215,248,.82) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-navlink:hover { color: #ffffff !important; background: rgba(255,255,255,.12) !important; }
 html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-logo         { color: #5b9bd5 !important; }
-html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-theme-btn    { color: rgba(190, 215, 248, 0.65) !important; }
-html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-theme-btn:hover { color: rgba(220, 235, 255, 0.95) !important; background: rgba(255, 255, 255, 0.10) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-theme-btn    { color: rgba(190,215,248,.65) !important; }
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar .pk-theme-btn:hover { color: rgba(220,235,255,.95) !important; background: rgba(255,255,255,.10) !important; }
 
 /* =============================================================
    EXCALIDRAW PAGES  —  Sketchbook Background
    ============================================================= */
-
 body.pk-excalidraw-page:not(.theme-dark) {
   background:
-    radial-gradient(ellipse 700px 550px at 5%   10%,  rgba(180, 155, 110, 0.24) 0%, transparent 60%),
-    radial-gradient(ellipse 650px 500px at 95%  90%,  rgba(100, 150, 120, 0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 450px 380px at 88%  4%,   rgba(160, 130,  90, 0.16) 0%, transparent 55%),
-    radial-gradient(ellipse 400px 350px at 4%   96%,  rgba(120, 160, 100, 0.14) 0%, transparent 55%),
-    repeating-linear-gradient(transparent, transparent 27px, rgba(140, 120, 90, 0.09) 28px),
+    radial-gradient(ellipse 700px 550px at 5%  10%, rgba(180,155,110,.24) 0%, transparent 60%),
+    radial-gradient(ellipse 650px 500px at 95% 90%, rgba(100,150,120,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 450px 380px at 88%  4%, rgba(160,130, 90,.16) 0%, transparent 55%),
+    radial-gradient(ellipse 400px 350px at 4%  96%, rgba(120,160,100,.14) 0%, transparent 55%),
+    repeating-linear-gradient(transparent, transparent 27px, rgba(140,120,90,.09) 28px),
     var(--pk-bg) !important;
 }
-
 body.theme-dark.pk-excalidraw-page {
   background:
-    radial-gradient(ellipse 700px 550px at 5%  10%,  rgba(80, 60, 30, 0.32) 0%, transparent 60%),
-    radial-gradient(ellipse 650px 500px at 95% 90%,  rgba(40, 70, 50, 0.26) 0%, transparent 60%),
-    radial-gradient(ellipse 450px 380px at 88% 4%,   rgba(60, 40, 20, 0.22) 0%, transparent 55%),
-    repeating-linear-gradient(transparent, transparent 27px, rgba(80, 65, 45, 0.13) 28px),
+    radial-gradient(ellipse 700px 550px at 5%  10%, rgba(80,60,30,.32) 0%, transparent 60%),
+    radial-gradient(ellipse 650px 500px at 95% 90%, rgba(40,70,50,.26) 0%, transparent 60%),
+    radial-gradient(ellipse 450px 380px at 88%  4%, rgba(60,40,20,.22) 0%, transparent 55%),
+    repeating-linear-gradient(transparent, transparent 27px, rgba(80,65,45,.13) 28px),
     var(--pk-bg) !important;
 }

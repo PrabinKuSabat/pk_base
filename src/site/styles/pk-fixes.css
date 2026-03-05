@@ -333,6 +333,7 @@ body.theme-dark .pk-navbar.pk-nav-scrolled {
   position: absolute; left: 50%; transform: translateX(-50%);
 }
 .pk-navlink {
+  position: relative; /* needed for the ::after underline indicator */
   font-family: var(--pk-font-ui); font-size: 0.875rem; font-weight: 500;
   text-decoration: none; white-space: nowrap;
   color: rgba(190, 215, 248, 0.72);
@@ -341,11 +342,38 @@ body.theme-dark .pk-navbar.pk-nav-scrolled {
   border-radius: 999px;
   transition: opacity 130ms ease, background 130ms ease, color 130ms ease;
 }
+/* Suppress the DG default underline; our indicator uses ::after */
 .pk-navlink::after { display: none; }
 .pk-navlink:hover {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.10);
   opacity: 1;
+}
+
+/* ── Active nav link ───────────────────────────────────────────
+   JS adds .pk-navlink--active when the link’s pathname matches
+   (or is a prefix of) window.location.pathname.
+   Design: full-brightness text + a 2 px accent underline sitting
+   flush at the bottom of the pill, drawn with box-shadow so it
+   respects the border-radius naturally.
+──────────────────────────────────────────────────────────── */
+.pk-navlink--active {
+  color: rgba(220, 235, 255, 0.97) !important;
+  font-weight: 600;
+  /* Inset bottom shadow = 2 px accent underline that curves with the pill */
+  box-shadow: inset 0 -2px 0 var(--pk-accent-lt);
+}
+/* Keep the underline even while hovering the active link */
+.pk-navlink--active:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.10);
+  box-shadow: inset 0 -2px 0 var(--pk-accent-lt);
+}
+/* Override the light-page !important colour rules so active stays bright */
+html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page)
+  .pk-navbar .pk-navlink--active {
+  color: rgba(220, 235, 255, 0.97) !important;
+  box-shadow: inset 0 -2px 0 var(--pk-accent-lt) !important;
 }
 
 /* ── Actions (right) ───────────────────────────────────────────── */
@@ -438,19 +466,12 @@ nav.rzl-footer-mini { display: none !important; }
 
 /* =============================================================
    COPY-TO-CLIPBOARD BUTTON
-
-   .pk-copy-btn sits inside <pre> (position:relative set by JS).
-   Invisible at rest, fades in on pre:hover, swaps to a green
-   checkmark for 2 s after a successful copy.
    ============================================================= */
 
 .pk-copy-btn {
-  /* Positioning: top-right corner of the code block */
   position: absolute;
   top: 10px;
   right: 10px;
-
-  /* Size & shape */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -460,53 +481,34 @@ nav.rzl-footer-mini { display: none !important; }
   border-radius: 6px;
   border: none;
   cursor: pointer;
-
-  /* Colours: neutral glass — works on both light and dark code themes */
   background: rgba(120, 140, 180, 0.14);
   color: rgba(180, 200, 230, 0.55);
-
-  /* Hidden by default; parent pre:hover reveals it */
   opacity: 0;
   pointer-events: none;
-
   transition: opacity 140ms ease, background 120ms ease, color 120ms ease, transform 120ms ease;
   z-index: 10;
-
-  /* Icon alignment */
   line-height: 0;
 }
 .pk-copy-btn svg { display: block; flex-shrink: 0; }
-
-/* Reveal on hover over the parent pre */
 pre:hover .pk-copy-btn {
   opacity: 1;
   pointer-events: auto;
 }
-
-/* Hover on the button itself */
 .pk-copy-btn:hover {
   background: rgba(120, 160, 220, 0.26);
   color: rgba(210, 230, 255, 0.90);
   transform: scale(1.08);
 }
-
-/* Active press */
 .pk-copy-btn:active { transform: scale(0.96); }
-
-/* Success state — green tint for 2 s */
 .pk-copy-btn--done {
   background: rgba(52, 211, 153, 0.20) !important;
   color: #34d399 !important;
   transform: scale(1.0) !important;
 }
-
-/* Focus ring for keyboard users */
 .pk-copy-btn:focus-visible {
   outline: 2px solid rgba(74, 144, 217, 0.70);
   outline-offset: 2px;
 }
-
-/* Light mode tweak: slightly more visible on light code backgrounds */
 html:not(.theme-dark) .pk-copy-btn {
   background: rgba(60, 80, 130, 0.10);
   color: rgba(60, 80, 140, 0.50);
@@ -533,8 +535,6 @@ body.pk-kanban-page {
   position: relative;
 }
 
-/* PERF: position:fixed + translateZ(0) creates its own GPU layer.
-   No background-attachment needed — it’s already viewport-locked. */
 body.pk-kanban-page::before {
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   transform: translateZ(0);
@@ -695,14 +695,6 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
 
 /* =============================================================
    NORMAL PAGES  —  Digital Garden / Blog Notes
-
-   PERF fixes applied:
-   • Removed background-attachment:fixed (element is already position:fixed)
-   • translateZ(0) promotes ::before to its own GPU compositing layer so
-     page scroll never triggers a repaint of the background
-   • Dot grid replaced with inline SVG tile — the browser rasterises it
-     once as a texture and repeats it for free (vs re-evaluating hundreds
-     of tiny radial-gradients every paint frame)
    ============================================================= */
 
 /* ── Light mode: aurora blobs + SVG dot tile ──────────────────── */
@@ -766,7 +758,6 @@ html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-nav
    EXCALIDRAW PAGES  —  Sketchbook Background
    ============================================================= */
 
-/* ── Light: warm parchment watercolor + ruled lines ─────────── */
 body.pk-excalidraw-page:not(.theme-dark) {
   background:
     radial-gradient(ellipse 700px 550px at 5%   10%,  rgba(180, 155, 110, 0.24) 0%, transparent 60%),
@@ -777,7 +768,6 @@ body.pk-excalidraw-page:not(.theme-dark) {
     var(--pk-bg) !important;
 }
 
-/* ── Dark: deep shadow parchment + ruled lines ──────────────── */
 body.theme-dark.pk-excalidraw-page {
   background:
     radial-gradient(ellipse 700px 550px at 5%  10%,  rgba(80, 60, 30, 0.32) 0%, transparent 60%),

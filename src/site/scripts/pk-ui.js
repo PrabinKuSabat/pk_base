@@ -52,8 +52,6 @@
 
   /* ── Auto-hide navbar after 5 s of inactivity (all pages) ───
      Timer resets on any scroll, mousemove, touchstart, or keydown.
-     Showing the navbar is handled by setupHideOnScroll (scroll-up)
-     and setupPeek (mouse near top) — this only handles the hide.
    ──────────────────────────────────────────────────── */
   function setupAutoHide() {
     var navbar = document.querySelector('.pk-navbar');
@@ -134,15 +132,7 @@
     });
   }
 
-  /* ── Content min-height = sidebar height ──────────────────────
-     Ensures the note content block is always at least as tall as
-     the sidebar. This pushes the footer BELOW the sidebar bottom
-     on short notes, so the full-width footer border-top never
-     visually coincides with sidebar content.
-
-     ResizeObserver keeps the min-height in sync as the force-graph
-     widget loads asynchronously and makes the sidebar taller.
-   ──────────────────────────────────────────────────── */
+  /* ── Content min-height = sidebar height ────────────────────── */
   function syncContentMinHeight() {
     if (isExcalidrawPage) return;
     var sidebar = document.querySelector('.sidebar');
@@ -158,20 +148,11 @@
     if (window.ResizeObserver) {
       new ResizeObserver(update).observe(sidebar);
     }
-    /* Fallback ticks — force-graph loads after DOMContentLoaded */
     setTimeout(update, 500);
     setTimeout(update, 1500);
   }
 
-  /* ── Short-note detection ──────────────────────────────────
-     1. syncContentMinHeight() runs first — content expands to
-        sidebar height, footer is pushed below the fold.
-     2. After layout settles (150ms), re-check: if footer is STILL
-        visible in the initial viewport (very tiny notes), add
-        pk-short-note to hide the TOC.
-     This two-step order is important: min-height sync must run
-     before the viewport check so the check is accurate.
-   ──────────────────────────────────────────────────────────── */
+  /* ── Short-note detection ────────────────────────────────── */
   function setupShortNoteDetection() {
     if (isExcalidrawPage) return;
     if (document.querySelector('.content.canvas-page')) return;
@@ -227,16 +208,7 @@
     setTimeout(attachWheelForward, 400);
   }
 
-  /* ── Copy-to-clipboard for code blocks ───────────────────────
-     Wraps every <pre> in a relative-positioned container, then
-     injects a button that:
-       • is invisible by default (opacity 0)
-       • fades in when the user hovers the code block
-       • copies the innerText of the <code> (or the <pre> itself)
-       • swaps to a checkmark SVG for 2 s, then reverts
-     Uses the modern Clipboard API with a textarea fallback for
-     older browsers. Skips any <pre> that already has a button.
-   ──────────────────────────────────────────────────────────── */
+  /* ── Copy-to-clipboard for code blocks ─────────────────────── */
   var COPY_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
   var CHECK_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
 
@@ -244,7 +216,6 @@
     if (navigator.clipboard && window.isSecureContext) {
       return navigator.clipboard.writeText(text);
     }
-    /* textarea fallback */
     var ta = document.createElement('textarea');
     ta.value = text;
     ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
@@ -258,11 +229,9 @@
   function setupCodeCopy() {
     var blocks = document.querySelectorAll('pre');
     blocks.forEach(function (pre) {
-      /* skip if already processed or inside kanban/excalidraw UI */
       if (pre.querySelector('.pk-copy-btn')) return;
       if (pre.closest('.pk-kanban-card')) return;
 
-      /* Make pre the positioning context */
       pre.style.position = 'relative';
 
       var btn = document.createElement('button');
@@ -285,12 +254,52 @@
             btn.innerHTML = COPY_ICON;
             btn.classList.remove('pk-copy-btn--done');
           }, 2000);
-        }).catch(function () {
-          /* silently ignore copy failures */
-        });
+        }).catch(function () {});
       });
 
       pre.appendChild(btn);
+    });
+  }
+
+  /* ── Active nav link highlight ────────────────────────────────
+     Compares window.location.pathname against each .pk-navlink href.
+
+     Rules:
+       • Hash-only hrefs ("#contact") are skipped — they’re not pages.
+       • The root link "/" matches ONLY the exact homepage ("/").
+       • All other links match if the current path starts with the
+         link path (so /notes/foo still lights up a "/notes/" link).
+       • Adds .pk-navlink--active + aria-current="page" to the winner.
+   ──────────────────────────────────────────────────────────── */
+  function setupActiveNavLink() {
+    var links = document.querySelectorAll('.pk-navlink');
+    if (!links.length) return;
+
+    /* Normalise current path: lowercase + ensure trailing slash */
+    var currentPath = window.location.pathname.toLowerCase();
+    if (currentPath !== '/' && !currentPath.endsWith('/')) currentPath += '/';
+
+    links.forEach(function (link) {
+      var raw = link.getAttribute('href');
+      if (!raw || raw.charAt(0) === '#') return; /* skip hash anchors */
+
+      /* Resolve to a clean pathname (handles relative or absolute hrefs) */
+      var linkPath;
+      try {
+        linkPath = new URL(raw, window.location.origin).pathname.toLowerCase();
+      } catch (e) {
+        linkPath = raw.toLowerCase();
+      }
+      if (linkPath !== '/' && !linkPath.endsWith('/')) linkPath += '/';
+
+      var isActive = (linkPath === '/')
+        ? currentPath === '/'               /* homepage: exact only */
+        : currentPath.startsWith(linkPath); /* sections: prefix match */
+
+      if (isActive) {
+        link.classList.add('pk-navlink--active');
+        link.setAttribute('aria-current', 'page');
+      }
     });
   }
 
@@ -305,5 +314,6 @@
     setupPeek();
     setupAutoHide();
     setupCodeCopy();
+    setupActiveNavLink();
   });
 })();

@@ -443,7 +443,7 @@ pre, pre code { font-family: var(--pk-font-mono); font-size: 0.875rem; line-heig
   opacity: 0 !important; pointer-events: none !important; transform: translateY(16px);
 }
 
-/* ── Footer ─────────────────────────────────────────────────── */
+/* ── Footer ─────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
 .pk-footer {
   width: 100%; text-align: center;
@@ -566,7 +566,7 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
 .pk-kanban-board {
   display: flex; gap: 12px; justify-content: safe center;
   overflow-x: auto; overflow-y: hidden;
-  height: 90vh; padding-bottom: 10px;
+  height: 85vh; padding-bottom: 10px;
   align-items: stretch; width: 100%;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin; scrollbar-color: #1e3a5f transparent;

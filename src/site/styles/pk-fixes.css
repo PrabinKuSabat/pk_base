@@ -221,52 +221,34 @@ body.pk-excalidraw-page .pk-footer {
 /* =============================================================
    NAVBAR
 
-   Width: 1400px to span content (700-800px) + both sidebars
-   (~300-350px each) on wide screens. On narrower screens,
-   min() formula clamps it to viewport - 32px padding.
-
-   Gap: --pk-page-gap reduced from 28px → 20px so the distance
-   from navbar → content matches navbar → graph (both use the
-   same CSS variable now).
-
-   Text: Light text on dark pill (full contrast on #f0f4fb).
-   
-   Centering: left:0; right:0; margin:0 auto (bulletproof).
+   Full-width edge-to-edge bar (no pill gaps). Width spans 100vw.
+   Glass blur on dark background. Shadows below for depth.
+   Text: light on dark glass.
    ============================================================= */
 
 .pk-navbar {
-  /* ─ Bulletproof centred positioning ─ */
   position: fixed;
-  top: 14px;
+  top: 0;
   left: 0;
   right: 0;
-  margin: 0 auto;                              /* centres fixed element */
-  width: min(1400px, calc(100vw - 32px));      /* spans content + sidebars */
+  width: 100%;
   height: var(--pk-navbar-h);
   z-index: 1000;
 
-  /* ─ Pill shape ─ */
-  border-radius: 999px;
-  overflow: hidden;
-
-  /* ─ Deep slate glass — high contrast on #f0f4fb ─
-     The dark pill pops off the light ice-blue background.
-     Backdrop blur picks up the page colour subtly.     */
+  /* Deep slate glass — high contrast on aurora bg */
   background: rgba(12, 20, 38, 0.92);
   backdrop-filter: saturate(150%) blur(24px);
   -webkit-backdrop-filter: saturate(150%) blur(24px);
 
-  /* Brand-blue rim — ties pill to site palette */
-  border: 1px solid rgba(74, 144, 217, 0.28);
+  /* Bottom edge separator + shadow */
+  border-bottom: 1px solid rgba(74, 144, 217, 0.22);
 
-  /* Layered shadow: dark depth + brand-blue ambient glow */
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.07),  /* crystal top edge    */
-    inset 0 -1px 0 rgba(0, 0, 0, 0.35),       /* bottom depth line   */
-    0 0 0 1px rgba(0, 0, 0, 0.14),            /* outer definition    */
-    0 2px 4px   rgba(0, 0, 0, 0.12),          /* close shadow        */
-    0 8px 28px  rgba(0, 0, 0, 0.18),          /* mid elevation       */
-    0 0 60px    rgba(46, 93, 166, 0.14);      /* brand ambient glow  */
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    0 2px 4px   rgba(0, 0, 0, 0.12),
+    0 8px 28px  rgba(0, 0, 0, 0.18),
+    0 0 60px    rgba(46, 93, 166, 0.14);
 
   transform: translateY(0);
   transition: transform 240ms cubic-bezier(.4,0,.2,1),
@@ -281,7 +263,6 @@ body.pk-excalidraw-page .pk-footer {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     inset 0 -1px 0 rgba(0, 0, 0, 0.40),
-    0 0 0 1px rgba(0, 0, 0, 0.18),
     0 4px 8px   rgba(0, 0, 0, 0.20),
     0 16px 48px rgba(0, 0, 0, 0.24),
     0 0 80px    rgba(46, 93, 166, 0.18);
@@ -323,11 +304,10 @@ body.pk-nav-peek .pk-navbar {
 html.theme-dark .pk-navbar,
 body.theme-dark .pk-navbar {
   background: rgba(22, 32, 52, 0.90);
-  border-color: rgba(91, 155, 213, 0.22);
+  border-bottom-color: rgba(91, 155, 213, 0.22);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.09),
     inset 0 -1px 0 rgba(0, 0, 0, 0.40),
-    0 0 0 1px rgba(0, 0, 0, 0.28),
     0 4px 8px   rgba(0, 0, 0, 0.30),
     0 16px 48px rgba(0, 0, 0, 0.40),
     0 0 70px rgba(91, 155, 213, 0.10);
@@ -515,7 +495,7 @@ body.pk-kanban-page .pk-footer { position: relative; z-index: 1; }
 
 body.pk-kanban-page .pk-navbar {
   background:              rgba(4, 8, 16, 0.88)     !important;
-  border-color:            rgba(37, 99, 235, 0.32)  !important;
+  border-bottom-color:     rgba(37, 99, 235, 0.32)  !important;
   box-shadow:
     inset 0 1px 0 rgba(37,99,235,.16),
     inset 0 -1px 0 rgba(0,0,0,.55),

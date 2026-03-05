@@ -194,7 +194,7 @@ body.pk-short-note .toc { display: none !important; }
    ============================================================= */
 html.pk-excalidraw-page body {
   opacity:     0;
-  padding-top: var(--pk-navbar-h) !important;
+  padding-top: calc(var(--pk-navbar-h) + 14px) !important;
   animation:   pk-excalidraw-reveal 700ms cubic-bezier(0.4, 0, 0.2, 1) 0ms both;
 }
 
@@ -204,18 +204,31 @@ html.pk-excalidraw-page body {
   100% { opacity: 1; }
 }
 
+/* Excalidraw: outer navbar is transparent shell */
 html.pk-excalidraw-page .pk-navbar {
-  background:              rgba(20, 23, 28, 0.97)    !important;
-  backdrop-filter:         saturate(110%) blur(10px) !important;
-  -webkit-backdrop-filter: saturate(110%) blur(10px) !important;
-  box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 2px 20px rgba(0,0,0,.5) !important;
+  background:              transparent !important;
+  border-bottom:           none        !important;
+  box-shadow:              none        !important;
+  backdrop-filter:         none        !important;
+  -webkit-backdrop-filter: none        !important;
+}
+/* Excalidraw: dark chalk pill */
+html.pk-excalidraw-page .pk-navbar .pk-navbar-inner {
+  background:              rgba(18, 22, 30, 0.88) !important;
+  border-color:            rgba(120, 184, 150, 0.20) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 8px 28px rgba(0,0,0,.45),
+    0 0 50px rgba(120,184,150,.07) !important;
+  backdrop-filter:         saturate(130%) blur(22px) !important;
+  -webkit-backdrop-filter: saturate(130%) blur(22px) !important;
 }
 html.pk-excalidraw-page .pk-site-name,
 html.pk-excalidraw-page .pk-site-tagline,
 html.pk-excalidraw-page .pk-navlink,
 html.pk-excalidraw-page .pk-theme-btn { color: #e2ddd4 !important; }
 html.pk-excalidraw-page .pk-logo      { color: #78b896 !important; }
-html.pk-excalidraw-page .pk-navlink::after { background: #78b896 !important; }
+html.pk-excalidraw-page .pk-navlink:hover { background: rgba(120,184,150,.14) !important; }
 
 body.pk-excalidraw-page {
   --pk-bg:        #eeeae1;
@@ -227,7 +240,7 @@ body.pk-excalidraw-page {
   --pk-accent-lt: #5c9470;
   --pk-seal-color: var(--pk-accent);
   background:  var(--pk-bg) !important;
-  padding-top: var(--pk-navbar-h) !important;
+  padding-top: calc(var(--pk-navbar-h) + 14px) !important;
 }
 body.theme-dark.pk-excalidraw-page {
   --pk-bg:        #0c0d0f;
@@ -251,18 +264,30 @@ body.pk-excalidraw-page.has-navbar .content {
   background: transparent !important;
 }
 body.pk-excalidraw-page .content > header { display: none !important; }
+/* body.pk-excalidraw-page also resets navbar to transparent, pill styles above */
 body.pk-excalidraw-page .pk-navbar {
-  background:              rgba(20, 23, 28, 0.97)    !important;
-  backdrop-filter:         saturate(110%) blur(10px) !important;
-  -webkit-backdrop-filter: saturate(110%) blur(10px) !important;
-  box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 2px 20px rgba(0,0,0,.5) !important;
+  background:              transparent !important;
+  border-bottom:           none        !important;
+  box-shadow:              none        !important;
+  backdrop-filter:         none        !important;
+  -webkit-backdrop-filter: none        !important;
+}
+body.pk-excalidraw-page .pk-navbar .pk-navbar-inner {
+  background:              rgba(18, 22, 30, 0.88) !important;
+  border-color:            rgba(120, 184, 150, 0.20) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 8px 28px rgba(0,0,0,.45),
+    0 0 50px rgba(120,184,150,.07) !important;
+  backdrop-filter:         saturate(130%) blur(22px) !important;
+  -webkit-backdrop-filter: saturate(130%) blur(22px) !important;
 }
 body.pk-excalidraw-page .pk-site-name,
 body.pk-excalidraw-page .pk-site-tagline,
 body.pk-excalidraw-page .pk-navlink,
 body.pk-excalidraw-page .pk-theme-btn { color: #e2ddd4 !important; }
 body.pk-excalidraw-page .pk-logo      { color: #78b896 !important; }
-body.pk-excalidraw-page .pk-navlink::after { background: #78b896 !important; }
+body.pk-excalidraw-page .pk-navlink:hover { background: rgba(120,184,150,.14) !important; }
 body.pk-excalidraw-page .pk-theme-btn:hover { background: rgba(120,184,150,.12) !important; }
 body.pk-excalidraw-page .excalidraw-svg {
   display: block !important; width: 100% !important;
@@ -294,29 +319,81 @@ body.pk-excalidraw-page .pk-footer {
 .dg-theme-toggle,
 [data-tippy-content="Toggle theme"] { display: none !important; }
 
-/* ── Navbar — frosted glass (normal pages) ─────────────────── */
+/* =============================================================
+   NAVBAR — Apple Glass Floating Pill
+   The outer .pk-navbar is a transparent fixed-position shell.
+   All visual treatment (glass, radius, shadow) lives on
+   .pk-navbar-inner so each page type can skin it independently.
+   ============================================================= */
+
+/* ── Transparent shell ───────────────────────────────────────── */
 .pk-navbar {
   position: fixed; top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: var(--pk-bg-nav);
-  backdrop-filter: saturate(180%) blur(18px);
-  -webkit-backdrop-filter: saturate(180%) blur(18px);
-  border-bottom: none;
-  box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+  background:              transparent;
+  border-bottom:           none;
+  box-shadow:              none;
+  backdrop-filter:         none;
+  -webkit-backdrop-filter: none;
   transform: translateY(0);
-  transition: transform 220ms cubic-bezier(.4,0,.2,1),
-              background  200ms ease,
-              box-shadow  220ms ease;
+  transition: transform 220ms cubic-bezier(.4,0,.2,1);
   will-change: transform;
 }
-.pk-navbar.pk-nav-hidden  { transform: translateY(-100%); }
+.pk-navbar.pk-nav-hidden   { transform: translateY(-130%); }
 body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
-.pk-navbar.pk-nav-scrolled { box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.07); }
 
+/* ── The glass pill ──────────────────────────────────────────── */
 .pk-navbar-inner {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 28px; height: var(--pk-navbar-h); gap: 14px;
+  height: var(--pk-navbar-h); gap: 14px;
+
+  /* Floating pill geometry */
+  max-width: 1100px;
+  padding: 0 22px;
+  margin: 10px auto 0;
+  border-radius: 999px;
+
+  /* Apple glass — light mode */
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: saturate(200%) blur(24px);
+  -webkit-backdrop-filter: saturate(200%) blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.85),   /* top inner highlight */
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04),           /* subtle bottom depth */
+    0 4px 6px  rgba(0, 0, 0, 0.04),
+    0 10px 28px rgba(0, 0, 0, 0.09),
+    0 2px 4px  rgba(0, 0, 0, 0.03);
+
+  transition: background 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
 }
+/* Scrolled: marginally more opaque & deeper shadow */
+.pk-navbar.pk-nav-scrolled .pk-navbar-inner {
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.90),
+    0 6px 12px  rgba(0, 0, 0, 0.06),
+    0 18px 44px rgba(0, 0, 0, 0.11);
+}
+
+/* ── Dark theme glass pill ───────────────────────────────────── */
+html.theme-dark .pk-navbar-inner,
+body.theme-dark .pk-navbar-inner {
+  background: rgba(14, 20, 34, 0.80);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.30),
+    0 4px  6px  rgba(0, 0, 0, 0.25),
+    0 10px 32px rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+html.theme-dark .pk-navbar.pk-nav-scrolled .pk-navbar-inner,
+body.theme-dark .pk-navbar.pk-nav-scrolled .pk-navbar-inner {
+  background: rgba(14, 20, 34, 0.92);
+}
+
+/* ── Brand ───────────────────────────────────────────────────── */
 .pk-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; flex-shrink: 0; }
 .pk-logo { width: 26px; height: 26px; color: var(--pk-accent); }
 .pk-brand-text { display: flex; flex-direction: column; }
@@ -328,29 +405,40 @@ body.pk-nav-peek .pk-navbar { transform: translateY(0) !important; }
   font-family: var(--pk-font-ui); font-size: 0.62rem; text-transform: uppercase;
   letter-spacing: 0.05em; opacity: 0.50; margin-top: 2px; line-height: 1;
 }
-.pk-navlinks { display: flex; align-items: center; gap: 24px; }
+
+/* ── Navlinks — pill hover (Apple style) ─────────────────────── */
+.pk-navlinks { display: flex; align-items: center; gap: 4px; }
 .pk-navlink {
   font-family: var(--pk-font-ui); font-size: 0.875rem; font-weight: 500;
-  text-decoration: none; color: inherit; opacity: 0.60;
-  letter-spacing: 0.01em; transition: opacity 140ms; position: relative;
+  text-decoration: none; color: inherit; opacity: 0.62;
+  letter-spacing: 0.01em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  transition: opacity 140ms ease, background 140ms ease;
+  position: relative;
 }
-.pk-navlink::after {
-  content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
-  height: 1.5px; background: var(--pk-accent); border-radius: 2px;
-  transform: scaleX(0); transition: transform 180ms cubic-bezier(.4,0,.2,1);
+/* No more underline — use pill background instead */
+.pk-navlink::after { display: none; }
+.pk-navlink:hover  {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.07);
 }
-.pk-navlink:hover { opacity: 1; }
-.pk-navlink:hover::after { transform: scaleX(1); }
-.pk-nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+html.theme-dark .pk-navlink:hover,
+body.theme-dark .pk-navlink:hover { background: rgba(255, 255, 255, 0.10); }
+
+/* ── Action buttons ──────────────────────────────────────────── */
+.pk-nav-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .pk-theme-btn {
   -webkit-appearance: none; appearance: none;
   background: transparent; border: none; box-shadow: none; outline: none;
   padding: 6px; cursor: pointer; color: inherit; opacity: 0.55;
-  transition: opacity 140ms, background 140ms;
+  transition: opacity 140ms ease, background 140ms ease;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 8px; line-height: 0;
+  border-radius: 999px; line-height: 0;
 }
-.pk-theme-btn:hover { opacity: 1; background: rgba(46,93,166,.08); }
+.pk-theme-btn:hover { opacity: 1; background: rgba(0, 0, 0, 0.07); }
+html.theme-dark .pk-theme-btn:hover,
+body.theme-dark .pk-theme-btn:hover { background: rgba(255, 255, 255, 0.10); }
 .pk-theme-btn:focus-visible { outline: 2px solid var(--pk-accent); outline-offset: 2px; }
 
 /* ── Typography ─────────────────────────────────────────────── */
@@ -426,7 +514,7 @@ nav.rzl-footer-mini { display: none !important; }
 .graph-page, .graph-wrapper, #graph { position: relative; z-index: 1; }
 
 /* =============================================================
-   KANBAN BOARD  —  Tactical Ops Theme
+   KANBAN BOARD  —  Blueprint Execution Pipeline
    ============================================================= */
 
 /* ── Kill sidebars ──────────────────────────────────────────── */
@@ -434,28 +522,92 @@ body.pk-kanban-page aside,
 body.pk-kanban-page .sidebar,
 body.pk-kanban-page .filetree-wrapper { display: none !important; }
 
-/* ── Dark environment ───────────────────────────────────────── */
+/* ── Base layer: deep navy ───────────────────────────────────── */
 body.pk-kanban-page {
-  background: #07090d !important;
-  padding-top: var(--pk-navbar-h) !important;
+  background-color: #060a12 !important;
+  padding-top: calc(var(--pk-navbar-h) + 24px) !important;
+  position: relative;
 }
 
-/* ── Navbar: hard dark surface + force light text ──────────── */
-body.pk-kanban-page .pk-navbar {
-  background: rgba(4, 6, 10, 0.97) !important;
-  border-bottom: 1px solid #1a2540 !important;
-  box-shadow: 0 1px 0 #1a2540 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+/* ── Texture layer: blueprint grid + depth glows ─────────────
+   body::before is free — the progress bar uses html::before.
+   background-attachment:fixed keeps the grid locked to the
+   viewport so it reads as an ambient environment, not wallpaper.
+   ─────────────────────────────────────────────────────────── */
+body.pk-kanban-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    /* Soft blue glow — top-left corner (primary light source) */
+    radial-gradient(ellipse 900px 650px at 0% 0%,
+      rgba(37, 99, 235, 0.16) 0%, transparent 60%),
+    /* Teal glow — bottom-right corner (complementary) */
+    radial-gradient(ellipse 750px 550px at 100% 100%,
+      rgba(20, 184, 166, 0.09) 0%, transparent 60%),
+    /* Faint violet — top-right (depth accent) */
+    radial-gradient(ellipse 500px 400px at 100% 0%,
+      rgba(139, 92, 246, 0.06) 0%, transparent 55%),
+    /* Blueprint major grid lines */
+    linear-gradient(rgba(100, 150, 230, 0.065) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 150, 230, 0.065) 1px, transparent 1px),
+    /* Blueprint minor grid lines */
+    linear-gradient(rgba(100, 150, 230, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 150, 230, 0.022) 1px, transparent 1px);
+
+  background-size:
+    auto, auto, auto,
+    100px 100px, 100px 100px,
+    20px  20px,  20px  20px;
+
+  background-attachment: fixed;
 }
+
+/* Stacking context: ensure content sits above the texture */
+body.pk-kanban-page .pk-navbar,
+body.pk-kanban-page main.content,
+body.pk-kanban-page .pk-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Kanban navbar: transparent outer + dark ops glass pill ─── */
+body.pk-kanban-page .pk-navbar {
+  background:              transparent !important;
+  border-bottom:           none        !important;
+  box-shadow:              none        !important;
+  backdrop-filter:         none        !important;
+  -webkit-backdrop-filter: none        !important;
+}
+body.pk-kanban-page .pk-navbar .pk-navbar-inner {
+  background:              rgba(6, 10, 18, 0.80) !important;
+  border-color:            rgba(37, 99, 235, 0.26) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(37, 99, 235, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.50),
+    0 8px 28px rgba(0, 0, 0, 0.55),
+    0 0 70px rgba(37, 99, 235, 0.12) !important;
+  backdrop-filter:         saturate(120%) blur(24px) !important;
+  -webkit-backdrop-filter: saturate(120%) blur(24px) !important;
+}
+
+/* Force light text on kanban pill */
 body.pk-kanban-page .pk-navbar .pk-site-name,
 body.pk-kanban-page .pk-navbar .pk-site-tagline,
 body.pk-kanban-page .pk-navbar .pk-navlink,
-body.pk-kanban-page .pk-navbar .pk-theme-btn { color: #c8d8e8 !important; }
+body.pk-kanban-page .pk-navbar .pk-theme-btn { color: #bdd0e8 !important; }
 body.pk-kanban-page .pk-navbar .pk-logo      { color: #4a7cdc !important; }
-body.pk-kanban-page .pk-navbar .pk-navlink:hover { color: #ffffff !important; opacity: 1 !important; }
-body.pk-kanban-page .pk-navbar .pk-navlink::after { background: #2563eb !important; }
-body.pk-kanban-page .pk-navbar .pk-theme-btn:hover { background: rgba(37,99,235,.15) !important; }
+body.pk-kanban-page .pk-navbar .pk-navlink:hover {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  background: rgba(37, 99, 235, 0.18) !important;
+}
+body.pk-kanban-page .pk-navbar .pk-theme-btn:hover {
+  background: rgba(37, 99, 235, 0.16) !important;
+}
 
 /* ── Full-width content ───────────────────────────────────────── */
 body.pk-kanban-page main.content,
@@ -469,12 +621,30 @@ body.pk-kanban-page.has-navbar main.content {
 }
 body.pk-kanban-page main.content > header { display: none !important; }
 
+/* ── Footer on dark kanban background ────────────────────────── */
+body.pk-kanban-page .pk-footer {
+  border-top-color: rgba(37, 99, 235, 0.22) !important;
+  background: transparent !important;
+}
+body.pk-kanban-page .pk-footer-links a {
+  color: #5a80a8 !important;
+  opacity: 0.85 !important;
+}
+body.pk-kanban-page .pk-footer-links a:hover {
+  color: #c8d8ea !important;
+  opacity: 1 !important;
+}
+body.pk-kanban-page .pk-footer-inst-name {
+  color: rgba(74, 124, 220, 0.72) !important;
+}
+body.pk-kanban-page .pk-footer-divider {
+  background: rgba(37, 99, 235, 0.28) !important;
+}
+
 /* ── Positional accent colors (columns 1–15) ───────────────────
    --col-accent cascades down to the column title and each card's
    left border. Known status rules (data-status) override the
-   border-top-color/color/border-left-color explicitly, so status
-   columns are unaffected. Only unrecognized (todo) columns show
-   these positional colors.
+   border-top-color/color/border-left-color explicitly.
    ──────────────────────────────────────────────────────────── */
 .pk-kanban-board .pk-kanban-column:nth-child(1)  { --col-accent: #6366f1; }
 .pk-kanban-board .pk-kanban-column:nth-child(2)  { --col-accent: #8b5cf6; }
@@ -505,11 +675,11 @@ body.pk-kanban-page main.content > header { display: none !important; }
   width: 100%;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  scrollbar-color: #1e3a5f #07090d;
+  scrollbar-color: #1e3a5f transparent;
 }
 .pk-kanban-board::-webkit-scrollbar       { height: 5px; }
-.pk-kanban-board::-webkit-scrollbar-track { background: #07090d; }
-.pk-kanban-board::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 2px; }
+.pk-kanban-board::-webkit-scrollbar-track { background: transparent; }
+.pk-kanban-board::-webkit-scrollbar-thumb { background: #1a3054; border-radius: 2px; }
 .pk-kanban-board::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
 /* ── Column ───────────────────────────────────────────────────── */
@@ -517,8 +687,10 @@ body.pk-kanban-page main.content > header { display: none !important; }
   flex: 1 1 0;
   min-width: 200px;
   max-width: 300px;
-  background: #0c1018;
-  border: 1px solid #151f2e;
+  background: rgba(10, 15, 24, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.05);
   border-top: 2px solid var(--col-accent, #2563eb);
   border-radius: 3px;
   display: flex;
@@ -539,8 +711,8 @@ body.pk-kanban-page main.content > header { display: none !important; }
   align-items: center;
   justify-content: space-between;
   padding: 9px 12px 8px;
-  background: #08090f;
-  border-bottom: 1px solid #151f2e;
+  background: rgba(5, 8, 14, 0.60);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
   gap: 8px;
   flex-shrink: 0;
 }
@@ -565,9 +737,9 @@ body.pk-kanban-page main.content > header { display: none !important; }
 
 .pk-kanban-column-count {
   flex-shrink: 0;
-  background: #0f1a2b;
+  background: rgba(15, 26, 43, 0.80);
   color: #3a5a7a;
-  border: 1px solid #1a2a3e;
+  border: 1px solid rgba(255,255,255,0.06);
   border-radius: 2px;
   padding: 1px 6px;
   font-family: var(--pk-font-mono);
@@ -586,16 +758,16 @@ body.pk-kanban-page main.content > header { display: none !important; }
   flex: 1;
   min-height: 0;
   scrollbar-width: thin;
-  scrollbar-color: #151f2e transparent;
+  scrollbar-color: rgba(30,58,95,0.50) transparent;
 }
 .pk-kanban-column-body::-webkit-scrollbar       { width: 3px; }
 .pk-kanban-column-body::-webkit-scrollbar-track { background: transparent; }
-.pk-kanban-column-body::-webkit-scrollbar-thumb { background: #1a2a3e; border-radius: 1px; }
+.pk-kanban-column-body::-webkit-scrollbar-thumb { background: rgba(30,58,95,0.60); border-radius: 1px; }
 
 /* ── Card ─────────────────────────────────────────────────────── */
 .pk-kanban-card {
-  background: #0d1520;
-  border: 1px solid #151f2e;
+  background: rgba(12, 20, 34, 0.70);
+  border: 1px solid rgba(255,255,255,0.05);
   border-left: 2px solid var(--col-accent, #2563eb);
   border-radius: 2px;
   padding: 8px 10px;
@@ -604,7 +776,7 @@ body.pk-kanban-page main.content > header { display: none !important; }
   transition: background 120ms ease, border-left-color 120ms ease;
 }
 .pk-kanban-card:hover {
-  background: #111e30;
+  background: rgba(18, 30, 50, 0.85);
   border-left-color: color-mix(in srgb, var(--col-accent, #3b82f6) 70%, white);
 }
 
@@ -631,8 +803,8 @@ body.pk-kanban-page main.content > header { display: none !important; }
 /* ── Empty column placeholder ─────────────────────────────────── */
 .pk-kanban-empty {
   flex: 1;
-  border: 1px dashed #111e30;
+  border: 1px dashed rgba(30,50,80,0.50);
   border-radius: 2px;
-  opacity: 0.20;
+  opacity: 0.25;
   min-height: 40px;
 }

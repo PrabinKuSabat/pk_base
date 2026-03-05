@@ -230,9 +230,6 @@ body.pk-excalidraw-page .pk-footer {
   z-index: 1000;
 
   background: rgba(12, 20, 38, 0.92);
-
-  /* blur(16px) is the sweet-spot: visually indistinct from 24px
-     but ~40% cheaper on the compositor thread */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 
@@ -245,8 +242,6 @@ body.pk-excalidraw-page .pk-footer {
     0 8px 28px  rgba(0, 0, 0, 0.18),
     0 0 60px    rgba(46, 93, 166, 0.14);
 
-  /* GPU-promoted layer: navbar animates on its own compositor layer
-     so scroll does NOT trigger a repaint of the navbar itself */
   transform: translateY(0) translateZ(0);
   will-change: transform;
 
@@ -442,6 +437,90 @@ nav.rzl-footer-mini { display: none !important; }
 .graph-page, .graph-wrapper, #graph { position: relative; z-index: 1; }
 
 /* =============================================================
+   COPY-TO-CLIPBOARD BUTTON
+
+   .pk-copy-btn sits inside <pre> (position:relative set by JS).
+   Invisible at rest, fades in on pre:hover, swaps to a green
+   checkmark for 2 s after a successful copy.
+   ============================================================= */
+
+.pk-copy-btn {
+  /* Positioning: top-right corner of the code block */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  /* Size & shape */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+
+  /* Colours: neutral glass — works on both light and dark code themes */
+  background: rgba(120, 140, 180, 0.14);
+  color: rgba(180, 200, 230, 0.55);
+
+  /* Hidden by default; parent pre:hover reveals it */
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 140ms ease, background 120ms ease, color 120ms ease, transform 120ms ease;
+  z-index: 10;
+
+  /* Icon alignment */
+  line-height: 0;
+}
+.pk-copy-btn svg { display: block; flex-shrink: 0; }
+
+/* Reveal on hover over the parent pre */
+pre:hover .pk-copy-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Hover on the button itself */
+.pk-copy-btn:hover {
+  background: rgba(120, 160, 220, 0.26);
+  color: rgba(210, 230, 255, 0.90);
+  transform: scale(1.08);
+}
+
+/* Active press */
+.pk-copy-btn:active { transform: scale(0.96); }
+
+/* Success state — green tint for 2 s */
+.pk-copy-btn--done {
+  background: rgba(52, 211, 153, 0.20) !important;
+  color: #34d399 !important;
+  transform: scale(1.0) !important;
+}
+
+/* Focus ring for keyboard users */
+.pk-copy-btn:focus-visible {
+  outline: 2px solid rgba(74, 144, 217, 0.70);
+  outline-offset: 2px;
+}
+
+/* Light mode tweak: slightly more visible on light code backgrounds */
+html:not(.theme-dark) .pk-copy-btn {
+  background: rgba(60, 80, 130, 0.10);
+  color: rgba(60, 80, 140, 0.50);
+}
+html:not(.theme-dark) .pk-copy-btn:hover {
+  background: rgba(46, 93, 166, 0.18);
+  color: rgba(20, 50, 120, 0.90);
+}
+html:not(.theme-dark) .pk-copy-btn--done {
+  background: rgba(20, 160, 100, 0.16) !important;
+  color: #16a34a !important;
+}
+
+/* =============================================================
    KANBAN  —  Blueprint Execution Pipeline
    ============================================================= */
 body.pk-kanban-page aside,
@@ -633,7 +712,6 @@ html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page)::before
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  /* GPU layer: composited separately from scroll content */
   transform: translateZ(0);
   will-change: transform;
   background-image:
@@ -641,10 +719,8 @@ html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page)::before
     radial-gradient(ellipse 800px 650px at 108% 100%, rgba(196, 181, 253, 0.28) 0%, transparent 65%),
     radial-gradient(ellipse 600px 500px at 88%  0%,   rgba(167, 243, 208, 0.22) 0%, transparent 55%),
     radial-gradient(ellipse 500px 450px at 0%   100%, rgba(253, 186, 116, 0.18) 0%, transparent 55%),
-    /* SVG tile: rasterised once, tiled by GPU — zero per-frame cost */
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Ccircle cx='13' cy='13' r='0.7' fill='rgba(100%2C130%2C200%2C0.20)'/%3E%3C/svg%3E");
   background-size: auto, auto, auto, auto, 26px 26px;
-  /* no background-attachment:fixed — element is already viewport-locked */
 }
 
 /* ── Dark mode: deep jewel aurora + SVG dot tile ─────────────── */
@@ -699,7 +775,6 @@ body.pk-excalidraw-page:not(.theme-dark) {
     radial-gradient(ellipse 400px 350px at 4%   96%,  rgba(120, 160, 100, 0.14) 0%, transparent 55%),
     repeating-linear-gradient(transparent, transparent 27px, rgba(140, 120, 90, 0.09) 28px),
     var(--pk-bg) !important;
-  /* no background-attachment:fixed — this page doesn’t scroll */
 }
 
 /* ── Dark: deep shadow parchment + ruled lines ──────────────── */

@@ -227,6 +227,73 @@
     setTimeout(attachWheelForward, 400);
   }
 
+  /* ── Copy-to-clipboard for code blocks ───────────────────────
+     Wraps every <pre> in a relative-positioned container, then
+     injects a button that:
+       • is invisible by default (opacity 0)
+       • fades in when the user hovers the code block
+       • copies the innerText of the <code> (or the <pre> itself)
+       • swaps to a checkmark SVG for 2 s, then reverts
+     Uses the modern Clipboard API with a textarea fallback for
+     older browsers. Skips any <pre> that already has a button.
+   ──────────────────────────────────────────────────────────── */
+  var COPY_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  var CHECK_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    /* textarea fallback */
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    return Promise.resolve();
+  }
+
+  function setupCodeCopy() {
+    var blocks = document.querySelectorAll('pre');
+    blocks.forEach(function (pre) {
+      /* skip if already processed or inside kanban/excalidraw UI */
+      if (pre.querySelector('.pk-copy-btn')) return;
+      if (pre.closest('.pk-kanban-card')) return;
+
+      /* Make pre the positioning context */
+      pre.style.position = 'relative';
+
+      var btn = document.createElement('button');
+      btn.className = 'pk-copy-btn';
+      btn.setAttribute('aria-label', 'Copy code');
+      btn.setAttribute('title', 'Copy code');
+      btn.innerHTML = COPY_ICON;
+
+      var resetTimer = null;
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var code = pre.querySelector('code');
+        var text = (code ? code.innerText : pre.innerText).replace(/\r\n/g, '\n');
+        copyText(text).then(function () {
+          btn.innerHTML = CHECK_ICON;
+          btn.classList.add('pk-copy-btn--done');
+          clearTimeout(resetTimer);
+          resetTimer = setTimeout(function () {
+            btn.innerHTML = COPY_ICON;
+            btn.classList.remove('pk-copy-btn--done');
+          }, 2000);
+        }).catch(function () {
+          /* silently ignore copy failures */
+        });
+      });
+
+      pre.appendChild(btn);
+    });
+  }
+
   /* ── Boot ─────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     restoreTheme();
@@ -237,5 +304,6 @@
     setupHideOnScroll();
     setupPeek();
     setupAutoHide();
+    setupCodeCopy();
   });
 })();

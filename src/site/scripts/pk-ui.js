@@ -2,11 +2,7 @@
   var PEEK_THRESHOLD = 64;
   var root = document.documentElement;
 
-  /* ── IMMEDIATE — safety guard ─────────────────────────────────
-     The inline anti-FOUC script in pageheader.njk already adds
-     pk-excalidraw-page to <html> synchronously before first CSS paint.
-     This guard is a belt-and-suspenders fallback only.
-   ────────────────────────────────────────────────────── */
+  /* ── IMMEDIATE — safety guard ───────────────────────────────── */
   var isExcalidrawPage = window.location.pathname.toLowerCase().includes('.excalidraw');
   if (isExcalidrawPage && !root.classList.contains('pk-excalidraw-page')) {
     root.classList.add('pk-excalidraw-page');
@@ -238,13 +234,7 @@
     });
   }
 
-  /* ── Active nav link highlight ──────────────────────────────────
-     Rules:
-       • Hash-only hrefs ("#contact") are skipped.
-       • "/" matches ONLY the exact homepage.
-       • Other links match if current path starts with the link path.
-       • Adds .pk-navlink--active + aria-current="page" to the winner.
-   ────────────────────────────────────────────────────────── */
+  /* ── Active nav link highlight ────────────────────────────────── */
   function setupActiveNavLink() {
     var links = document.querySelectorAll('.pk-navlink');
     if (!links.length) return;
@@ -267,73 +257,6 @@
     });
   }
 
-  /* ── Image lightbox ─────────────────────────────────────────────
-     Click any <img> inside main.content to view it fullscreen.
-     Close via: click overlay background · × button · Escape key.
-   ────────────────────────────────────────────────────────── */
-  function setupLightbox() {
-    if (isExcalidrawPage) return;
-
-    var imgs = document.querySelectorAll(
-      'main.content img:not(.site-logo):not(.pk-logo):not([data-no-lightbox])'
-    );
-    if (!imgs.length) return;
-
-    /* Build overlay once and reuse it */
-    var overlay = document.createElement('div');
-    overlay.className = 'pk-lightbox';
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-label', 'Image viewer');
-
-    var closeBtn = document.createElement('button');
-    closeBtn.className = 'pk-lightbox-close';
-    closeBtn.setAttribute('aria-label', 'Close image');
-    closeBtn.innerHTML =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"' +
-      ' fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-      '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
-
-    var lbImg = document.createElement('img');
-    lbImg.className = 'pk-lightbox-img';
-    lbImg.setAttribute('alt', '');
-
-    overlay.appendChild(closeBtn);
-    overlay.appendChild(lbImg);
-    document.body.appendChild(overlay);
-
-    function open(src, alt) {
-      lbImg.src = src;
-      lbImg.alt = alt || '';
-      overlay.classList.add('pk-lightbox--open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function close() {
-      overlay.classList.remove('pk-lightbox--open');
-      document.body.style.overflow = '';
-      setTimeout(function () { lbImg.src = ''; }, 280);
-    }
-
-    imgs.forEach(function (img) {
-      img.style.cursor = 'zoom-in';
-      img.addEventListener('click', function () { open(img.src, img.alt); });
-    });
-
-    closeBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      close();
-    });
-
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) close();
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && overlay.classList.contains('pk-lightbox--open')) close();
-    });
-  }
-
   /* ── Boot ───────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     restoreTheme();
@@ -346,6 +269,5 @@
     setupAutoHide();
     setupCodeCopy();
     setupActiveNavLink();
-    setupLightbox();
   });
 })();

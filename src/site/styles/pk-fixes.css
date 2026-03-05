@@ -119,7 +119,7 @@ body:has(.content.canvas-page) .content.canvas-page {
 body:has(.content.canvas-page) .canvas-wrapper { width: 100vw !important; height: 100vh !important; }
 body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
-/* ── Short-note sidebar ────────────────────────────────────── */
+/* ── Short-note sidebar ───────────────────────────────────── */
 body.pk-short-note .sidebar.pk-sidebar-end {
   opacity: 1 !important; pointer-events: auto !important; transform: none !important;
 }
@@ -414,9 +414,8 @@ html:not(.theme-dark) .pk-copy-btn--done { background: rgba(20,160,100,.16) !imp
 
 /* =============================================================
    CALLOUT BLOCKS  —  Obsidian > [!type] callouts
-   DG renders: <div data-callout="note" class="callout"
-                     style="--callout-color: R, G, B">
-   --callout-color is an RGB triplet so we can use rgb()/rgba().
+   DG sets --callout-color as an RGB triplet inline on .callout
+   so rgb()/rgba() work directly without extra config.
    ============================================================= */
 
 .callout {
@@ -428,8 +427,6 @@ html:not(.theme-dark) .pk-copy-btn--done { background: rgba(20,160,100,.16) !imp
   margin: 1.6em 0;
   overflow: hidden;
 }
-
-/* Soft inner glow behind the left border */
 .callout::before {
   content: '';
   position: absolute; top: 0; left: 0; bottom: 0; width: 44px;
@@ -441,128 +438,43 @@ html:not(.theme-dark) .pk-copy-btn--done { background: rgba(20,160,100,.16) !imp
   pointer-events: none;
   border-radius: 8px 0 0 8px;
 }
-
 .callout-title {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-family: var(--pk-font-ui);
-  font-size: 0.875rem;
-  font-weight: 650;
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--pk-font-ui); font-size: 0.875rem; font-weight: 650;
   letter-spacing: 0.01em;
   color: rgb(var(--callout-color, 68, 138, 255));
-  margin-bottom: 8px;
-  line-height: 1.3;
-  position: relative; /* above ::before glow */
-}
-
-.callout-icon {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  opacity: 0.90;
-}
-
-.callout-icon svg {
-  width: 15px;
-  height: 15px;
-  display: block;
-}
-
-.callout-title-inner { flex: 1; }
-
-.callout-content {
-  font-size: 0.94rem;
-  line-height: 1.72;
-  color: var(--pk-text);
-  opacity: 0.92;
+  margin-bottom: 8px; line-height: 1.3;
   position: relative;
 }
-
+.callout-icon { display: flex; align-items: center; flex-shrink: 0; opacity: 0.90; }
+.callout-icon svg { width: 15px; height: 15px; display: block; }
+.callout-title-inner { flex: 1; }
+.callout-content {
+  font-size: 0.94rem; line-height: 1.72;
+  color: var(--pk-text); opacity: 0.92; position: relative;
+}
 .callout-content > p:first-child { margin-top: 0; }
 .callout-content > p:last-child  { margin-bottom: 0; }
-
-/* Collapsible toggle arrow */
 .callout.is-collapsible .callout-title { cursor: pointer; user-select: none; }
 .callout.is-collapsible .callout-title::after {
-  content: '';
-  display: block;
-  width: 14px; height: 14px;
+  content: ''; display: block; width: 14px; height: 14px;
   margin-left: auto; flex-shrink: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-size: contain; background-repeat: no-repeat; background-position: center;
-  opacity: 0.55;
-  transition: transform 180ms ease;
+  opacity: 0.55; transition: transform 180ms ease;
 }
 .callout.is-collapsed .callout-title::after { transform: rotate(-90deg); }
 .callout.is-collapsed .callout-content     { display: none; }
-
-/* Dark mode: slightly stronger tint */
-body.theme-dark .callout,
-html.theme-dark  .callout {
+body.theme-dark .callout, html.theme-dark .callout {
   background: rgba(var(--callout-color, 68, 138, 255), 0.11);
 }
-body.theme-dark .callout::before,
-html.theme-dark  .callout::before {
+body.theme-dark .callout::before, html.theme-dark .callout::before {
   background: linear-gradient(
     90deg,
     rgba(var(--callout-color, 68, 138, 255), 0.14) 0%,
     transparent 100%
   );
 }
-
-/* =============================================================
-   IMAGE LIGHTBOX
-   Click any content image → fullscreen dark overlay.
-   Close: click overlay bg · × button · Escape key.
-   ============================================================= */
-
-.pk-lightbox {
-  position: fixed; inset: 0; z-index: 9000;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(4, 8, 16, 0.92);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  padding: 24px; box-sizing: border-box;
-  opacity: 0; pointer-events: none;
-  transition: opacity 240ms cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: zoom-out;
-}
-
-.pk-lightbox--open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.pk-lightbox-img {
-  max-width: 100%;
-  max-height: calc(100dvh - 80px);
-  width: auto; height: auto;
-  object-fit: contain;
-  border-radius: 6px;
-  box-shadow: 0 8px 40px rgba(0,0,0,.60), 0 2px 8px rgba(0,0,0,.40);
-  transform: scale(0.94);
-  transition: transform 260ms cubic-bezier(0.34, 1.28, 0.64, 1);
-  cursor: default;
-  display: block;
-  user-select: none;
-}
-
-.pk-lightbox--open .pk-lightbox-img { transform: scale(1); }
-
-.pk-lightbox-close {
-  position: absolute; top: 16px; right: 16px;
-  width: 38px; height: 38px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.08);
-  color: rgba(220, 235, 255, 0.80);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; line-height: 0; padding: 0; z-index: 1;
-  transition: background 130ms ease, color 130ms ease, transform 130ms ease;
-}
-.pk-lightbox-close:hover  { background: rgba(255,255,255,.20); color: #ffffff; transform: scale(1.08); }
-.pk-lightbox-close:active { transform: scale(0.94); }
-.pk-lightbox-close:focus-visible { outline: 2px solid rgba(74,144,217,.70); outline-offset: 2px; }
 
 /* =============================================================
    KANBAN  —  Blueprint Execution Pipeline
@@ -721,7 +633,6 @@ body.pk-kanban-page .pk-footer-divider   { background: rgba(37,99,235,.28) !impo
    NORMAL PAGES  —  Digital Garden / Blog Notes
    ============================================================= */
 
-/* ── Light mode: aurora blobs + SVG dot tile ──────────────── */
 html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page)::before {
   content: ''; position: fixed; inset: 0; z-index: 0;
   pointer-events: none; transform: translateZ(0); will-change: transform;
@@ -734,7 +645,6 @@ html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page)::before
   background-size: auto,auto,auto,auto,26px 26px;
 }
 
-/* ── Dark mode: deep jewel aurora + SVG dot tile ─────────── */
 html.theme-dark body:not(.pk-kanban-page):not(.pk-excalidraw-page)::before,
 body.theme-dark:not(.pk-kanban-page):not(.pk-excalidraw-page)::before {
   content: ''; position: fixed; inset: 0; z-index: 0;
@@ -748,13 +658,11 @@ body.theme-dark:not(.pk-kanban-page):not(.pk-excalidraw-page)::before {
   background-size: auto,auto,auto,auto,26px 26px;
 }
 
-/* ── Lift content above the fixed bg layer ────────────────── */
 body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar,
 body:not(.pk-kanban-page):not(.pk-excalidraw-page) main.content,
 body:not(.pk-kanban-page):not(.pk-excalidraw-page) aside,
 body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-footer { position: relative; z-index: 1; }
 
-/* ── Navbar text: guaranteed visibility on light normal pages  */
 html:not(.theme-dark) body:not(.pk-kanban-page):not(.pk-excalidraw-page) .pk-navbar {
   background: rgba(10,16,32,.94) !important;
   backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important;

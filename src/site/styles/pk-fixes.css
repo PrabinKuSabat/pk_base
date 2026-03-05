@@ -57,14 +57,7 @@ body.theme-dark {
   --pk-seal-color: rgba(220, 232, 246, 0.90);
 }
 
-/* ── Dark theme mirrored on <html> ──────────────────────────
-   The anti-FOUC inline script (pageheader.njk) adds theme-dark to
-   <html> synchronously before any CSS paint. All critical vars are
-   set here so CSS custom properties resolve correctly via inheritance
-   before body.theme-dark is applied by the deferred pk-ui.js.
-
-   This prevents the light→dark flash for returning dark-mode users.
-   ──────────────────────────────────────────────────────────── */
+/* ── Dark theme mirrored on <html> ────────────────────────── */
 html.theme-dark {
   --pk-accent:    #5b9bd5;
   --pk-accent-lt: #7ab8e8;
@@ -143,13 +136,7 @@ body.has-navbar .content,
   max-height: none !important;
 }
 
-/* ── Page fade-in (normal pages) ─────────────────────────────
-   CSS is render-blocking, so body starts at opacity:0 from the
-   very first paint — no content flash. The 80ms delay gives the
-   browser a brief moment to settle fonts and layout before the
-   fade begins. The 20% hold phase keeps it invisible a touch
-   longer on slow connections so partial renders don't show.
-   ──────────────────────────────────────────────────────────── */
+/* ── Page fade-in (normal pages) ───────────────────────────── */
 html:not(.pk-excalidraw-page) body {
   opacity:              0;
   animation:            pk-page-reveal 900ms cubic-bezier(0.4, 0, 0.2, 1) 0.08s both;
@@ -177,13 +164,7 @@ body:has(.content.canvas-page) .canvas-wrapper {
 }
 body:has(.content.canvas-page) .filetree-wrapper { display: none !important; }
 
-/* ── Short-note sidebar fix ─────────────────────────────────
-   The content block min-height is set to sidebar height via JS
-   (syncContentMinHeight in pk-ui.js), pushing the footer below
-   the sidebar bottom in all cases. pk-short-note is only added
-   on extreme edge cases where footer is still in viewport after
-   min-height expansion.
-   ──────────────────────────────────────────────────────────── */
+/* ── Short-note sidebar fix ───────────────────────────────── */
 body.pk-short-note .sidebar.pk-sidebar-end {
   opacity:         1    !important;
   pointer-events:  auto !important;
@@ -211,13 +192,6 @@ body.pk-short-note .toc { display: none !important; }
 /* =============================================================
    EXCALIDRAW PAGES — Chalkboard × Whiteboard Theme
    ============================================================= */
-
-/* ── PART 1: EARLY RULES (html.pk-excalidraw-page) ────────────
-   The anti-FOUC inline script adds pk-excalidraw-page to <html>
-   BEFORE pk-fixes.css is even fetched. So by the time these rules
-   are parsed, the class is already present and body starts at
-   opacity:0 on the very first paint — no flash of blue styles.
-   ──────────────────────────────────────────────────────────── */
 html.pk-excalidraw-page body {
   opacity:     0;
   padding-top: var(--pk-navbar-h) !important;
@@ -243,7 +217,6 @@ html.pk-excalidraw-page .pk-theme-btn { color: #e2ddd4 !important; }
 html.pk-excalidraw-page .pk-logo      { color: #78b896 !important; }
 html.pk-excalidraw-page .pk-navlink::after { background: #78b896 !important; }
 
-/* ── PART 2: FULL PALETTE (body.pk-excalidraw-page) ──────────── */
 body.pk-excalidraw-page {
   --pk-bg:        #eeeae1;
   --pk-bg-nav:    rgba(26, 30, 36, 0.96);
@@ -408,12 +381,7 @@ pre, pre code { font-family: var(--pk-font-mono); font-size: 0.875rem; line-heig
   opacity: 0 !important; pointer-events: none !important; transform: translateY(16px);
 }
 
-/* ── Footer ───────────────────────────────────────────────────
-   Full-width border-top is correct — the content min-height JS
-   (syncContentMinHeight) ensures the footer always starts below
-   the sidebar bottom, so the separator never coincides with
-   sidebar content regardless of note length.
-   ──────────────────────────────────────────────────────────── */
+/* ── Footer ─────────────────────────────────────────────────── */
 nav.rzl-footer-mini { display: none !important; }
 .pk-footer {
   width: 100%; text-align: center;
@@ -459,7 +427,6 @@ nav.rzl-footer-mini { display: none !important; }
 
 /* =============================================================
    KANBAN BOARD  —  Tactical Ops Theme
-   Dark, rigid, focused. Completely distinct from the main site.
    ============================================================= */
 
 /* ── Kill sidebars ──────────────────────────────────────────── */
@@ -467,18 +434,13 @@ body.pk-kanban-page aside,
 body.pk-kanban-page .sidebar,
 body.pk-kanban-page .filetree-wrapper { display: none !important; }
 
-/* ── Dark environment — page background shifts to near-black ── */
+/* ── Dark environment ───────────────────────────────────────── */
 body.pk-kanban-page {
   background: #07090d !important;
   padding-top: var(--pk-navbar-h) !important;
 }
 
-/* ── Navbar: hard dark surface + force light text ────────────
-   The kanban navbar background is fully opaque near-black, so
-   we must explicitly set all text/icon colors to light values.
-   Without this, the text inherits from the site's light-mode
-   body color and becomes invisible against the dark background.
-   ──────────────────────────────────────────────────────────── */
+/* ── Navbar: hard dark surface + force light text ──────────── */
 body.pk-kanban-page .pk-navbar {
   background: rgba(4, 6, 10, 0.97) !important;
   border-bottom: 1px solid #1a2540 !important;
@@ -495,7 +457,7 @@ body.pk-kanban-page .pk-navbar .pk-navlink:hover { color: #ffffff !important; op
 body.pk-kanban-page .pk-navbar .pk-navlink::after { background: #2563eb !important; }
 body.pk-kanban-page .pk-navbar .pk-theme-btn:hover { background: rgba(37,99,235,.15) !important; }
 
-/* ── Full-width content, 28px gap from navbar ───────────────── */
+/* ── Full-width content ───────────────────────────────────────── */
 body.pk-kanban-page main.content,
 body.pk-kanban-page.has-navbar main.content {
   width: 100% !important;
@@ -505,16 +467,32 @@ body.pk-kanban-page.has-navbar main.content {
   background: transparent !important;
   box-sizing: border-box;
 }
-
-/* ── Hide the note header (title/tags) ──────────────────────── */
 body.pk-kanban-page main.content > header { display: none !important; }
 
-/* ── Board container ─────────────────────────────────────────
-   'justify-content: safe center' centers columns when they don't
-   fill the board width, and automatically falls back to flex-start
-   when columns overflow — preventing the left-side clipping bug
-   that plain 'justify-content: center' causes on overflow.
-   ────────────────────────────────────────────────────────── */
+/* ── Positional accent colors (columns 1–15) ───────────────────
+   --col-accent cascades down to the column title and each card's
+   left border. Known status rules (data-status) override the
+   border-top-color/color/border-left-color explicitly, so status
+   columns are unaffected. Only unrecognized (todo) columns show
+   these positional colors.
+   ──────────────────────────────────────────────────────────── */
+.pk-kanban-board .pk-kanban-column:nth-child(1)  { --col-accent: #6366f1; }
+.pk-kanban-board .pk-kanban-column:nth-child(2)  { --col-accent: #8b5cf6; }
+.pk-kanban-board .pk-kanban-column:nth-child(3)  { --col-accent: #d946ef; }
+.pk-kanban-board .pk-kanban-column:nth-child(4)  { --col-accent: #ec4899; }
+.pk-kanban-board .pk-kanban-column:nth-child(5)  { --col-accent: #f43f5e; }
+.pk-kanban-board .pk-kanban-column:nth-child(6)  { --col-accent: #fb923c; }
+.pk-kanban-board .pk-kanban-column:nth-child(7)  { --col-accent: #facc15; }
+.pk-kanban-board .pk-kanban-column:nth-child(8)  { --col-accent: #a3e635; }
+.pk-kanban-board .pk-kanban-column:nth-child(9)  { --col-accent: #34d399; }
+.pk-kanban-board .pk-kanban-column:nth-child(10) { --col-accent: #2dd4bf; }
+.pk-kanban-board .pk-kanban-column:nth-child(11) { --col-accent: #38bdf8; }
+.pk-kanban-board .pk-kanban-column:nth-child(12) { --col-accent: #818cf8; }
+.pk-kanban-board .pk-kanban-column:nth-child(13) { --col-accent: #f472b6; }
+.pk-kanban-board .pk-kanban-column:nth-child(14) { --col-accent: #fde68a; }
+.pk-kanban-board .pk-kanban-column:nth-child(15) { --col-accent: #94a3b8; }
+
+/* ── Board container ───────────────────────────────────────── */
 .pk-kanban-board {
   display: flex;
   gap: 12px;
@@ -531,24 +509,17 @@ body.pk-kanban-page main.content > header { display: none !important; }
 }
 .pk-kanban-board::-webkit-scrollbar       { height: 5px; }
 .pk-kanban-board::-webkit-scrollbar-track { background: #07090d; }
-.pk-kanban-board::-webkit-scrollbar-thumb {
-  background: #1e3a5f;
-  border-radius: 2px;
-}
+.pk-kanban-board::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 2px; }
 .pk-kanban-board::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
-/* ── Column ─────────────────────────────────────────────────────
-   flex: 1 1 0  — columns grow equally to fill available space.
-   max-width cap prevents columns from becoming too wide on sparse
-   boards (e.g. 2 columns on a 1400px screen).
-   ──────────────────────────────────────────────────────────── */
+/* ── Column ───────────────────────────────────────────────────── */
 .pk-kanban-column {
   flex: 1 1 0;
   min-width: 200px;
   max-width: 300px;
   background: #0c1018;
   border: 1px solid #151f2e;
-  border-top: 2px solid #2563eb;   /* default: electric blue (todo) */
+  border-top: 2px solid var(--col-accent, #2563eb);
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -556,23 +527,11 @@ body.pk-kanban-page main.content > header { display: none !important; }
   overflow: hidden;
 }
 
-/* ── Column accent rails by data-status ─────────────────────────
-   data-status is set by the eleventy kanban-board transform using
-   keyword detection on the column title slug. This means the CSS
-   never needs to change when column names change — only the JS
-   keyword map in .eleventy.js needs updating for exotic new names.
-
-   Current status → keyword mapping (in .eleventy.js):
-     doing    → doing, in-progress, wip, active, current
-     review   → review, test, check, qa, verify
-     blocked  → blocked, block, stuck, waiting, hold
-     done     → done, completed, finish, merged, shipped, closed
-     todo     → everything else (default)
-   ──────────────────────────────────────────────────────────── */
-.pk-kanban-column[data-status="doing"]   { border-top-color: #0ea5e9; }  /* cyan    */
-.pk-kanban-column[data-status="review"]  { border-top-color: #f59e0b; }  /* amber   */
-.pk-kanban-column[data-status="blocked"] { border-top-color: #ef4444; }  /* red     */
-.pk-kanban-column[data-status="done"]    { border-top-color: #22c55e; }  /* green   */
+/* ── Known-status overrides — override the positional accent ─── */
+.pk-kanban-column[data-status="doing"]   { border-top-color: #0ea5e9; }
+.pk-kanban-column[data-status="review"]  { border-top-color: #f59e0b; }
+.pk-kanban-column[data-status="blocked"] { border-top-color: #ef4444; }
+.pk-kanban-column[data-status="done"]    { border-top-color: #22c55e; }
 
 /* ── Column header ───────────────────────────────────────────── */
 .pk-kanban-column-header {
@@ -586,20 +545,19 @@ body.pk-kanban-page main.content > header { display: none !important; }
   flex-shrink: 0;
 }
 
+/* Title defaults to positional accent; status rules override */
 .pk-kanban-column-title {
   font-family: var(--pk-font-mono);
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: #4a7cdc;   /* default: blue (todo) */
+  color: var(--col-accent, #4a7cdc);
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-/* Title color per data-status */
 .pk-kanban-column[data-status="doing"]   .pk-kanban-column-title { color: #38bdf8; }
 .pk-kanban-column[data-status="review"]  .pk-kanban-column-title { color: #fbbf24; }
 .pk-kanban-column[data-status="blocked"] .pk-kanban-column-title { color: #f87171; }
@@ -618,7 +576,7 @@ body.pk-kanban-page main.content > header { display: none !important; }
   letter-spacing: 0.06em;
 }
 
-/* ── Column body (scrollable card stack) ─────────────────────── */
+/* ── Column body ───────────────────────────────────────────────── */
 .pk-kanban-column-body {
   padding: 8px;
   overflow-y: auto;
@@ -632,31 +590,25 @@ body.pk-kanban-page main.content > header { display: none !important; }
 }
 .pk-kanban-column-body::-webkit-scrollbar       { width: 3px; }
 .pk-kanban-column-body::-webkit-scrollbar-track { background: transparent; }
-.pk-kanban-column-body::-webkit-scrollbar-thumb {
-  background: #1a2a3e;
-  border-radius: 1px;
-}
+.pk-kanban-column-body::-webkit-scrollbar-thumb { background: #1a2a3e; border-radius: 1px; }
 
 /* ── Card ─────────────────────────────────────────────────────── */
 .pk-kanban-card {
   background: #0d1520;
   border: 1px solid #151f2e;
-  border-left: 2px solid #2563eb;   /* default: blue (todo) */
+  border-left: 2px solid var(--col-accent, #2563eb);
   border-radius: 2px;
   padding: 8px 10px;
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
   cursor: default;
   flex-shrink: 0;
   transition: background 120ms ease, border-left-color 120ms ease;
 }
 .pk-kanban-card:hover {
   background: #111e30;
-  border-left-color: #3b82f6;
+  border-left-color: color-mix(in srgb, var(--col-accent, #3b82f6) 70%, white);
 }
 
-/* Card left-border per data-status */
+/* Card left-border per status */
 .pk-kanban-column[data-status="doing"]   .pk-kanban-card { border-left-color: #0284c7; }
 .pk-kanban-column[data-status="review"]  .pk-kanban-card { border-left-color: #d97706; }
 .pk-kanban-column[data-status="blocked"] .pk-kanban-card { border-left-color: #dc2626; }
@@ -665,32 +617,12 @@ body.pk-kanban-page main.content > header { display: none !important; }
 .pk-kanban-card.is-complete { opacity: 0.35; }
 .pk-kanban-card.is-complete .pk-kanban-card-text { text-decoration: line-through; }
 
-/* ── Checkbox dot ─────────────────────────────────────────────── */
-.pk-kanban-card-cb {
-  flex-shrink: 0;
-  width: 13px;
-  height: 13px;
-  border: 1px solid #1e3a5f;
-  border-radius: 1px;
-  margin-top: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  color: #07090d;
-}
-.pk-kanban-card.is-complete .pk-kanban-card-cb {
-  background: #16a34a;
-  border-color: #16a34a;
-}
-
 /* ── Card text ────────────────────────────────────────────────── */
 .pk-kanban-card-text {
   font-family: var(--pk-font-mono);
   font-size: 0.78rem;
   line-height: 1.55;
   color: #7a96b0;
-  flex: 1;
   word-break: break-word;
 }
 .pk-kanban-card-text p  { margin: 0; }

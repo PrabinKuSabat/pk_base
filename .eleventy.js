@@ -464,18 +464,16 @@ module.exports = function(eleventyConfig) {
   });
 
   /* ─── Kanban Board Transform ─────────────────────────────────────
-     Detects .kanban. in the input filename (e.g. Status Kanban.kanban.md)
-     and converts the rendered H1 + UL structure into a .pk-kanban-board
-     layout at build time — zero client-side JS, fully static HTML.
+     Detects .kanban. in the input filename and converts the rendered
+     H1 + UL structure into a .pk-kanban-board layout at build time.
 
-     Column status detection (getColStatus):
-     Reads the normalized column slug and maps known keywords to one of
-     five canonical statuses: todo | doing | review | blocked | done.
-     CSS targets [data-status="..."] with exact matches, so column name
-     changes never require CSS edits — only this keyword map needs updating.
-
-     To add support for a new column name pattern, add its keyword to the
-     appropriate regex branch below.
+     Color system (two-tier):
+     1. data-status — set by getColStatus() keyword matching. CSS status
+        rules override the positional accent when a keyword is found.
+     2. Positional fallback — CSS nth-child(1–15) sets --col-accent on
+        each column. When no keyword matches (data-status="todo"), the
+        column inherits the positional accent color automatically.
+        No JS changes needed to expand the positional palette.
   ─────────────────────────────────────────────────────────────── */
   eleventyConfig.addTransform("kanban-board", function(str) {
     if (!isMarkdownPage(this.page.inputPath)) return str;
@@ -485,11 +483,6 @@ module.exports = function(eleventyConfig) {
     const mainEl  = parsed.querySelector('main.content');
     if (!mainEl) return str;
 
-    /* ── Canonical status from slug ─────────────────────────────────
-       Each branch is a regex of common synonyms for that workflow stage.
-       Order matters — blocked is checked before done because "blocked"
-       doesn't contain any done-keywords, but being explicit is safer.
-    ──────────────────────────────────────────────────────────── */
     function getColStatus(slug) {
       if (/block|stuck|waiting|hold|parked/.test(slug))              return 'blocked';
       if (/doing|in-progress|wip|active|current|started/.test(slug)) return 'doing';
@@ -498,7 +491,6 @@ module.exports = function(eleventyConfig) {
       return 'todo';
     }
 
-    // ── Walk direct children: H1 = new column, UL = cards ──────
     const columns = [];
     let curCol = null;
 
@@ -517,26 +509,20 @@ module.exports = function(eleventyConfig) {
           if (cardHtml) curCol.cards.push({ html: cardHtml, checked });
         }
       }
-      // PRE blocks (kanban settings footer) are silently skipped
     }
     if (curCol) columns.push(curCol);
     if (!columns.length) return str;
-
-    // ── Build kanban board HTML ─────────────────────────────────
-    const checkSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 
     let boardHtml = '<div class="pk-kanban-board">';
     for (const col of columns) {
       const count = col.cards.length;
 
-      // Stable slug from the visible title text (used for exact overrides via data-col)
       const colKey = col.titleHtml
-        .replace(/<[^>]+>/g, '')       // strip HTML tags
+        .replace(/<[^>]+>/g, '')
         .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')  // spaces / parens / special chars → hyphens
-        .replace(/^-+|-+$/g, '');     // trim leading/trailing hyphens
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
 
-      // Canonical workflow status (drives CSS color-coding)
       const colStatus = getColStatus(colKey);
 
       boardHtml += `<div class="pk-kanban-column" data-col="${colKey}" data-status="${colStatus}">`;
@@ -550,7 +536,6 @@ module.exports = function(eleventyConfig) {
         for (const card of col.cards) {
           const cls = card.checked ? ' is-complete' : '';
           boardHtml += `<div class="pk-kanban-card${cls}">`;
-          boardHtml += `<div class="pk-kanban-card-cb">${card.checked ? checkSvg : ''}</div>`;
           boardHtml += `<div class="pk-kanban-card-text">${card.html}</div>`;
           boardHtml += `</div>`;
         }
@@ -559,16 +544,13 @@ module.exports = function(eleventyConfig) {
     }
     boardHtml += '</div>';
 
-    // ── Strip original kanban markup, keep <header> intact ──────
     for (const el of [...mainEl.querySelectorAll('h1')]) el.remove();
     for (const el of [...mainEl.querySelectorAll('ul')])  el.remove();
     for (const el of [...mainEl.querySelectorAll('pre')]) el.remove();
 
-    // ── Tag <body> so CSS can widen the content column ──────────
     const bodyEl = parsed.querySelector('body');
     if (bodyEl) bodyEl.classList.add('pk-kanban-page');
 
-    // ── Inject board immediately after </header> ────────────────
     const inner = mainEl.innerHTML;
     const hEnd  = inner.indexOf('</header>');
     mainEl.innerHTML = hEnd !== -1
@@ -676,7 +658,6 @@ module.exports = function(eleventyConfig) {
     return str && parsed.innerHTML;
   });
 
-  // Helper function to convert wiki-links in canvas text nodes (same logic as link filter)
   function convertCanvasLinks(str) {
     return (
       str &&
@@ -690,7 +671,6 @@ module.exports = function(eleventyConfig) {
     );
   }
 
-  // Helper function to convert tags in canvas text nodes (same logic as taggify filter)
   function convertCanvasTags(str) {
     return (
       str &&
@@ -700,7 +680,6 @@ module.exports = function(eleventyConfig) {
     );
   }
 
-  // Render markdown in canvas text nodes at build time
   eleventyConfig.addTransform("canvas-markdown", function(str) {
     if (!str || !str.includes('data-markdown="')) {
       return str;
@@ -713,20 +692,15 @@ module.exports = function(eleventyConfig) {
         if (base64Content) {
           try {
             const markdown = Buffer.from(base64Content, 'base64').toString('utf8');
-            // Render markdown
             let rendered = markdownLib.render(markdown);
-            // Apply wiki-link conversion (same as link filter)
             rendered = convertCanvasLinks(rendered);
-            // Apply tag conversion (same as taggify filter)
             rendered = convertCanvasTags(rendered);
-            // Apply callout transformation (reuse shared helper)
             const renderedParsed = parse(rendered);
             transformCalloutBlockquotes(renderedParsed.querySelectorAll("blockquote"));
             rendered = renderedParsed.innerHTML;
             textNode.innerHTML = rendered;
             textNode.removeAttribute('data-markdown');
           } catch (e) {
-            // If markdown rendering fails, show raw text as fallback
             console.error('Failed to render canvas markdown:', e);
             const rawText = Buffer.from(base64Content, 'base64').toString('utf8');
             textNode.innerHTML = `<pre>${rawText}</pre>`;
@@ -736,7 +710,6 @@ module.exports = function(eleventyConfig) {
       }
       return parsed.innerHTML;
     } catch (e) {
-      // If parsing fails entirely, return original content
       console.error('Failed to parse canvas content:', e);
       return str;
     }
@@ -759,7 +732,6 @@ module.exports = function(eleventyConfig) {
           keepClosingSlash: true,
         });
       } catch {
-        // If the html minifying fails for some reason due to some malformed text, just return the content as is.
         return content;
       }
     }
@@ -776,14 +748,11 @@ module.exports = function(eleventyConfig) {
     tags: ["h1", "h2", "h3", "h4", "h5", "h6"],
   });
 
-  // Canvas files are pre-compiled HTML by the plugin - don't process as markdown
   eleventyConfig.addExtension("canvas", {
     read: true,
     compile: async function(inputContent, inputPath) {
-      // Extract content after frontmatter (canvas HTML is already compiled by plugin)
       const parsed = matter(inputContent);
       return async (data) => {
-        // Return the HTML content directly without markdown processing
         return parsed.content;
       };
     }

@@ -5,7 +5,7 @@
 /* ── Design tokens ────────────────────────────────────────── */
 :root {
   --pk-navbar-h:  56px;
-  --pk-page-gap:  28px;
+  --pk-page-gap:  20px;  /* reduced from 28px → symmetric with graph */
   --pk-accent:    #2e5da6;
   --pk-accent-lt: #4a90d9;
   --pk-bg:        #f0f4fb;
@@ -212,7 +212,7 @@ body.pk-excalidraw-page .pk-footer {
   background: var(--pk-bg); border-top: 1px solid var(--pk-border); color: var(--pk-text);
 }
 
-/* ── Hide DG theme toggles ─────────────────────────────────────── */
+/* ── Hide DG theme toggles ─────────────────────────────────── */
 .rzl-header-actions,
 .theme-toggle-wrapper,
 .dg-theme-toggle,
@@ -221,15 +221,17 @@ body.pk-excalidraw-page .pk-footer {
 /* =============================================================
    NAVBAR
 
-   Centering method: left:0; right:0; margin:0 auto
-   This is bulletproof — works regardless of scrollbar width,
-   no translateX() needed, no offset risk.
+   Width: 1400px to span content (700-800px) + both sidebars
+   (~300-350px each) on wide screens. On narrower screens,
+   min() formula clamps it to viewport - 32px padding.
 
-   Aesthetic: deep slate pill on light page.
-   Strong contrast against #f0f4fb + brand-blue rim glow.
-   Text is scoped light so it doesn’t bleed into page styles.
+   Gap: --pk-page-gap reduced from 28px → 20px so the distance
+   from navbar → content matches navbar → graph (both use the
+   same CSS variable now).
 
-   Show / hide: translateY only (no X transform needed).
+   Text: Light text on dark pill (full contrast on #f0f4fb).
+   
+   Centering: left:0; right:0; margin:0 auto (bulletproof).
    ============================================================= */
 
 .pk-navbar {
@@ -239,7 +241,7 @@ body.pk-excalidraw-page .pk-footer {
   left: 0;
   right: 0;
   margin: 0 auto;                              /* centres fixed element */
-  width: min(1100px, calc(100vw - 32px));
+  width: min(1400px, calc(100vw - 32px));      /* spans content + sidebars */
   height: var(--pk-navbar-h);
   z-index: 1000;
 
@@ -296,9 +298,9 @@ body.pk-nav-peek .pk-navbar {
   opacity: 1 !important;
 }
 
-/* ── Navbar text: light scoped to pill only ────────────────────
+/* ── Navbar text: light scoped to pill only ──────────────────
    Does NOT affect the rest of the page (which stays light-theme).
-   ─────────────────────────────────────────────────────── */
+   ──────────────────────────────────────────────────────────── */
 .pk-navbar .pk-site-name {
   color: rgba(220, 235, 255, 0.95);
 }
@@ -315,9 +317,9 @@ body.pk-nav-peek .pk-navbar {
   color: rgba(190, 215, 248, 0.55);
 }
 
-/* ── Dark mode pill: slightly lighter than light-mode pill ────
+/* ── Dark mode pill: slightly lighter than light-mode pill ──
    On a dark page the pill needs to stand out the other way.
-   ─────────────────────────────────────────────────────── */
+   ─────────────────────────────────────────────────────────── */
 html.theme-dark .pk-navbar,
 body.theme-dark .pk-navbar {
   background: rgba(22, 32, 52, 0.90);
@@ -335,10 +337,10 @@ body.theme-dark .pk-navbar.pk-nav-scrolled {
   background: rgba(18, 26, 44, 0.97);
 }
 
-/* ── .pk-navbar-inner — transparent layout passthrough ──────
+/* ── .pk-navbar-inner — transparent layout passthrough ──
    All visuals are on .pk-navbar; this is just flex scaffolding.
    Brand left | Links absolute-centre | Toggle right
-   ─────────────────────────────────────────────────────── */
+   ─────────────────────────────────────────────────────────── */
 .pk-navbar-inner {
   display: flex;
   align-items: center;

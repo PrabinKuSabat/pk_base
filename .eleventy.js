@@ -511,7 +511,13 @@ module.exports = function(eleventyConfig) {
     let boardHtml = '<div class="pk-kanban-board">';
     for (const col of columns) {
       const count = col.cards.length;
-      boardHtml += `<div class="pk-kanban-column">`;
+      // Derive a stable, CSS-targetable key from the column title
+      const colKey = col.titleHtml
+        .replace(/<[^>]+>/g, '')      // strip HTML tags
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-') // spaces / parens / special chars → hyphens
+        .replace(/^-+|-+$/g, '');    // trim leading/trailing hyphens
+      boardHtml += `<div class="pk-kanban-column" data-col="${colKey}">`;
       boardHtml += `<div class="pk-kanban-column-header">`;
       boardHtml += `<span class="pk-kanban-column-title">${col.titleHtml}</span>`;
       if (count) boardHtml += `<span class="pk-kanban-column-count">${count}</span>`;

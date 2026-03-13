@@ -21,7 +21,7 @@
 > [!check] TO-DO Kanban Boards👇
 
 [[Excalidraw/Dissertation Status.excalidraw\|Dissertation To-DO]]  
-[[Kanban Boards/Status Kanban.kanban\|Status Kanban]] 
+[[Kanban Boards/Status Kanban.kanban\|Status Kanban]]
 
 > [!info]  
 > The above Kanban board tracks both my completed tasks and my current work in progress.

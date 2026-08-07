@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/proxy-apps-doe/"}
+{"dg-publish":true,"permalink":"/efforts/proxy-apps-doe/","dg-note-properties":{}}
 ---
 
 

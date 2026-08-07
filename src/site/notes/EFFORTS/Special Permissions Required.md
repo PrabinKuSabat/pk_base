@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Special Permissions Required/"}
+{"dg-publish":true,"permalink":"/efforts/special-permissions-required/","dg-note-properties":{}}
 ---
 
 

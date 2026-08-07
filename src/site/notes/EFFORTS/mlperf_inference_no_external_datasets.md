@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/mlperf_inference_no_external_datasets/"}
+{"dg-publish":true,"permalink":"/efforts/mlperf-inference-no-external-datasets/","dg-note-properties":{}}
 ---
 
 

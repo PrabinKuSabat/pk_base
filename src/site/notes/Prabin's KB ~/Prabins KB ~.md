@@ -1,9 +1,9 @@
 ---
-{"dg-publish":true,"permalink":"/Prabin's KB ~/Prabins KB ~/","tags":["gardenEntry"]}
+{"dg-publish":true,"permalink":"/prabin-s-kb/prabins-kb/","tags":["homepage","research","gardenEntry"],"dg-note-properties":{"status":"active","tags":["homepage","research","gardenEntry"],"updated":"2026-07-31"}}
 ---
 
 
-![image-97.png](/img/user/Extras/ATTACHMENTS/image-97.png)
+![Extras/ATTACHMENTS/image-97.png](/img/user/Extras/ATTACHMENTS/image-97.png)
 
 # Systems Engineering Logbook — Kernel, Performance, and Architecture Experiments
 

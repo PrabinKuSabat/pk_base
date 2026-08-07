@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/cutlass_ampere/"}
+{"dg-publish":true,"permalink":"/efforts/cutlass-ampere/","dg-note-properties":{}}
 ---
 
 

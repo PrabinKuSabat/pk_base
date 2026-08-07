@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/dragon-cdp/"}
+{"dg-publish":true,"permalink":"/efforts/dragon-cdp/","dg-note-properties":{}}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/huggingface/"}
+{"dg-publish":true,"permalink":"/efforts/huggingface/","dg-note-properties":{}}
 ---
 
 

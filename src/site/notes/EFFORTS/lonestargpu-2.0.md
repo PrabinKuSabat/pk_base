@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/lonestargpu-2.0/"}
+{"dg-publish":true,"permalink":"/efforts/lonestargpu-2-0/","dg-note-properties":{}}
 ---
 
 

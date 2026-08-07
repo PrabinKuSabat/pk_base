@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Prabin's KB ~/Research Notes/"}
+{"dg-publish":true,"permalink":"/prabin-s-kb/research-notes/","dg-note-properties":{}}
 ---
 
 

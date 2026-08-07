@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Prabin's KB ~/RISC-V OS development/"}
+{"dg-publish":true,"permalink":"/prabin-s-kb/risc-v-os-development/","tags":["risc-v","os","systems"],"dg-note-properties":{"status":"active","tags":["risc-v","os","systems"],"updated":"2026-07-31"}}
 ---
 
 
@@ -25,6 +25,11 @@ The objective of SOS-V (Sai OS for RISC-V) is to design and develop a streamline
 **In essence, the problem we aim to solve is:**
 
 How can we reduce the friction between custom RISC-V hardware deployment and rigorous performance validation by building a lightweight, measurement-oriented operating system optimized for developer productivity?
+
+# Related notes
+
+1. [[EFFORTS/RISC-V User-Space Kernel Design\|RISC-V User-Space Kernel Design]]
+2. [[EFFORTS/RISC-V User-Space Kernel Publishability Assessment\|RISC-V User-Space Kernel Publishability Assessment]]
 
 # Steps
 

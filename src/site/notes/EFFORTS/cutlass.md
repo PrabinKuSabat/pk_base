@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/cutlass/"}
+{"dg-publish":true,"permalink":"/efforts/cutlass/","dg-note-properties":{}}
 ---
 
 

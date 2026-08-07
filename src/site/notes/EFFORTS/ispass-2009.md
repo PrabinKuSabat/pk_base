@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/ispass-2009/"}
+{"dg-publish":true,"permalink":"/efforts/ispass-2009/","dg-note-properties":{}}
 ---
 
 

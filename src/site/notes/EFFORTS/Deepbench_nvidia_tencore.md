@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Deepbench_nvidia_tencore/"}
+{"dg-publish":true,"permalink":"/efforts/deepbench-nvidia-tencore/","dg-note-properties":{}}
 ---
 
 

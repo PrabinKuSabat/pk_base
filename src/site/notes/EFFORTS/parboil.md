@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/parboil/"}
+{"dg-publish":true,"permalink":"/efforts/parboil/","dg-note-properties":{}}
 ---
 
 

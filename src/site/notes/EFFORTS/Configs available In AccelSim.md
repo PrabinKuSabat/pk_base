@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Configs available In AccelSim/"}
+{"dg-publish":true,"permalink":"/efforts/configs-available-in-accel-sim/","dg-note-properties":{}}
 ---
 
 
@@ -24,8 +24,8 @@
 > 3. RTX2060
 > 4. QV100
 
-![image-93.png|990x281](/img/user/Extras/ATTACHMENTS/image-93.png)  
-![image-94.png|871x389](/img/user/Extras/ATTACHMENTS/image-94.png)
+![Extras/ATTACHMENTS/image-93.png\|990x281](/img/user/Extras/ATTACHMENTS/image-93.png)  
+![Extras/ATTACHMENTS/image-94.png\|871x389](/img/user/Extras/ATTACHMENTS/image-94.png)
 
 > [!warning] Disclaimer  
 > Please refer to the original paper for more clarity.

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/pytorch_examples/"}
+{"dg-publish":true,"permalink":"/efforts/pytorch-examples/","dg-note-properties":{}}
 ---
 
 

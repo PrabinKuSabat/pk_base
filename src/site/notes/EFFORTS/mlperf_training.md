@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/mlperf_training/"}
+{"dg-publish":true,"permalink":"/efforts/mlperf-training/","dg-note-properties":{}}
 ---
 
 

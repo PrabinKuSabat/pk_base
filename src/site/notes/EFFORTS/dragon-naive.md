@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/dragon-naive/"}
+{"dg-publish":true,"permalink":"/efforts/dragon-naive/","dg-note-properties":{}}
 ---
 
 

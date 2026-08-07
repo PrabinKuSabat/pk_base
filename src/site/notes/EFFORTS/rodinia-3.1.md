@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/rodinia-3.1/"}
+{"dg-publish":true,"permalink":"/efforts/rodinia-3-1/","dg-note-properties":{}}
 ---
 
 

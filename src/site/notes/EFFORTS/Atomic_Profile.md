@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Atomic_Profile/"}
+{"dg-publish":true,"permalink":"/efforts/atomic-profile/","dg-note-properties":{}}
 ---
 
 

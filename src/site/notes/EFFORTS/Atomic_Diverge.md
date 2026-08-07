@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Atomic_Diverge/"}
+{"dg-publish":true,"permalink":"/efforts/atomic-diverge/","dg-note-properties":{}}
 ---
 
 

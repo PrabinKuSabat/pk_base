@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/GPU_Atomic/"}
+{"dg-publish":true,"permalink":"/efforts/gpu-atomic/","dg-note-properties":{}}
 ---
 
 

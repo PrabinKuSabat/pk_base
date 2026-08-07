@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/Setting up QEMU for OrangePi Kernel Development/"}
+{"dg-publish":true,"permalink":"/efforts/setting-up-qemu-for-orange-pi-kernel-development/","dg-note-properties":{}}
 ---
 
 

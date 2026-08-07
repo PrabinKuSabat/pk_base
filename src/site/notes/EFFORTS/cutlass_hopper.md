@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/cutlass_hopper/"}
+{"dg-publish":true,"permalink":"/efforts/cutlass-hopper/","dg-note-properties":{}}
 ---
 
 

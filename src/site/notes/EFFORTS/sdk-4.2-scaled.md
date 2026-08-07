@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/EFFORTS/sdk-4.2-scaled/"}
+{"dg-publish":true,"permalink":"/efforts/sdk-4-2-scaled/","dg-note-properties":{}}
 ---
 
 

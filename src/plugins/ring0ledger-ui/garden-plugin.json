@@ -1,0 +1,24 @@
+{
+  "id": "ring0ledger-ui",
+  "name": "Ring0Ledger UI",
+  "version": "1.0.0",
+  "description": "Upgrade-safe Ring0Ledger navigation, footer, visual overrides, and client interactions.",
+  "author": "Prabin Ku Sabat",
+  "regions": {
+    "navigation": "templates/navigation.njk"
+  },
+  "slots": {
+    "common.head": "templates/head.njk",
+    "common.footer": [
+      "templates/footer-mini.njk",
+      "templates/footer-contact.njk"
+    ]
+  },
+  "styles": [
+    "styles/pk-fixes.css"
+  ],
+  "scripts": [
+    "assets/pk-ui.js",
+    "assets/rzl.js"
+  ]
+}

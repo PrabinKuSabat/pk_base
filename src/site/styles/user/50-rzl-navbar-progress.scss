@@ -1,5 +1,5 @@
 /* 50 — Navbar: thin + integrated progress underline (no side gaps) */
-.navbar {
+.navbar:not(.pk-navbar) {
   min-height: var(--rzl-navbar-height) !important;
   padding: 0 18px !important;
 
@@ -26,7 +26,7 @@
   background-repeat: no-repeat;
 }
 
-body.theme-dark .navbar {
+body.theme-dark .navbar:not(.pk-navbar) {
   background: rgba(27, 38, 44, 0.70) !important;
   border-bottom: 1px solid rgba(187, 225, 250, 0.12) !important;
 
@@ -36,9 +36,9 @@ body.theme-dark .navbar {
 }
 
 /* Clean wordmark title (no pill) */
-.navbar .site-title,
-.navbar a.site-title,
-.navbar .site-title a {
+.navbar:not(.pk-navbar) .site-title,
+.navbar:not(.pk-navbar) a.site-title,
+.navbar:not(.pk-navbar) .site-title a {
   padding: 0 !important;
   margin: 0 !important;
 
@@ -56,9 +56,9 @@ body.theme-dark .navbar {
   text-decoration: none !important;
 }
 
-body.theme-dark .navbar .site-title,
-body.theme-dark .navbar a.site-title,
-body.theme-dark .navbar .site-title a {
+body.theme-dark .navbar:not(.pk-navbar) .site-title,
+body.theme-dark .navbar:not(.pk-navbar) a.site-title,
+body.theme-dark .navbar:not(.pk-navbar) .site-title a {
   color: rgba(187, 225, 250, 0.92) !important;
 }
 

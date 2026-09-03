@@ -1,31 +1,18 @@
 <nav class="navbar pk-navbar" aria-label="Primary">
   <div class="navbar-inner pk-navbar-inner">
-
-    <a class="pk-brand" href="/" aria-label="Home">
-      {% if meta.siteLogoPath %}
-        <img class="site-logo" src="{{meta.siteLogoPath}}" alt="{{meta.siteName}}">
-      {% else %}
-        <svg class="pk-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" color="currentColor">
-          <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="0.9" stroke-dasharray="3 2.8" opacity="0.28"/>
-          <circle cx="24" cy="24" r="14" stroke="currentColor" stroke-width="1.6" opacity="0.6"/>
-          <circle cx="24" cy="24" r="7.5" stroke="currentColor" stroke-width="2.6"/>
-          <circle cx="24" cy="24" r="2.8" fill="currentColor"/>
-          <line x1="24" y1="16.4" x2="24" y2="13.2" stroke="currentColor" stroke-width="1.5"/>
-          <line x1="31.6" y1="24" x2="34.8" y2="24" stroke="currentColor" stroke-width="1.5"/>
-          <line x1="24" y1="31.6" x2="24" y2="34.8" stroke="currentColor" stroke-width="1.5"/>
-          <line x1="16.4" y1="24" x2="13.2" y2="24" stroke="currentColor" stroke-width="1.5"/>
+    <a class="pk-brand" href="{{ meta.portfolioBaseUrl }}/" aria-label="Prabin Kumar Sabat — portfolio index">
+      <span class="pk-brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M6 5.5h11.25a5.25 5.25 0 0 1 0 10.5H11v10.5H6V5.5Z" />
+          <path d="M26 26.5H14.75a5.25 5.25 0 0 1 0-10.5H21V5.5h5v21Z" />
         </svg>
-        <div class="pk-brand-text">
-          <span class="pk-site-name">{{ meta.siteName }}</span>
-          <span class="pk-site-tagline">Systems Engineering Log</span>
-        </div>
-      {% endif %}
+      </span>
     </a>
 
     <div class="pk-navlinks" aria-label="Site links">
-      <a class="pk-navlink" href="/">Homepage</a>
-      <a class="pk-navlink" href="/projects/">Projects</a>
-      <a class="pk-navlink" href="#contact">Contact</a>
+      <a class="pk-navlink" href="{{ meta.portfolioBaseUrl }}/">Index</a>
+      <a class="pk-navlink pk-navlink--active" href="/" aria-current="page">Journal</a>
+      <a class="pk-navlink" href="{{ meta.portfolioBaseUrl }}/photography">Photography</a>
     </div>
 
     <div class="pk-nav-actions">
@@ -55,6 +42,5 @@
         </svg>
       </button>
     </div>
-
   </div>
 </nav>

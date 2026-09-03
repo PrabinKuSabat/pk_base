@@ -244,7 +244,11 @@
       var raw = link.getAttribute('href');
       if (!raw || raw.charAt(0) === '#') return;
       var linkPath;
-      try { linkPath = new URL(raw, window.location.origin).pathname.toLowerCase(); }
+      try {
+        var linkUrl = new URL(raw, window.location.origin);
+        if (linkUrl.origin !== window.location.origin) return;
+        linkPath = linkUrl.pathname.toLowerCase();
+      }
       catch (e) { linkPath = raw.toLowerCase(); }
       if (linkPath !== '/' && !linkPath.endsWith('/')) linkPath += '/';
       var isActive = (linkPath === '/')

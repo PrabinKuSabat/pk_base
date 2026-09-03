@@ -6,6 +6,9 @@ module.exports = async (data) => {
   if (baseUrl && !baseUrl.startsWith("http")) {
     baseUrl = "https://" + baseUrl;
   }
+  const portfolioBaseUrl = (
+    process.env.PORTFOLIO_BASE_URL || "https://prabin-portfolio-delta.vercel.app"
+  ).replace(/\/$/, "");
   let themeStyle = globSync("src/site/styles/_theme.*.css")[0] || "";
 
   // Check for logo file (supports multiple image formats)
@@ -98,6 +101,7 @@ module.exports = async (data) => {
     siteLogoPath: logoPath,
     mainLanguage: process.env.SITE_MAIN_LANGUAGE || "en",
     siteBaseUrl: baseUrl,
+    portfolioBaseUrl,
     styleSettingsCss,
     uiStrings,
     buildDate: new Date(),

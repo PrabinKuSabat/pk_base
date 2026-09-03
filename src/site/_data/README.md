@@ -39,6 +39,8 @@ In any template:
 <meta name="description" content="{{ meta.description }}">
 ```
 
+The shared header reads `PORTFOLIO_BASE_URL` when provided. Its safe default is the current portfolio production alias, so Index and Photography remain connected to the portfolio while Journal stays on this site.
+
 ---
 
 > ⚠️ **Never store secrets here.** GitHub tokens and API keys must go in `.env` only — `.env` is listed in `.gitignore` and will not be committed.

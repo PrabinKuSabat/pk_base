@@ -1,0 +1,39 @@
+{# Ring0Ledger head bootstrap: user-owned and safe across template upgrades. #}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..500&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+(function () {
+  var root = document.documentElement;
+  var path = window.location.pathname.toLowerCase();
+  var title = (document.title || '').toString().toLowerCase();
+
+  if (path.indexOf('.excalidraw') !== -1) {
+    root.classList.add('pk-excalidraw-page');
+  }
+  if (title.indexOf('.excalidraw') !== -1) {
+    root.classList.add('title-contains-excalidraw');
+  }
+
+  try {
+    var saved = localStorage.getItem('pk_theme') || localStorage.getItem('rzl-theme');
+    if (saved !== 'dark' && saved !== 'light') {
+      saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+    }
+
+    root.classList.remove('theme-dark', 'theme-light');
+    root.classList.add('theme-' + saved);
+
+    function applyBodyTheme() {
+      if (!document.body) return;
+      document.body.classList.remove('theme-dark', 'theme-light');
+      document.body.classList.add('theme-' + saved);
+    }
+
+    if (document.body) applyBodyTheme();
+    else document.addEventListener('DOMContentLoaded', applyBodyTheme, { once: true });
+  } catch (e) {}
+})();
+</script>

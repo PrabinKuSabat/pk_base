@@ -1,10 +1,11 @@
 {
+  "version": 1,
   "plugins": {
     "dg-filetree": {
       "enabled": false
     },
     "ring0ledger-ui": {
-      "enabled": true
+      "enabled": false
     }
   }
 }

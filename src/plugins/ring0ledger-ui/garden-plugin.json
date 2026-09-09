@@ -9,16 +9,12 @@
   },
   "slots": {
     "common.head": "templates/head.njk",
-    "common.footer": [
-      "templates/footer-mini.njk",
-      "templates/footer-contact.njk"
-    ]
+    "common.footer": "templates/footer-contact.njk"
   },
   "styles": [
     "styles/pk-fixes.css"
   ],
   "scripts": [
-    "assets/pk-ui.js",
-    "assets/rzl.js"
+    "assets/pk-ui.js"
   ]
 }

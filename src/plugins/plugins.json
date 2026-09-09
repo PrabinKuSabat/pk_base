@@ -5,14 +5,14 @@
       "enabled": false
     },
     "ring0ledger-ui": {
-      "enabled": false
+      "enabled": true
     },
     "moc-nav": {
       "repo": "oleeskild/garden-plugin-moc-nav",
       "installedVersion": "1.0.1",
       "installedRef": "v1.0.1",
       "installedAt": "2026-09-07T08:27:43.567Z",
-      "enabled": true,
+      "enabled": false,
       "files": [
         "src/plugins/moc-nav/README.md",
         "src/plugins/moc-nav/garden-plugin.json",

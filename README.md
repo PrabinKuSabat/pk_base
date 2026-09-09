@@ -6,6 +6,18 @@
 </p>
 
 # Digital Obsidian Garden
+
+## PK Base journal workflow
+
+This repository is the canonical journal for Prabin Kumar Sabat’s portfolio.
+
+1. Write or update a note in the connected Obsidian vault.
+2. Set dg-publish to true and publish through the Digital Garden plugin.
+3. The Eleventy build publishes the note and adds it to /portfolio-notes.json.
+4. In the portfolio’s Keystatic admin, open **Portfolio journal selection** and choose which published notes appear on the portfolio homepage.
+
+The generated index contains only visible published notes and exposes title, absolute URL, optional description/update date, and tags. Its filtering and URL normalization are covered by src/helpers/portfolioNotes.test.mjs.
+
 This is the template to be used together with the [Digital Garden Obsidian Plugin](https://github.com/oleeskild/Obsidian-Digital-Garden).
 See the README in the plugin repo for information on how to set it up.
 

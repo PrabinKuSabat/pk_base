@@ -1,25 +1,2 @@
-// custom-style.scss
-// Typography spacing tweaks that complement pk-fixes.css
-
-body {
-  li {
-    margin-bottom: 5px;
-  }
-
-  // Section h2 dividers — matches pk-fixes.css border color
-  .cm-s-obsidian h2 {
-    border-bottom: 1px solid #c8dff0;
-    padding-bottom: 0.2em;
-  }
-
-  a:hover {
-    opacity: 0.85;
-  }
-
-  // Wide-screen: sidebar on left (DG default is right)
-  @media (min-width: 1400px) {
-    .content {
-      flex-direction: row-reverse !important;
-    }
-  }
-}
+// Project-wide visual design is owned by the enabled ring0ledger-ui plugin.
+// Keep this upgrade-safe user stylesheet available for note-specific additions.
